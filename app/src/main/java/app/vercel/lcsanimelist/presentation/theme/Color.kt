@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.ui.theme
+package app.vercel.lcsanimelist.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

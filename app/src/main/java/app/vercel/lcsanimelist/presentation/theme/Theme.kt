@@ -1,6 +1,5 @@
-package app.vercel.lcsanimelist.ui.theme
+package app.vercel.lcsanimelist.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
