@@ -17,5 +17,5 @@ val dataModule = module {
     single { provideAnimeDao(get()) }
 
     // Repository
-    single<AnimeRepository> {  }
+    single<AnimeRepository> { TODO("Not yet implemented") }
 }
