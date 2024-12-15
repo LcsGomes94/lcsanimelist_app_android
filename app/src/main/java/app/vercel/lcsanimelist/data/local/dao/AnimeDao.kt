@@ -16,7 +16,7 @@ interface AnimeDao {
     suspend fun insertFavorite(anime: AnimeEntity)
 
     @Update
-    suspend fun updateFavorite(anime: AnimeEntity)
+    suspend fun updateFavorite(anime: AnimeEntity): Int
 
     @Query("DELETE FROM anime WHERE id = :id")
     suspend fun deleteFavorite(id: Int)

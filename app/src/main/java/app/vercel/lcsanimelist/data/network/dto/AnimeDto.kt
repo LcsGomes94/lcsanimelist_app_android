@@ -8,7 +8,7 @@ data class AnimeDto(
     @SerializedName("title") val title: String,
     @SerializedName("episodes") val episodes: Int?,
     @SerializedName("aired") val aired: AiredDateDto,
-    @SerializedName("score") val score: Int?,
+    @SerializedName("score") val score: Double?,
     @SerializedName("synopsis") val synopsis: String?,
     @SerializedName("genres") val genres: List<GenreDto>
 )
