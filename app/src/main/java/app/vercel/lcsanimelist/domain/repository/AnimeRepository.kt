@@ -6,6 +6,8 @@ import app.vercel.lcsanimelist.domain.model.QueryParameters
 import kotlinx.coroutines.flow.Flow
 
 interface AnimeRepository {
-    fun getAnimeList(query: QueryParameters) : Flow<PaginatedResult<Anime>>
+    fun getAnimeList(query: QueryParameters): Flow<PaginatedResult<Anime>>
     suspend fun updateFavorite(anime: Anime): Boolean
+    suspend fun addFavorite(anime: Anime): Boolean
+    suspend fun removeFavorite(anime: Anime): Boolean
 }

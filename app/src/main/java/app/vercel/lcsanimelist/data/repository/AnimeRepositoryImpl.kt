@@ -49,4 +49,22 @@ class AnimeRepositoryImpl(
             throw TODO()
         }
     }
+
+    override suspend fun addFavorite(anime: Anime): Boolean {
+        return try {
+            animeDao.insertFavorite(anime.toAnimeEntity())
+            true
+        } catch (e: Exception) {
+            throw TODO()
+        }
+    }
+
+    override suspend fun removeFavorite(anime: Anime): Boolean {
+        return try {
+            val rowsAffected = animeDao.deleteFavorite(anime.toAnimeEntity())
+            rowsAffected > 0
+        } catch (e: Exception) {
+            throw TODO()
+        }
+    }
 }

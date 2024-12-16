@@ -1,6 +1,7 @@
 package app.vercel.lcsanimelist.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -18,8 +19,8 @@ interface AnimeDao {
     @Update
     suspend fun updateFavorite(anime: AnimeEntity): Int
 
-    @Query("DELETE FROM anime WHERE id = :id")
-    suspend fun deleteFavorite(id: Int)
+    @Delete
+    suspend fun deleteFavorite(anime: AnimeEntity): Int
 
     @Query("SELECT * FROM anime")
     suspend fun getAllFavorites(): List<AnimeEntity>
