@@ -3,16 +3,21 @@ package app.vercel.lcsanimelist.data.di
 import android.content.Context
 import androidx.room.Room
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
-import app.vercel.lcsanimelist.data.local.database.FavoriteAnimeDatabase
+import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
+import app.vercel.lcsanimelist.data.local.database.AnimeDatabase
 
-fun provideDatabase(context: Context): FavoriteAnimeDatabase {
+fun provideDatabase(context: Context): AnimeDatabase {
     return Room.databaseBuilder(
         context.applicationContext,
-        FavoriteAnimeDatabase::class.java,
-        "favorite_anime_db"
+        AnimeDatabase::class.java,
+        "anime_db"
     ).build()
 }
 
-fun provideAnimeDao(database: FavoriteAnimeDatabase): AnimeDao {
+fun provideAnimeDao(database: AnimeDatabase): AnimeDao {
     return database.animeDao()
+}
+
+fun provideAnimeSearchHintDao(database: AnimeDatabase): AnimeSearchHintDao {
+    return database.animeSearchHintDao()
 }

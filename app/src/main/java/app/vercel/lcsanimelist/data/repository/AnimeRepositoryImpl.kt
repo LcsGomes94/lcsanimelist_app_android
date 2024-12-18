@@ -1,11 +1,15 @@
 package app.vercel.lcsanimelist.data.repository
 
+import androidx.room.util.query
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
+import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
+import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
 import app.vercel.lcsanimelist.data.network.service.AnimeService
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.PaginatedResult
 import app.vercel.lcsanimelist.domain.model.QueryParameters
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
@@ -15,10 +19,12 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 class AnimeRepositoryImpl(
     private val animeService: AnimeService,
-    private val animeDao: AnimeDao
+    private val animeDao: AnimeDao,
+    private val animeSearchHintDao: AnimeSearchHintDao,
 ) : AnimeRepository {
     override fun getAnimeList(query: QueryParameters): Flow<PaginatedResult<Anime>> = flow {
         coroutineScope {
@@ -39,7 +45,7 @@ class AnimeRepositoryImpl(
             }
         }
 
-    }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun updateFavorite(anime: Anime): Boolean {
         return try {
@@ -50,10 +56,9 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override suspend fun addFavorite(anime: Anime): Boolean {
-        return try {
+    override suspend fun addFavorite(anime: Anime) {
+        try {
             animeDao.insertFavorite(anime.toAnimeEntity())
-            true
         } catch (e: Exception) {
             throw TODO()
         }
@@ -63,6 +68,31 @@ class AnimeRepositoryImpl(
         return try {
             val rowsAffected = animeDao.deleteFavorite(anime.toAnimeEntity())
             rowsAffected > 0
+        } catch (e: Exception) {
+            throw TODO()
+        }
+    }
+
+    override fun getAnimeSearchHints(query: QueryParameters): Flow<List<AnimeSearchHint>> = flow {
+        if (query.search.isNullOrBlank()) {
+            emit(TODO())
+        } else {
+            val searchHistoryResult = animeSearchHintDao.findInHistory(query.search)
+            val remoteSearchHintResult: List<AnimeSearchHint> = TODO()
+
+            val searchHistorySet = searchHistoryResult.map { it.query }.toSet()
+            val combinedResults = buildList {
+                addAll(searchHistoryResult.map { AnimeSearchHint(it.query, true) })
+                addAll(remoteSearchHintResult.filter { it.query.lowercase() !in searchHistorySet })
+            }
+
+            emit(combinedResults)
+        }
+    }.flowOn(Dispatchers.IO)
+
+    override suspend fun addToSearchHistory(searchQuery: String) {
+        try {
+            animeSearchHintDao.insertInHistory(AnimeSearchHintEntity(searchQuery))
         } catch (e: Exception) {
             throw TODO()
         }
