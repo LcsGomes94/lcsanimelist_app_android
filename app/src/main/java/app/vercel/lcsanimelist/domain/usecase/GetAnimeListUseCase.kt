@@ -7,7 +7,7 @@ import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAnimeListUseCase(private val repository: AnimeRepository) {
-    operator fun invoke(query: QueryParameters): Flow<PaginatedResult<Anime>> {
+    operator fun invoke(query: QueryParameters = QueryParameters()): Flow<PaginatedResult<Anime>> {
         return repository.getAnimeList(query)
     }
 }

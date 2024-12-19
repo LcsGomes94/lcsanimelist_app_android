@@ -31,7 +31,7 @@ class AnimeRepositoryImpl(
             try {
                 val responseDto = animeService.getAnimeList(query.toQueryMap())
                 val animeList = responseDto.data.map { animeDto ->
-                    async(Dispatchers.IO) {
+                    async {
                         val favorite = animeDao.getFavoriteById(animeDto.id)
                         animeDto.toDomainModel(favorite).also { anime ->
                             favorite?.let { updateFavorite(anime) }
@@ -74,25 +74,39 @@ class AnimeRepositoryImpl(
     }
 
     override fun getAnimeSearchHints(query: QueryParameters): Flow<List<AnimeSearchHint>> = flow {
-        if (query.search.isNullOrBlank()) {
-            emit(TODO())
-        } else {
-            val searchHistoryResult = animeSearchHintDao.findInHistory(query.search)
-            val remoteSearchHintResult: List<AnimeSearchHint> = TODO()
+        coroutineScope {
+            try {
+                if (query.search.isNullOrBlank()) {
+                    val searchHistoryResult = animeSearchHintDao.getRecentHistory(query.limit)
+                    val animeSearchHints = searchHistoryResult.map { it.toDomainModel() }
 
-            val searchHistorySet = searchHistoryResult.map { it.query }.toSet()
-            val combinedResults = buildList {
-                addAll(searchHistoryResult.map { AnimeSearchHint(it.query, true) })
-                addAll(remoteSearchHintResult.filter { it.query.lowercase() !in searchHistorySet })
+                    emit(animeSearchHints)
+                } else {
+                    val historyDeferred = async { animeSearchHintDao.findInHistory(query.search.trim()) }
+                    val hintsDeferred = async { animeService.getAnimeSearchHints(query.toQueryMap()) }
+                    val searchHistoryResponse = historyDeferred.await()
+                    val searchHintResponse = hintsDeferred.await()
+
+                    val searchHistorySet = searchHistoryResponse.map { it.query.lowercase() }.toSet()
+                    val combinedResults = buildList {
+                        addAll(searchHistoryResponse.map { it.toDomainModel() })
+                        addAll(searchHintResponse.data
+                            .filter { it.title.lowercase() !in searchHistorySet }
+                            .map { it.toDomainModel() }
+                        )
+                    }
+
+                    emit(combinedResults)
+                }
+            } catch (e: Exception) {
+                throw TODO()
             }
-
-            emit(combinedResults)
         }
     }.flowOn(Dispatchers.IO)
 
     override suspend fun addToSearchHistory(searchQuery: String) {
         try {
-            animeSearchHintDao.insertInHistory(AnimeSearchHintEntity(searchQuery))
+            animeSearchHintDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
         } catch (e: Exception) {
             throw TODO()
         }

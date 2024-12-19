@@ -9,8 +9,11 @@ import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 @Dao
 interface AnimeSearchHintDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInHistory(animeSearchHint: AnimeSearchHintEntity)
+    suspend fun insertIntoHistory(animeSearchHint: AnimeSearchHintEntity)
 
     @Query("SELECT * FROM search_history WHERE LOWER(`query`) LIKE '%' || LOWER(:searchQuery) || '%' ORDER BY timestamp DESC")
     suspend fun findInHistory(searchQuery: String): List<AnimeSearchHintEntity>
+
+    @Query("SELECT * FROM search_history ORDER BY timestamp DESC LIMIT :limit")
+    suspend fun getRecentHistory(limit: Int): List<AnimeSearchHintEntity>
 }
