@@ -1,3 +1,3 @@
 package app.vercel.lcsanimelist.di
 
-val appModules = listOf(dataModule)
+val appModules = listOf(dataModule, domainModule)
