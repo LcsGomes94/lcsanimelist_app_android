@@ -44,7 +44,6 @@ class AnimeRepositoryImpl(
                 throw TODO()
             }
         }
-
     }.flowOn(Dispatchers.IO)
 
     override suspend fun updateFavorite(anime: Anime): Boolean {
