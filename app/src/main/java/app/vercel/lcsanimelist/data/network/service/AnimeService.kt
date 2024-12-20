@@ -2,7 +2,9 @@ package app.vercel.lcsanimelist.data.network.service
 
 import app.vercel.lcsanimelist.data.network.dto.AnimeListResponseDto
 import app.vercel.lcsanimelist.data.network.dto.AnimeSearchHintsResponseDto
+import app.vercel.lcsanimelist.data.network.dto.AnimeSeasonsResponseDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.QueryMap
 
 interface AnimeService {
@@ -15,4 +17,14 @@ interface AnimeService {
     suspend fun getAnimeSearchHints(
         @QueryMap query: Map<String, String>
     ): AnimeSearchHintsResponseDto
+
+    @GET("seasons")
+    suspend fun getAvailableSeasons(): AnimeSeasonsResponseDto
+
+    @GET("seasons/{year}/{season}")
+    suspend fun getSeasonalAnimeList(
+        @Path("year") year: Int,
+        @Path("season") season: String,
+        @QueryMap query: Map<String, String>
+    ): AnimeListResponseDto
 }

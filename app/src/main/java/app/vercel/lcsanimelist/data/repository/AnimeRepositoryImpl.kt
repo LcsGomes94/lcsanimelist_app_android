@@ -10,6 +10,7 @@ import app.vercel.lcsanimelist.data.mapper.toQueryMap
 import app.vercel.lcsanimelist.data.network.service.AnimeService
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
+import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.PaginatedResult
 import app.vercel.lcsanimelist.domain.model.QueryParameters
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
@@ -110,4 +111,33 @@ class AnimeRepositoryImpl(
             throw TODO()
         }
     }
+
+    override suspend fun getAvailableSeasons(): List<AnimeSeason> {
+        try {
+            val responseDto = animeService.getAvailableSeasons()
+            return responseDto.seasons.toDomainModel()
+        } catch (e: Exception) {
+            throw TODO()
+        }
+    }
+
+    override fun getSeasonalAnimeList(season: AnimeSeason, query: QueryParameters): Flow<PaginatedResult<Anime>> = flow {
+        coroutineScope {
+            try {
+                val responseDto = animeService.getSeasonalAnimeList(season.year, season.season.displayName.lowercase(), query.toQueryMap())
+                val animeList = responseDto.data.map { animeDto ->
+                    async {
+                        val favorite = animeDao.getFavoriteById(animeDto.id)
+                        animeDto.toDomainModel(favorite).also { anime ->
+                            favorite?.let { updateFavorite(anime) }
+                        }
+                    }
+                }.awaitAll()
+
+                emit(PaginatedResult(animeList, responseDto.pagination.hasNextPage))
+            } catch (e: Exception) {
+                throw TODO()
+            }
+        }
+    }.flowOn(Dispatchers.IO)
 }

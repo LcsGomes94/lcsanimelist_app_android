@@ -2,6 +2,7 @@ package app.vercel.lcsanimelist.domain.repository
 
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
+import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.PaginatedResult
 import app.vercel.lcsanimelist.domain.model.QueryParameters
 import kotlinx.coroutines.flow.Flow
@@ -14,4 +15,7 @@ interface AnimeRepository {
 
     fun getAnimeSearchHints(query: QueryParameters): Flow<List<AnimeSearchHint>>
     suspend fun addToSearchHistory(searchQuery: String)
+
+    suspend fun getAvailableSeasons(): List<AnimeSeason>
+    fun getSeasonalAnimeList(season: AnimeSeason, query: QueryParameters): Flow<PaginatedResult<Anime>>
 }

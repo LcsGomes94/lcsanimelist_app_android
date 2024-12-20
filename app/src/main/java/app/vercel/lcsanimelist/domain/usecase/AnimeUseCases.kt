@@ -8,4 +8,7 @@ data class AnimeUseCases (
 
     val getSearchHints: GetAnimeSearchHintsUseCase,
     val addToSearchHistory: AddToSearchHistoryUseCase,
+
+    val getAvailableSeasons: GetAvailableAnimeSeasonsUseCase,
+    val getSeasonalAnimeList: GetSeasonalAnimeListUseCase
 )
