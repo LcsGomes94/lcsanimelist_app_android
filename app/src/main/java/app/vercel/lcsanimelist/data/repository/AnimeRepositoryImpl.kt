@@ -21,12 +21,14 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class AnimeRepositoryImpl(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
     private val animeSearchHintDao: AnimeSearchHintDao,
 ) : AnimeRepository {
+
     override fun getAnimeList(query: QueryParameters): Flow<PaginatedResult<Anime>> = flow {
         coroutineScope {
             try {
@@ -47,8 +49,8 @@ class AnimeRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun updateFavorite(anime: Anime): Boolean {
-        return try {
+    override suspend fun updateFavorite(anime: Anime): Boolean = withContext(Dispatchers.IO) {
+        try {
             val rowsAffect = animeDao.updateFavorite(anime.toAnimeEntity())
             rowsAffect > 0
         } catch (e: Exception) {
@@ -56,7 +58,8 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override suspend fun addFavorite(anime: Anime) {
+
+    override suspend fun addFavorite(anime: Anime) = withContext(Dispatchers.IO) {
         try {
             animeDao.insertFavorite(anime.toAnimeEntity())
         } catch (e: Exception) {
@@ -64,8 +67,8 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override suspend fun removeFavorite(anime: Anime): Boolean {
-        return try {
+    override suspend fun removeFavorite(anime: Anime): Boolean = withContext(Dispatchers.IO) {
+        try {
             val rowsAffected = animeDao.deleteFavorite(anime.toAnimeEntity())
             rowsAffected > 0
         } catch (e: Exception) {
@@ -104,7 +107,7 @@ class AnimeRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun addToSearchHistory(searchQuery: String) {
+    override suspend fun addToSearchHistory(searchQuery: String) = withContext(Dispatchers.IO) {
         try {
             animeSearchHintDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
         } catch (e: Exception) {
@@ -112,10 +115,10 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override suspend fun getAvailableSeasons(): List<AnimeSeason> {
+    override suspend fun getAvailableSeasons(): List<AnimeSeason> = withContext(Dispatchers.IO) {
         try {
             val responseDto = animeService.getAvailableSeasons()
-            return responseDto.seasons.toDomainModel()
+            responseDto.seasons.toDomainModel()
         } catch (e: Exception) {
             throw TODO()
         }
