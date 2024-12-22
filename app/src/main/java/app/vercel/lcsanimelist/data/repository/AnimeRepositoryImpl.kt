@@ -57,7 +57,6 @@ class AnimeRepositoryImpl(
         }
     }
 
-
     override suspend fun addFavorite(anime: Anime) = withContext(Dispatchers.IO) {
         try {
             animeDao.insertFavorite(anime.toAnimeEntity())
@@ -142,4 +141,5 @@ class AnimeRepositoryImpl(
             }
         }
     }.flowOn(Dispatchers.IO)
+
 }
