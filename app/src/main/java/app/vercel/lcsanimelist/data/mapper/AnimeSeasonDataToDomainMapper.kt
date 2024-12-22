@@ -1,6 +1,6 @@
 package app.vercel.lcsanimelist.data.mapper
 
-import app.vercel.lcsanimelist.data.network.dto.AnimeSeasonDto
+import app.vercel.lcsanimelist.data.remote.dto.AnimeSeasonDto
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.Season
 

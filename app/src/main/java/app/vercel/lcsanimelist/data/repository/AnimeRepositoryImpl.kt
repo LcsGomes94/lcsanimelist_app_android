@@ -1,13 +1,12 @@
 package app.vercel.lcsanimelist.data.repository
 
-import androidx.room.util.query
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
 import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
 import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
-import app.vercel.lcsanimelist.data.network.service.AnimeService
+import app.vercel.lcsanimelist.data.remote.service.AnimeService
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason

@@ -1,6 +1,6 @@
 package app.vercel.lcsanimelist.data.di
 
-import app.vercel.lcsanimelist.data.network.service.AnimeService
+import app.vercel.lcsanimelist.data.remote.service.AnimeService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

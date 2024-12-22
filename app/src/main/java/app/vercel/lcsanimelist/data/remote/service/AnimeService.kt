@@ -1,8 +1,8 @@
-package app.vercel.lcsanimelist.data.network.service
+package app.vercel.lcsanimelist.data.remote.service
 
-import app.vercel.lcsanimelist.data.network.dto.AnimeListResponseDto
-import app.vercel.lcsanimelist.data.network.dto.AnimeSearchHintsResponseDto
-import app.vercel.lcsanimelist.data.network.dto.AnimeSeasonsResponseDto
+import app.vercel.lcsanimelist.data.remote.dto.AnimeListResponseDto
+import app.vercel.lcsanimelist.data.remote.dto.AnimeSearchHintsResponseDto
+import app.vercel.lcsanimelist.data.remote.dto.AnimeSeasonsResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.QueryMap

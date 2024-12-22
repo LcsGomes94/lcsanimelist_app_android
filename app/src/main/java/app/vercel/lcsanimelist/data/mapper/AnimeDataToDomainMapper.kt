@@ -1,7 +1,7 @@
 package app.vercel.lcsanimelist.data.mapper
 
 import app.vercel.lcsanimelist.data.local.entity.AnimeEntity
-import app.vercel.lcsanimelist.data.network.dto.AnimeDto
+import app.vercel.lcsanimelist.data.remote.dto.AnimeDto
 import app.vercel.lcsanimelist.domain.model.Anime
 
 fun AnimeDto.toDomainModel(favorite: AnimeEntity?): Anime {

@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.data.network.dto
+package app.vercel.lcsanimelist.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
