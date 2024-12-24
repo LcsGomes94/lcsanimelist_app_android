@@ -1,17 +1,24 @@
 package app.vercel.lcsanimelist.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
 import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
+import app.vercel.lcsanimelist.data.local.entity.AnimeEntity
 import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
+import app.vercel.lcsanimelist.data.paging.FavoriteAnimesPagingSource
 import app.vercel.lcsanimelist.data.remote.service.AnimeService
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
+import app.vercel.lcsanimelist.domain.model.LocalQueryParameters
 import app.vercel.lcsanimelist.domain.model.PaginatedResult
-import app.vercel.lcsanimelist.domain.model.QueryParameters
+import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,6 +27,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class AnimeRepositoryImpl(
@@ -28,7 +36,7 @@ class AnimeRepositoryImpl(
     private val animeSearchHintDao: AnimeSearchHintDao,
 ) : AnimeRepository {
 
-    override fun getAnimeList(query: QueryParameters): Flow<PaginatedResult<Anime>> = flow {
+    override fun getAnimeList(query: RemoteQueryParameters): Flow<PaginatedResult<Anime>> = flow {
         coroutineScope {
             try {
                 val responseDto = animeService.getAnimeList(query.toQueryMap())
@@ -47,6 +55,13 @@ class AnimeRepositoryImpl(
             }
         }
     }.flowOn(Dispatchers.IO)
+
+    override fun getFavoriteAnimeList(query: LocalQueryParameters): Flow<PagingData<Anime>> {
+        return Pager(
+            config = PagingConfig(pageSize = query.limit, enablePlaceholders = false),
+            pagingSourceFactory = { FavoriteAnimesPagingSource(animeDao, query) }
+        ).flow.flowOn(Dispatchers.IO)
+    }
 
     override suspend fun updateFavorite(anime: Anime): Boolean = withContext(Dispatchers.IO) {
         try {
@@ -74,7 +89,7 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override fun getAnimeSearchHints(query: QueryParameters): Flow<List<AnimeSearchHint>> = flow {
+    override fun getAnimeSearchHints(query: RemoteQueryParameters): Flow<List<AnimeSearchHint>> = flow {
         coroutineScope {
             try {
                 if (query.search.isNullOrBlank()) {
@@ -122,7 +137,7 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override fun getSeasonalAnimeList(season: AnimeSeason, query: QueryParameters): Flow<PaginatedResult<Anime>> = flow {
+    override fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PaginatedResult<Anime>> = flow {
         coroutineScope {
             try {
                 val responseDto = animeService.getSeasonalAnimeList(season.year, season.season.displayName.lowercase(), query.toQueryMap())

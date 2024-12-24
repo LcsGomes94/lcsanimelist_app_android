@@ -19,3 +19,19 @@ fun AnimeDto.toDomainModel(favorite: AnimeEntity?): Anime {
         personalTier = favorite?.personalTier
     )
 }
+
+fun AnimeEntity.toDomainModel(): Anime {
+    return Anime(
+        id = id,
+        title = title,
+        release = release,
+        episodes = episodes,
+        genres = genres,
+        imageUrl = imageUrl,
+        synopsis = synopsis,
+        personalNote = personalNote,
+        personalStage = personalStage,
+        score = score,
+        personalTier = personalTier
+    )
+}

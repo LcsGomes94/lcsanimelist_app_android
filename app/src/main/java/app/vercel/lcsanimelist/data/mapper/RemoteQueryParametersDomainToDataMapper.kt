@@ -1,8 +1,8 @@
 package app.vercel.lcsanimelist.data.mapper
 
-import app.vercel.lcsanimelist.domain.model.QueryParameters
+import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 
-fun QueryParameters.toQueryMap(): Map<String, String> {
+fun RemoteQueryParameters.toQueryMap(): Map<String, String> {
     val queryMap = mutableMapOf<String, String>()
 
     queryMap["limit"] = limit.toString()
