@@ -5,12 +5,11 @@ import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.LocalQueryParameters
-import app.vercel.lcsanimelist.domain.model.PaginatedResult
 import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import kotlinx.coroutines.flow.Flow
 
 interface AnimeRepository {
-    fun getAnimeList(query: RemoteQueryParameters): Flow<PaginatedResult<Anime>>
+    fun getAnimeList(query: RemoteQueryParameters): Flow<PagingData<Anime>>
 
     fun getFavoriteAnimeList(query: LocalQueryParameters): Flow<PagingData<Anime>>
     suspend fun updateFavorite(anime: Anime): Boolean
@@ -21,5 +20,5 @@ interface AnimeRepository {
     suspend fun addToSearchHistory(searchQuery: String)
 
     suspend fun getAvailableSeasons(): List<AnimeSeason>
-    fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PaginatedResult<Anime>>
+    fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PagingData<Anime>>
 }

@@ -5,8 +5,7 @@ data class RemoteQueryParameters(
     val search: String? = null,
     val genres: List<AnimeGenre>? = null,
     val orderBy: RemoteOrderBy = RemoteOrderBy.SCORE,
-    val sort: SortOrder = if (orderBy == RemoteOrderBy.SCORE) SortOrder.DESC else SortOrder.ASC,
-    val page: Int = 1
+    val sort: SortOrder = if (orderBy == RemoteOrderBy.SCORE) SortOrder.DESC else SortOrder.ASC
 )
 
 enum class RemoteOrderBy { SCORE, TITLE }

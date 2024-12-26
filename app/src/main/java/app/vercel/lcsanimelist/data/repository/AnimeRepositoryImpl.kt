@@ -3,21 +3,20 @@ package app.vercel.lcsanimelist.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
 import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
-import app.vercel.lcsanimelist.data.local.entity.AnimeEntity
 import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
+import app.vercel.lcsanimelist.data.paging.AnimesPagingSource
 import app.vercel.lcsanimelist.data.paging.FavoriteAnimesPagingSource
+import app.vercel.lcsanimelist.data.paging.SeasonalAnimesPagingSource
 import app.vercel.lcsanimelist.data.remote.service.AnimeService
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.LocalQueryParameters
-import app.vercel.lcsanimelist.domain.model.PaginatedResult
 import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +26,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class AnimeRepositoryImpl(
@@ -36,25 +34,12 @@ class AnimeRepositoryImpl(
     private val animeSearchHintDao: AnimeSearchHintDao,
 ) : AnimeRepository {
 
-    override fun getAnimeList(query: RemoteQueryParameters): Flow<PaginatedResult<Anime>> = flow {
-        coroutineScope {
-            try {
-                val responseDto = animeService.getAnimeList(query.toQueryMap())
-                val animeList = responseDto.data.map { animeDto ->
-                    async {
-                        val favorite = animeDao.getFavoriteById(animeDto.id)
-                        animeDto.toDomainModel(favorite).also { anime ->
-                            favorite?.let { updateFavorite(anime) }
-                        }
-                    }
-                }.awaitAll()
-
-                emit(PaginatedResult(animeList, responseDto.pagination.hasNextPage))
-            } catch (e: Exception) {
-                throw TODO()
-            }
-        }
-    }.flowOn(Dispatchers.IO)
+    override fun getAnimeList(query: RemoteQueryParameters): Flow<PagingData<Anime>> {
+        return Pager(
+            config = PagingConfig(pageSize = query.limit, enablePlaceholders = false),
+            pagingSourceFactory = { AnimesPagingSource(animeService, animeDao, query) }
+        ).flow.flowOn(Dispatchers.IO)
+    }
 
     override fun getFavoriteAnimeList(query: LocalQueryParameters): Flow<PagingData<Anime>> {
         return Pager(
@@ -137,24 +122,11 @@ class AnimeRepositoryImpl(
         }
     }
 
-    override fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PaginatedResult<Anime>> = flow {
-        coroutineScope {
-            try {
-                val responseDto = animeService.getSeasonalAnimeList(season.year, season.season.displayName.lowercase(), query.toQueryMap())
-                val animeList = responseDto.data.map { animeDto ->
-                    async {
-                        val favorite = animeDao.getFavoriteById(animeDto.id)
-                        animeDto.toDomainModel(favorite).also { anime ->
-                            favorite?.let { updateFavorite(anime) }
-                        }
-                    }
-                }.awaitAll()
-
-                emit(PaginatedResult(animeList, responseDto.pagination.hasNextPage))
-            } catch (e: Exception) {
-                throw TODO()
-            }
-        }
-    }.flowOn(Dispatchers.IO)
+    override fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PagingData<Anime>> {
+        return Pager(
+            config = PagingConfig(pageSize = query.limit, enablePlaceholders = false),
+            pagingSourceFactory = { SeasonalAnimesPagingSource(animeService, animeDao, season, query) }
+        ).flow.flowOn(Dispatchers.IO)
+    }
 
 }

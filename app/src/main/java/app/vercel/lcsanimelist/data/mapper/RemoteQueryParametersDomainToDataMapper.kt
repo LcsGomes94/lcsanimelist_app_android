@@ -12,7 +12,6 @@ fun RemoteQueryParameters.toQueryMap(): Map<String, String> {
     }
     queryMap["order_by"] = orderBy.name.lowercase()
     queryMap["sort"] = sort.name.lowercase()
-    queryMap["page"] = page.toString()
 
     return queryMap
 }
