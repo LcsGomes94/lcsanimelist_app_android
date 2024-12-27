@@ -7,6 +7,7 @@ import app.vercel.lcsanimelist.data.local.dao.AnimeDao
 import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
 import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
+import app.vercel.lcsanimelist.data.mapper.toAnimeWithGenres
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
 import app.vercel.lcsanimelist.data.paging.AnimesPagingSource
@@ -21,7 +22,6 @@ import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -59,7 +59,7 @@ class AnimeRepositoryImpl(
 
     override suspend fun addFavorite(anime: Anime) = withContext(Dispatchers.IO) {
         try {
-            animeDao.insertFavorite(anime.toAnimeEntity())
+            animeDao.insertFavorite(anime.toAnimeWithGenres())
         } catch (e: Exception) {
             throw TODO()
         }

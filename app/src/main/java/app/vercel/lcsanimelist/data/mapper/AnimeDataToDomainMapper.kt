@@ -1,6 +1,7 @@
 package app.vercel.lcsanimelist.data.mapper
 
 import app.vercel.lcsanimelist.data.local.entity.AnimeEntity
+import app.vercel.lcsanimelist.data.local.entity.relation.AnimeWithGenres
 import app.vercel.lcsanimelist.data.remote.dto.AnimeDto
 import app.vercel.lcsanimelist.domain.model.Anime
 
@@ -20,18 +21,18 @@ fun AnimeDto.toDomainModel(favorite: AnimeEntity?): Anime {
     )
 }
 
-fun AnimeEntity.toDomainModel(): Anime {
+fun AnimeWithGenres.toDomainModel(): Anime {
     return Anime(
-        id = id,
-        title = title,
-        release = release,
-        episodes = episodes,
-        genres = genres,
-        imageUrl = imageUrl,
-        synopsis = synopsis,
-        personalNote = personalNote,
-        personalStage = personalStage,
-        score = score,
-        personalTier = personalTier
+        id = anime.id,
+        title = anime.title,
+        release = anime.release,
+        episodes = anime.episodes,
+        genres = genres.map { it.name },
+        imageUrl = anime.imageUrl,
+        synopsis = anime.synopsis,
+        personalNote = anime.personalNote,
+        personalStage = anime.personalStage,
+        score = anime.score,
+        personalTier = anime.personalTier,
     )
 }

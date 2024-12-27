@@ -11,7 +11,6 @@ import java.time.LocalDate
     tableName = "anime",
     indices = [
         Index(value = ["title"]),
-        Index(value = ["genres"]),
         Index(value = ["score"]),
         Index(value = ["personalTier"])
     ]
@@ -21,7 +20,6 @@ data class AnimeEntity(
     val title: String,
     val release: LocalDate?,
     val episodes: Int?,
-    val genres: List<String>,
     val imageUrl: String,
     val synopsis: String?,
     val personalNote: String?,

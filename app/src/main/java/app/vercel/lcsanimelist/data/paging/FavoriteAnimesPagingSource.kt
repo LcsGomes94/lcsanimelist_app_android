@@ -22,7 +22,14 @@ class FavoriteAnimesPagingSource(
             val pageSize = params.loadSize
             val offset = page * pageSize
 
-            val animeEntities = animeDao.getPagedFavorites(query.search, query.orderBy.name, pageSize, offset)
+            val animeEntities = animeDao.getPagedFavorites(
+                query.search,
+                query.orderBy.name,
+                query.genres.map { it.id },
+                query.genres.size,
+                pageSize,
+                offset
+            )
             val animeList = animeEntities.map { it.toDomainModel() }
 
             LoadResult.Page(

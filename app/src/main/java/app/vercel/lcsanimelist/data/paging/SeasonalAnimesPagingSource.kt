@@ -31,7 +31,7 @@ class SeasonalAnimesPagingSource(
             val responseDto = animeService.getSeasonalAnimeList(season.year, season.season.displayName, query.toQueryMap(), page)
             val animeList = responseDto.data.map { animeDto ->
                 async {
-                    val favorite = animeDao.getFavoriteById(animeDto.id)
+                    val favorite = animeDao.getAnimeById(animeDto.id)
                     animeDto.toDomainModel(favorite).also { anime ->
                         favorite?.let { animeDao.updateFavorite(anime.toAnimeEntity()) }
                     }

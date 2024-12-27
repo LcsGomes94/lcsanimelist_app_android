@@ -5,18 +5,6 @@ import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
 import java.time.LocalDate
 
-class GenreConverter {
-    @TypeConverter
-    fun fromGenreList(genres: List<String>): String {
-        return genres.joinToString(",")
-    }
-
-    @TypeConverter
-    fun toGenreList(genres: String): List<String> {
-        return if (genres.isBlank()) emptyList() else genres.split(",")
-    }
-}
-
 class LocalDateConverter {
     @TypeConverter
     fun fromLocalDate(date: LocalDate?): String? {
