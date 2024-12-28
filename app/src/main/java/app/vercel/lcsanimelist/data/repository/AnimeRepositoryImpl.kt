@@ -1,5 +1,6 @@
 package app.vercel.lcsanimelist.data.repository
 
+import android.database.sqlite.SQLiteException
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -15,6 +16,7 @@ import app.vercel.lcsanimelist.data.paging.AnimesPagingSource
 import app.vercel.lcsanimelist.data.paging.FavoriteAnimesPagingSource
 import app.vercel.lcsanimelist.data.paging.SeasonalAnimesPagingSource
 import app.vercel.lcsanimelist.data.remote.service.AnimeService
+import app.vercel.lcsanimelist.domain.exception.RepositoryException
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
@@ -28,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class AnimeRepositoryImpl(
     private val animeService: AnimeService,
@@ -53,16 +56,20 @@ class AnimeRepositoryImpl(
         try {
             val rowsAffect = animeDao.updateFavorite(anime.toAnimeEntity())
             rowsAffect > 0
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to update favorite anime", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 
     override suspend fun addFavorite(anime: Anime) = withContext(Dispatchers.IO) {
         try {
             animeDao.insertFavorite(anime.toAnimeWithGenres())
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to add favorite anime", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 
@@ -70,8 +77,10 @@ class AnimeRepositoryImpl(
         try {
             val rowsAffected = animeDao.deleteFavorite(anime.toAnimeEntity())
             rowsAffected > 0
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to remove favorite anime", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 
@@ -100,8 +109,12 @@ class AnimeRepositoryImpl(
 
                     emit(combinedResults)
                 }
+            } catch (e: SQLiteException) {
+                throw RepositoryException.DatabaseException("Failed to get anime search history", e)
+            } catch (e: IOException) {
+                throw RepositoryException.NetworkException("Failed to get anime search hints", e)
             } catch (e: Exception) {
-                throw TODO()
+                throw RepositoryException.UnknownException("Unexpected error occurred", e)
             }
         }
     }.flowOn(Dispatchers.IO)
@@ -109,8 +122,10 @@ class AnimeRepositoryImpl(
     override suspend fun addToSearchHistory(searchQuery: String) = withContext(Dispatchers.IO) {
         try {
             animeSearchHistoryDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to add to search history", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 
@@ -126,8 +141,10 @@ class AnimeRepositoryImpl(
             )
 
             emit(favoriteAnimeTitles.toAnimeSearchHints())
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to get favorite search hints", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }.flowOn(Dispatchers.IO)
 
@@ -135,8 +152,10 @@ class AnimeRepositoryImpl(
         try {
             val responseDto = animeService.getAvailableSeasons()
             responseDto.seasons.toDomainModel()
+        } catch (e: IOException) {
+            throw RepositoryException.NetworkException("Failed to get available seasons", e)
         } catch (e: Exception) {
-            throw TODO()
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 

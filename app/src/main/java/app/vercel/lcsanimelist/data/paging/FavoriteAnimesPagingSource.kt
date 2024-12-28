@@ -1,11 +1,14 @@
 package app.vercel.lcsanimelist.data.paging
 
+import android.database.sqlite.SQLiteException
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
+import app.vercel.lcsanimelist.domain.exception.RepositoryException
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.LocalQueryParameters
+import java.io.IOException
 
 class FavoriteAnimesPagingSource(
     private val animeDao: AnimeDao,
@@ -38,8 +41,10 @@ class FavoriteAnimesPagingSource(
                 prevKey = if (page == 0) null else page - 1,
                 nextKey = if (animeEntities.size < pageSize) null else page + 1
             )
+        } catch (e: SQLiteException) {
+            throw RepositoryException.DatabaseException("Failed to get favorite anime list", e)
         } catch (e: Exception) {
-            LoadResult.Error(e)
+            throw RepositoryException.UnknownException("Unexpected error occurred", e)
         }
     }
 
