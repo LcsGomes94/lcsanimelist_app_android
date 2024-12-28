@@ -4,9 +4,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
-import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
+import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHistoryDao
 import app.vercel.lcsanimelist.data.local.entity.AnimeSearchHintEntity
 import app.vercel.lcsanimelist.data.mapper.toAnimeEntity
+import app.vercel.lcsanimelist.data.mapper.toAnimeSearchHints
 import app.vercel.lcsanimelist.data.mapper.toAnimeWithGenres
 import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.data.mapper.toQueryMap
@@ -31,7 +32,7 @@ import kotlinx.coroutines.withContext
 class AnimeRepositoryImpl(
     private val animeService: AnimeService,
     private val animeDao: AnimeDao,
-    private val animeSearchHintDao: AnimeSearchHintDao,
+    private val animeSearchHistoryDao: AnimeSearchHistoryDao,
 ) : AnimeRepository {
 
     override fun getAnimeList(query: RemoteQueryParameters): Flow<PagingData<Anime>> {
@@ -78,12 +79,12 @@ class AnimeRepositoryImpl(
         coroutineScope {
             try {
                 if (query.search.isNullOrBlank()) {
-                    val searchHistoryResult = animeSearchHintDao.getRecentHistory(query.limit)
+                    val searchHistoryResult = animeSearchHistoryDao.getRecentHistory(query.limit)
                     val animeSearchHints = searchHistoryResult.map { it.toDomainModel() }
 
                     emit(animeSearchHints)
                 } else {
-                    val historyDeferred = async { animeSearchHintDao.findInHistory(query.search.trim()) }
+                    val historyDeferred = async { animeSearchHistoryDao.findInHistory(query.search.trim(), query.limit) }
                     val hintsDeferred = async { animeService.getAnimeSearchHints(query.toQueryMap()) }
                     val searchHistoryResponse = historyDeferred.await()
                     val searchHintResponse = hintsDeferred.await()
@@ -107,11 +108,28 @@ class AnimeRepositoryImpl(
 
     override suspend fun addToSearchHistory(searchQuery: String) = withContext(Dispatchers.IO) {
         try {
-            animeSearchHintDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
+            animeSearchHistoryDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
         } catch (e: Exception) {
             throw TODO()
         }
     }
+
+    override fun getFavoriteSearchHints(query: LocalQueryParameters): Flow<List<AnimeSearchHint>> = flow {
+        try {
+            val favoriteAnimeTitles = animeDao.getFavoriteAnimeTitles(
+                query.personalStage.ordinal,
+                query.search,
+                query.orderBy.name,
+                query.genres.map { it.id },
+                query.genres.size,
+                query.limit
+            )
+
+            emit(favoriteAnimeTitles.toAnimeSearchHints())
+        } catch (e: Exception) {
+            throw TODO()
+        }
+    }.flowOn(Dispatchers.IO)
 
     override suspend fun getAvailableSeasons(): List<AnimeSeason> = withContext(Dispatchers.IO) {
         try {

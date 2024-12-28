@@ -39,7 +39,8 @@ interface AnimeDao {
 
     @Query("""
         SELECT * FROM anime
-        WHERE (:search IS NULL OR LOWER(`title`) LIKE '%' || LOWER(:search) || '%')
+        WHERE (personalStage = :personalStage)
+            AND (:search IS NULL OR LOWER(`title`) LIKE '%' || LOWER(:search) || '%')
             AND (
                 :genreCount = 0 OR id IN (
                     SELECT animeId
@@ -56,6 +57,7 @@ interface AnimeDao {
         LIMIT :limit OFFSET :offset
     """)
     suspend fun getPagedFavorites(
+        personalStage: Int,
         search: String?,
         orderBy: String,
         genreIds: List<Int>,
@@ -63,6 +65,34 @@ interface AnimeDao {
         limit: Int,
         offset: Int
     ): List<AnimeWithGenres>
+
+    @Query("""
+        SELECT title FROM anime
+        WHERE (personalStage = :personalStage)
+            AND (:search IS NULL OR LOWER(`title`) LIKE '%' || LOWER(:search) || '%')
+            AND (
+                :genreCount = 0 OR id IN (
+                    SELECT animeId
+                    FROM anime_genre_cross_ref
+                    WHERE genreId IN (:genreIds)
+                    GROUP BY animeId
+                    HAVING COUNT(DISTINCT genreId) = :genreCount
+                )
+            )
+        ORDER BY
+            CASE WHEN :orderBy = 'SCORE' THEN score END DESC,
+            CASE WHEN :orderBy = 'TITLE' THEN title END ASC,
+            CASE WHEN :orderBy = 'TIER' THEN personalTier END DESC, score DESC
+        LIMIT :limit
+    """)
+    suspend fun getFavoriteAnimeTitles(
+        personalStage: Int,
+        search: String?,
+        orderBy: String,
+        genreIds: List<Int>,
+        genreCount: Int,
+        limit: Int,
+    ): List<String>
 
     @Update
     suspend fun updateFavorite(anime: AnimeEntity): Int

@@ -17,3 +17,12 @@ fun AnimeSearchHintDto.toDomainModel(): AnimeSearchHint {
         isFromHistory = false
     )
 }
+
+fun List<String>.toAnimeSearchHints(): List<AnimeSearchHint> {
+    return map { title ->
+        AnimeSearchHint(
+            query = title,
+            isFromHistory = false
+        )
+    }
+}

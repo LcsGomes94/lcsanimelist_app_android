@@ -3,7 +3,7 @@ package app.vercel.lcsanimelist.data.di
 import android.content.Context
 import androidx.room.Room
 import app.vercel.lcsanimelist.data.local.dao.AnimeDao
-import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHintDao
+import app.vercel.lcsanimelist.data.local.dao.AnimeSearchHistoryDao
 import app.vercel.lcsanimelist.data.local.database.AnimeDatabase
 
 fun provideDatabase(context: Context): AnimeDatabase {
@@ -18,6 +18,6 @@ fun provideAnimeDao(database: AnimeDatabase): AnimeDao {
     return database.animeDao()
 }
 
-fun provideAnimeSearchHintDao(database: AnimeDatabase): AnimeSearchHintDao {
+fun provideAnimeSearchHintDao(database: AnimeDatabase): AnimeSearchHistoryDao {
     return database.animeSearchHintDao()
 }

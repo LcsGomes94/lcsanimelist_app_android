@@ -18,6 +18,7 @@ interface AnimeRepository {
 
     fun getAnimeSearchHints(query: RemoteQueryParameters): Flow<List<AnimeSearchHint>>
     suspend fun addToSearchHistory(searchQuery: String)
+    fun getFavoriteSearchHints(query: LocalQueryParameters) : Flow<List<AnimeSearchHint>>
 
     suspend fun getAvailableSeasons(): List<AnimeSeason>
     fun getSeasonalAnimeList(season: AnimeSeason, query: RemoteQueryParameters): Flow<PagingData<Anime>>

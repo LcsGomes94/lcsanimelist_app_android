@@ -23,6 +23,7 @@ class FavoriteAnimesPagingSource(
             val offset = page * pageSize
 
             val animeEntities = animeDao.getPagedFavorites(
+                query.personalStage.ordinal,
                 query.search,
                 query.orderBy.name,
                 query.genres.map { it.id },
