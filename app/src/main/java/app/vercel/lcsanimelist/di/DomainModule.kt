@@ -7,6 +7,7 @@ import app.vercel.lcsanimelist.domain.usecase.GetAnimeListUseCase
 import app.vercel.lcsanimelist.domain.usecase.GetAnimeSearchHintsUseCase
 import app.vercel.lcsanimelist.domain.usecase.GetAvailableAnimeSeasonsUseCase
 import app.vercel.lcsanimelist.domain.usecase.GetFavoriteAnimeListUseCase
+import app.vercel.lcsanimelist.domain.usecase.GetFavoriteSearchHintsUseCase
 import app.vercel.lcsanimelist.domain.usecase.GetSeasonalAnimeListUseCase
 import app.vercel.lcsanimelist.domain.usecase.RemoveFavoriteAnimeUseCase
 import app.vercel.lcsanimelist.domain.usecase.UpdateFavoriteAnimeUseCase
@@ -23,9 +24,10 @@ val domainModule = module {
 
     single { GetAnimeSearchHintsUseCase(get()) }
     single { AddToSearchHistoryUseCase(get()) }
+    single { GetFavoriteSearchHintsUseCase(get()) }
 
     single { GetAvailableAnimeSeasonsUseCase(get()) }
     single { GetSeasonalAnimeListUseCase(get()) }
 
-    single { AnimeUseCases(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { AnimeUseCases(get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }
