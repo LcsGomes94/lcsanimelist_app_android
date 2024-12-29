@@ -30,7 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
-import java.io.IOException
+import retrofit2.HttpException
 
 class AnimeRepositoryImpl(
     private val animeService: AnimeService,
@@ -57,9 +57,9 @@ class AnimeRepositoryImpl(
             val rowsAffect = animeDao.updateFavorite(anime.toAnimeEntity())
             rowsAffect > 0
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to update favorite anime", e)
+            throw RepositoryException.DatabaseException("Failed to update favorite anime.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }
 
@@ -67,9 +67,9 @@ class AnimeRepositoryImpl(
         try {
             animeDao.insertFavorite(anime.toAnimeWithGenres())
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to add favorite anime", e)
+            throw RepositoryException.DatabaseException("Failed to add favorite anime.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }
 
@@ -78,9 +78,9 @@ class AnimeRepositoryImpl(
             val rowsAffected = animeDao.deleteFavorite(anime.toAnimeEntity())
             rowsAffected > 0
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to remove favorite anime", e)
+            throw RepositoryException.DatabaseException("Failed to delete favorite anime.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }
 
@@ -110,11 +110,11 @@ class AnimeRepositoryImpl(
                     emit(combinedResults)
                 }
             } catch (e: SQLiteException) {
-                throw RepositoryException.DatabaseException("Failed to get anime search history", e)
-            } catch (e: IOException) {
-                throw RepositoryException.NetworkException("Failed to get anime search hints", e)
+                throw RepositoryException.DatabaseException("Failed to get search history.\n" + e.message, e)
+            } catch (e: HttpException) {
+                throw RepositoryException.NetworkException("Failed to get anime search hints.\n" + e.message, e)
             } catch (e: Exception) {
-                throw RepositoryException.UnknownException("Unexpected error occurred", e)
+                throw RepositoryException.UnknownException("Unexpected error occurred.", e)
             }
         }
     }.flowOn(Dispatchers.IO)
@@ -123,9 +123,9 @@ class AnimeRepositoryImpl(
         try {
             animeSearchHistoryDao.insertIntoHistory(AnimeSearchHintEntity(searchQuery))
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to add to search history", e)
+            throw RepositoryException.DatabaseException("Failed to add to search history.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }
 
@@ -142,9 +142,9 @@ class AnimeRepositoryImpl(
 
             emit(favoriteAnimeTitles.toAnimeSearchHints())
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to get favorite search hints", e)
+            throw RepositoryException.DatabaseException("Failed to get favorite search hints.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }.flowOn(Dispatchers.IO)
 
@@ -152,10 +152,10 @@ class AnimeRepositoryImpl(
         try {
             val responseDto = animeService.getAvailableSeasons()
             responseDto.seasons.toDomainModel()
-        } catch (e: IOException) {
-            throw RepositoryException.NetworkException("Failed to get available seasons", e)
+        } catch (e: HttpException) {
+            throw RepositoryException.NetworkException("Failed to get available season.\n" + e.message, e)
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            throw RepositoryException.UnknownException("Unexpected error occurred.", e)
         }
     }
 

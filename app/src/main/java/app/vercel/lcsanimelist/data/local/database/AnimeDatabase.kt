@@ -19,7 +19,8 @@ import app.vercel.lcsanimelist.data.local.entity.GenreEntity
         AnimeGenreCrossRefEntity::class,
         AnimeSearchHintEntity::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(LocalDateConverter::class, EnumConverter::class)
 abstract class AnimeDatabase : RoomDatabase() {

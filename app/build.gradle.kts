@@ -2,11 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.devtools.ksp)
 }
 
 android {
     namespace = "app.vercel.lcsanimelist"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "app.vercel.lcsanimelist"
@@ -63,6 +64,8 @@ dependencies {
     // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+    ksp(libs.room.ksp)
 
     // Koin
     implementation(libs.koin.android)
@@ -78,4 +81,5 @@ dependencies {
 
     // Paging
     implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 }

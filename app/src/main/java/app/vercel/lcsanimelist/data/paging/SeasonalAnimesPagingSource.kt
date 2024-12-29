@@ -15,7 +15,7 @@ import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import java.io.IOException
+import retrofit2.HttpException
 
 class SeasonalAnimesPagingSource(
     private val animeService: AnimeService,
@@ -47,11 +47,11 @@ class SeasonalAnimesPagingSource(
                 nextKey = if (responseDto.pagination.hasNextPage) page + 1 else null
             )
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to get favorite anime by id", e)
-        } catch (e: IOException) {
-            throw RepositoryException.NetworkException("Failed to get seasonal anime list", e)
+            LoadResult.Error(RepositoryException.DatabaseException("Failed to get favorite anime.\n" + e.message, e))
+        } catch (e: HttpException) {
+            LoadResult.Error(RepositoryException.NetworkException("Failed to get seasonal anime list.\n" + e.message, e))
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            LoadResult.Error(RepositoryException.UnknownException("Unexpected error occurred.", e))
         }
     }
 

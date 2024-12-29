@@ -37,6 +37,7 @@ interface AnimeDao {
     @Query("SELECT * FROM anime WHERE id = :id")
     suspend fun getAnimeById(id: Int): AnimeEntity?
 
+    @Transaction
     @Query("""
         SELECT * FROM anime
         WHERE (personalStage = :personalStage)

@@ -8,7 +8,6 @@ import app.vercel.lcsanimelist.data.mapper.toDomainModel
 import app.vercel.lcsanimelist.domain.exception.RepositoryException
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.LocalQueryParameters
-import java.io.IOException
 
 class FavoriteAnimesPagingSource(
     private val animeDao: AnimeDao,
@@ -42,9 +41,9 @@ class FavoriteAnimesPagingSource(
                 nextKey = if (animeEntities.size < pageSize) null else page + 1
             )
         } catch (e: SQLiteException) {
-            throw RepositoryException.DatabaseException("Failed to get favorite anime list", e)
+            LoadResult.Error(RepositoryException.DatabaseException("Failed to get favorite anime list.\n" + e.message, e))
         } catch (e: Exception) {
-            throw RepositoryException.UnknownException("Unexpected error occurred", e)
+            LoadResult.Error(RepositoryException.UnknownException("Unexpected error occurred.", e))
         }
     }
 

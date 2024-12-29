@@ -12,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
+import app.vercel.lcsanimelist.presentation.ui.home.HomeViewModel
+import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,11 +22,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LcsAnimeListTheme {
+                val homeViewModel: HomeViewModel = getViewModel()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    HomeScreen(homeViewModel, Modifier.padding(innerPadding))
                 }
             }
         }
