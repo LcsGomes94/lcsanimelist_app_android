@@ -23,4 +23,5 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
     fun updateQuery(newQuery: RemoteQueryParameters) {
         _query.value = newQuery
     }
+
 }

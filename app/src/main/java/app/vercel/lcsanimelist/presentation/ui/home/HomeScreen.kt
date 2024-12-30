@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
 
 @Composable
 fun HomeScreen(viewModel: HomeViewModel, modifier: Modifier) {
@@ -34,8 +35,8 @@ fun HomeScreen(viewModel: HomeViewModel, modifier: Modifier) {
         }
 
         items(count = animePagingItems.itemCount) { i ->
-            val anime = animePagingItems[i]
-            Text(text = anime!!.title, fontSize = 20.sp, modifier = Modifier.padding(20.dp))
+            val anime = animePagingItems[i]!!
+            AnimeCard(anime = anime)
         }
 
         if (animePagingItems.loadState.append == LoadState.Loading) {
