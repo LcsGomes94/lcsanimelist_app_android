@@ -20,7 +20,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel, modifier: Modifier) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    modifier: Modifier
+) {
+
     val animePagingItems = viewModel.animePagingData.collectAsLazyPagingItems()
 
     LazyColumn(modifier = modifier) {
@@ -36,7 +40,7 @@ fun HomeScreen(viewModel: HomeViewModel, modifier: Modifier) {
 
         items(count = animePagingItems.itemCount) { i ->
             val anime = animePagingItems[i]!!
-            AnimeCard(anime = anime)
+            AnimeCard(anime = anime, onFavoriteToggle = viewModel::onFavoriteToggle)
         }
 
         if (animePagingItems.loadState.append == LoadState.Loading) {
@@ -51,7 +55,7 @@ fun HomeScreen(viewModel: HomeViewModel, modifier: Modifier) {
         if (animePagingItems.loadState.append is LoadState.Error) {
             item {
                 ErrorItem(
-                    message = (animePagingItems.loadState.append as LoadState.Error).error.message ?: "An error ocurred",
+                    message = (animePagingItems.loadState.append as LoadState.Error).error.message ?: "An error occurred",
                     onRetry = { animePagingItems.retry() }
                 )
             }

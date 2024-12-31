@@ -1,9 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common
 
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,14 +11,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.twotone.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -30,28 +27,37 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.presentation.util.toAnimeReleaseString
 import app.vercel.lcsanimelist.presentation.util.toAnimeEpisodesString
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import app.vercel.lcsanimelist.R
+import kotlin.math.round
 
 @Composable
 fun AnimeCard(
     modifier: Modifier = Modifier,
     anime: Anime,
-    //onToggleFavorite: (anime: Anime) -> Unit
+    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit
 ) {
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -91,32 +97,39 @@ fun AnimeCard(
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier
+                    .fillMaxWidth()
             ) {
-                Spacer(modifier = Modifier.height(6.dp))
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(38.dp)
+                        .background(color = Color.LightGray),
+                    contentAlignment = Alignment.Center
                 ) {
-                    val genres = anime.genres.take(4)
-                    items(genres.size) { i ->
-                        Box(
-                            modifier = Modifier
-                                .background(color = Color.LightGray, shape = RoundedCornerShape(50))
-                                .padding(horizontal = 8.dp)
-                        ) {
-                            Text(
-                                text = genres[i],
-                                style = MaterialTheme.typography.bodySmall
-                            )
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        val genres = anime.genres.take(4)
+                        items(genres.size) { i ->
+                            Box(
+                                modifier = Modifier
+                                    .background(color = Color.White, shape = RoundedCornerShape(50))
+                                    .padding(horizontal = 8.dp, vertical = 2.dp)
+                            ) {
+                                Text(
+                                    text = genres[i],
+                                    style = MaterialTheme.typography.bodySmall
+                                )
+                            }
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(6.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Color.LightGray.copy(0f), shape = RoundedCornerShape(8.dp))
+                        .background(color = Color.LightGray)
+                        .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp))
                 ) {
                     Box(
                         modifier = Modifier.weight(1f)
@@ -137,51 +150,82 @@ fun AnimeCard(
                         modifier = Modifier
                             .weight(1f)
                             .aspectRatio(167f / 237f)
-                            .padding(6.dp)
                     ) {
                         Column(
                             modifier = Modifier
                                 .weight(1f)
+                                .background(color = Color.White)
+                                .padding(8.dp)
                                 .verticalScroll(rememberScrollState())
                         ) {
                             Text(
                                 text = anime.synopsis ?: "",
                                 style = MaterialTheme.typography.bodySmall,
-                                overflow = TextOverflow.Ellipsis
                             )
                         }
-                        Spacer(modifier = Modifier.height(6.dp))
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceAround,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = null,
-                                    tint = Color.Cyan
-                                )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(text = anime.score?.toString() ?: "N/A")
-                            }
-                            IconButton(
-                                onClick = {},
-                                modifier = Modifier.size(24.dp)
-                            ) {
-                                val isFavorite = anime.personalStage != null
-                                Icon(
-                                    imageVector = if (isFavorite) Icons.Outlined.Favorite else Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                    tint = if (isFavorite) Color.Cyan else Color.Gray
-                                )
-                            }
-                        }
+                        AnimeCardBottomBar(anime, onFavoriteToggle)
                     }
                 }
             }
         }
     }
+
+}
+
+@Composable
+fun AnimeCardBottomBar(
+    anime: Anime,
+    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit
+) {
+
+    var stage by remember { mutableStateOf(anime.personalStage) }
+    val isFavorite = stage != null
+
+    Box(
+        modifier = Modifier.background(Color.White)
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(38.dp)
+                .clip(RoundedCornerShape(topEnd = 8.dp))
+                .background(color = Color.LightGray)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(
+                        R.drawable.outlined_score
+                    ),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(
+                    text = anime.score?.toString() ?: "N/A",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+            IconButton(
+                onClick = {
+                    onFavoriteToggle(anime, isFavorite)
+                    stage = if (isFavorite) null else PersonalStage.WATCH
+                },
+                modifier = Modifier.size(32.dp)
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(
+                        if (isFavorite) R.drawable.filled_favorite_black
+                        else R.drawable.outlined_favorite_black
+                    ),
+                    contentDescription = "add_to_favorite",
+                    tint = Color.Unspecified,
+                )
+            }
+        }
+    }
+
 }

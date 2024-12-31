@@ -3,12 +3,15 @@ package app.vercel.lcsanimelist.presentation.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.usecase.AnimeUseCases
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 
 class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
 
@@ -22,6 +25,16 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
 
     fun updateQuery(newQuery: RemoteQueryParameters) {
         _query.value = newQuery
+    }
+
+    fun onFavoriteToggle(anime: Anime, isFavorite: Boolean) {
+        viewModelScope.launch {
+            if (isFavorite) {
+                useCases.removeFavorite(anime)
+            } else {
+                useCases.addFavorite(anime.copy(personalStage = PersonalStage.WATCH))
+            }
+        }
     }
 
 }
