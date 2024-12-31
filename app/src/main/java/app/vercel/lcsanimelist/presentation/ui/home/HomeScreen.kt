@@ -27,7 +27,10 @@ fun HomeScreen(
 
     val animePagingItems = viewModel.animePagingData.collectAsLazyPagingItems()
 
-    LazyColumn(modifier = modifier) {
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(48.dp)
+    ) {
         if (animePagingItems.loadState.refresh == LoadState.Loading) {
             item {
                 Text(
