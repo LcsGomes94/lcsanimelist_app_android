@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
-import app.vercel.lcsanimelist.presentation.util.toAnimeEpisodesString
-import app.vercel.lcsanimelist.presentation.util.toAnimeReleaseString
+import app.vercel.lcsanimelist.util.extension.toAnimeEpisodesString
+import app.vercel.lcsanimelist.util.extension.toAnimeReleaseString
 
 @Composable
 fun AnimeCardHeader(

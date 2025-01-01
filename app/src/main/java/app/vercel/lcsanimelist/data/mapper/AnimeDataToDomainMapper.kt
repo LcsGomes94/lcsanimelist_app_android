@@ -4,6 +4,7 @@ import app.vercel.lcsanimelist.data.local.entity.AnimeEntity
 import app.vercel.lcsanimelist.data.local.entity.relation.AnimeWithGenres
 import app.vercel.lcsanimelist.data.remote.dto.AnimeDto
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.util.extension.toLocalDateOrNull
 
 fun AnimeDto.toDomainModel(favorite: AnimeEntity?): Anime {
     return Anime(

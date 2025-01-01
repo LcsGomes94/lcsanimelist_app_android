@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.util
+package app.vercel.lcsanimelist.util.extension
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

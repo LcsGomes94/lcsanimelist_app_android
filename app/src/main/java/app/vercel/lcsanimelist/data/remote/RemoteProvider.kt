@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.data.di
+package app.vercel.lcsanimelist.data.remote
 
 import app.vercel.lcsanimelist.data.remote.service.AnimeService
 import retrofit2.Retrofit

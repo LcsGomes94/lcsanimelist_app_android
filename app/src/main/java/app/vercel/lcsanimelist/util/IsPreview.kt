@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.util
+package app.vercel.lcsanimelist.util
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalInspectionMode

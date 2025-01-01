@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.data.di
+package app.vercel.lcsanimelist.data.local
 
 import android.content.Context
 import androidx.room.Room

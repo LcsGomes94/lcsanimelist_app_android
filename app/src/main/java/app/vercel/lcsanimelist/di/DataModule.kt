@@ -1,10 +1,10 @@
 package app.vercel.lcsanimelist.di
 
-import app.vercel.lcsanimelist.data.di.provideAnimeDao
-import app.vercel.lcsanimelist.data.di.provideAnimeSearchHintDao
-import app.vercel.lcsanimelist.data.di.provideAnimeService
-import app.vercel.lcsanimelist.data.di.provideDatabase
-import app.vercel.lcsanimelist.data.di.provideRetrofit
+import app.vercel.lcsanimelist.data.local.provideAnimeDao
+import app.vercel.lcsanimelist.data.local.provideAnimeSearchHintDao
+import app.vercel.lcsanimelist.data.remote.provideAnimeService
+import app.vercel.lcsanimelist.data.local.provideDatabase
+import app.vercel.lcsanimelist.data.remote.provideRetrofit
 import app.vercel.lcsanimelist.data.repository.AnimeRepositoryImpl
 import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 import org.koin.dsl.module

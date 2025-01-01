@@ -10,7 +10,7 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import app.vercel.lcsanimelist.R
-import app.vercel.lcsanimelist.presentation.util.isPreview
+import app.vercel.lcsanimelist.util.isPreview
 
 @Composable
 fun AnimeCardImage(

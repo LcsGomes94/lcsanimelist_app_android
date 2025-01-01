@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.util
+package app.vercel.lcsanimelist.util.extension
 
 fun Int?.toAnimeEpisodesString(): String {
     if (this == null) return "Unknown"
