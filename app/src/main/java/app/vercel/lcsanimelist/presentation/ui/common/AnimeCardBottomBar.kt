@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.R
 import app.vercel.lcsanimelist.domain.model.Anime
@@ -34,7 +35,7 @@ import app.vercel.lcsanimelist.domain.model.PersonalStage
 fun AnimeCardBottomBar(
     modifier: Modifier = Modifier,
     anime: Anime = Anime(),
-    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit
+    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit = { _, _ -> }
 ) {
 
     var stage by remember { mutableStateOf(anime.personalStage) }
@@ -88,4 +89,10 @@ fun AnimeCardBottomBar(
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AnimeCardBottomBarPreview() {
+    AnimeCardBottomBar()
 }

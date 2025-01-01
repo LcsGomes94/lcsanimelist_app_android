@@ -21,14 +21,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
 
 @Composable
 fun AnimeCard(
     modifier: Modifier = Modifier,
-    anime: Anime,
-    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit
+    anime: Anime = Anime(),
+    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit = { _, _ -> }
 ) {
 
     Column(
@@ -69,6 +70,7 @@ fun AnimeCard(
                         Column(
                             modifier = Modifier
                                 .weight(1f)
+                                .fillMaxWidth()
                                 .background(color = Color.White)
                                 .verticalScroll(rememberScrollState())
                                 .padding(8.dp)
@@ -85,4 +87,10 @@ fun AnimeCard(
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AnimeCardPreview() {
+    AnimeCard()
 }

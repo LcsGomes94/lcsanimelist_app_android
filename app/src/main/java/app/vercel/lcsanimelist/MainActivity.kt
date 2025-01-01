@@ -22,10 +22,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LcsAnimeListTheme {
+
                 val homeViewModel: HomeViewModel = getViewModel()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HomeScreen(homeViewModel, Modifier.padding(innerPadding))
+                    HomeScreen(
+                        Modifier.padding(innerPadding),
+                        homeViewModel
+                    )
                 }
+
             }
         }
     }

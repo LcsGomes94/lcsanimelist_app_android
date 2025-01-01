@@ -21,8 +21,8 @@ import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier,
     viewModel: HomeViewModel,
-    modifier: Modifier
 ) {
 
     val animePagingItems = viewModel.animePagingData.collectAsLazyPagingItems()
