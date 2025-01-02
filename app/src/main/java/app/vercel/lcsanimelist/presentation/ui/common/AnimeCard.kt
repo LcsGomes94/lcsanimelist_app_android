@@ -24,6 +24,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardBottomBar
+import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardHeader
+import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardImage
+import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardTopBar
 
 @Composable
 fun AnimeCard(
@@ -52,7 +57,7 @@ fun AnimeCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(color = Color.LightGray)
+                        .background(color = MaterialTheme.colorScheme.surface)
                         .clip(RoundedCornerShape(8.dp))
                 ) {
                     Box(
@@ -71,7 +76,7 @@ fun AnimeCard(
                             modifier = Modifier
                                 .weight(1f)
                                 .fillMaxWidth()
-                                .background(color = Color.White)
+                                .background(color = MaterialTheme.colorScheme.onSurface)
                                 .verticalScroll(rememberScrollState())
                                 .padding(8.dp)
                         ) {
@@ -92,5 +97,7 @@ fun AnimeCard(
 @Preview(showBackground = true)
 @Composable
 fun AnimeCardPreview() {
-    AnimeCard()
+    LcsAnimeListTheme {
+        AnimeCard()
+    }
 }

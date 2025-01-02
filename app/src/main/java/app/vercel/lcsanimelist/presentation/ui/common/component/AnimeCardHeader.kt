@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.util.extension.toAnimeEpisodesString
 import app.vercel.lcsanimelist.util.extension.toAnimeReleaseString
 
@@ -35,7 +36,8 @@ fun AnimeCardHeader(
             style = MaterialTheme.typography.titleLarge,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(12.dp))
         Row(
@@ -63,5 +65,7 @@ fun AnimeCardHeader(
 @Preview(showBackground = true)
 @Composable
 fun AnimeCardHeaderPreview() {
-    AnimeCardHeader()
+    LcsAnimeListTheme {
+        AnimeCardHeader()
+    }
 }

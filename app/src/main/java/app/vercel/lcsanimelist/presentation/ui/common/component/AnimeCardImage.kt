@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable

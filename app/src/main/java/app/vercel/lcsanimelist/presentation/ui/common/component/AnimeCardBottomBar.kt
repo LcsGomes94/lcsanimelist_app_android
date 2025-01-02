@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.R
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
 fun AnimeCardBottomBar(
@@ -42,14 +43,14 @@ fun AnimeCardBottomBar(
     val isFavorite = stage != null
 
     Box(
-        modifier = modifier.background(Color.White)
+        modifier = modifier.background(MaterialTheme.colorScheme.onSurface)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(34.dp)
                 .clip(RoundedCornerShape(topEnd = 8.dp))
-                .background(color = Color.LightGray),
+                .background(color = MaterialTheme.colorScheme.surface),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -67,7 +68,6 @@ fun AnimeCardBottomBar(
                 Text(
                     text = anime.score?.toString() ?: "N/A",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Black
                 )
             }
             IconButton(
@@ -94,5 +94,7 @@ fun AnimeCardBottomBar(
 @Preview(showBackground = true)
 @Composable
 fun AnimeCardBottomBarPreview() {
-    AnimeCardBottomBar()
+    LcsAnimeListTheme {
+        AnimeCardBottomBar()
+    }
 }

@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.presentation.theme.Cyan700
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
 fun AnimeCardTopBar(
@@ -30,7 +33,7 @@ fun AnimeCardTopBar(
         modifier = modifier
             .fillMaxWidth()
             .height(34.dp)
-            .background(color = Color.LightGray),
+            .background(color = MaterialTheme.colorScheme.surface),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -39,12 +42,13 @@ fun AnimeCardTopBar(
             genres.forEach { genre ->
                 Box(
                     modifier = Modifier
-                        .background(color = Color.White, shape = RoundedCornerShape(50))
+                        .background(color = MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(50))
                         .padding(horizontal = 8.dp, vertical = 2.dp)
                 ) {
                     Text(
                         text = genre,
-                        style = MaterialTheme.typography.bodySmall
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
@@ -56,5 +60,7 @@ fun AnimeCardTopBar(
 @Preview(showBackground = true)
 @Composable
 fun AnimeCardTopBarPreview() {
-    AnimeCardTopBar()
+    LcsAnimeListTheme {
+        AnimeCardTopBar()
+    }
 }
