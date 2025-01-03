@@ -31,7 +31,7 @@ import app.vercel.lcsanimelist.R
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.ui.common.FavoriteIcon
+import app.vercel.lcsanimelist.presentation.ui.common.icon.FavoriteIcon
 
 @Composable
 fun AnimeCardBottomBar(
