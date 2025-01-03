@@ -40,9 +40,6 @@ fun AnimeCardBottomBar(
     onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit = { _, _ -> }
 ) {
 
-    var stage by rememberSaveable() { mutableStateOf(anime.personalStage) }
-    val isFavorite = stage != null
-
     Box(
         modifier = modifier.background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
@@ -55,32 +52,11 @@ fun AnimeCardBottomBar(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(
-                        R.drawable.outlined_score
-                    ),
-                    contentDescription = null,
-                    tint = Color.Unspecified
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = anime.score?.toString() ?: "N/A",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
-            IconButton(
-                modifier = Modifier.size(34.dp),
-                onClick = {
-                    onFavoriteToggle(anime, isFavorite)
-                    stage = if (isFavorite) null else PersonalStage.WATCH
-                }
-            ) {
-                FavoriteIcon(isFavorite)
-            }
+            AnimeCardTier()
+            AnimeCardMoveButton()
+            AnimeCardScore(score = anime.score)
+            AnimeCardFavoriteButton(anime = anime, onButtonClick = onFavoriteToggle)
+            AnimeCardEditButton()
         }
     }
 
