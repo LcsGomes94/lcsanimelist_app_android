@@ -46,7 +46,8 @@ fun AnimeCardHeader(
         ) {
             Text(
                 text = anime.release.toAnimeReleaseString(),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 modifier = Modifier.alpha(0.1f),
@@ -55,7 +56,8 @@ fun AnimeCardHeader(
             )
             Text(
                 text = anime.episodes.toAnimeEpisodesString(),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

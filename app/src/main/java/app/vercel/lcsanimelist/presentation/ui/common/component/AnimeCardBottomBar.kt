@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,6 +31,7 @@ import app.vercel.lcsanimelist.R
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import app.vercel.lcsanimelist.presentation.ui.common.FavoriteIcon
 
 @Composable
 fun AnimeCardBottomBar(
@@ -44,7 +44,7 @@ fun AnimeCardBottomBar(
     val isFavorite = stage != null
 
     Box(
-        modifier = modifier.background(MaterialTheme.colorScheme.onSurface)
+        modifier = modifier.background(MaterialTheme.colorScheme.surfaceContainer)
     ) {
         Row(
             modifier = Modifier
@@ -69,6 +69,7 @@ fun AnimeCardBottomBar(
                 Text(
                     text = anime.score?.toString() ?: "N/A",
                     style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
             IconButton(
@@ -78,14 +79,7 @@ fun AnimeCardBottomBar(
                     stage = if (isFavorite) null else PersonalStage.WATCH
                 }
             ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(
-                        if (isFavorite) R.drawable.filled_favorite_black
-                        else R.drawable.outlined_favorite_black
-                    ),
-                    contentDescription = "add_to_favorite",
-                    tint = Color.Unspecified,
-                )
+                FavoriteIcon(isFavorite)
             }
         }
     }

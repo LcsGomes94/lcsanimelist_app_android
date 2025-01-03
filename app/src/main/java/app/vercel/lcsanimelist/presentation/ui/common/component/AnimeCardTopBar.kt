@@ -42,7 +42,7 @@ fun AnimeCardTopBar(
             genres.forEach { genre ->
                 Box(
                     modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(50))
+                        .background(color = MaterialTheme.colorScheme.surfaceContainer, shape = RoundedCornerShape(50))
                         .padding(horizontal = 8.dp, vertical = 2.dp)
                 ) {
                     Text(

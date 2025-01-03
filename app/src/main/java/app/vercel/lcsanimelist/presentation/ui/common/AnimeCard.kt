@@ -14,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -76,13 +75,14 @@ fun AnimeCard(
                             modifier = Modifier
                                 .weight(1f)
                                 .fillMaxWidth()
-                                .background(color = MaterialTheme.colorScheme.onSurface)
+                                .background(color = MaterialTheme.colorScheme.surfaceContainer)
                                 .verticalScroll(rememberScrollState())
-                                .padding(8.dp)
+                                .padding(vertical = 6.dp, horizontal = 12.dp)
                         ) {
                             Text(
                                 text = anime.synopsis ?: "",
                                 style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         AnimeCardBottomBar(anime = anime, onFavoriteToggle = onFavoriteToggle)
