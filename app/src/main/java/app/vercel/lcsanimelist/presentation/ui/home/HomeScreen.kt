@@ -14,10 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 
 @Composable
 fun HomeScreen(
@@ -25,11 +25,11 @@ fun HomeScreen(
     viewModel: HomeViewModel,
 ) {
 
-    val animePagingItems = viewModel.animePagingData.collectAsLazyPagingItems()
+    val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
 
-    LazyColumn(
+   LazyColumn(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(48.dp)
+        verticalArrangement = Arrangement.spacedBy(48.dp),
     ) {
         if (animePagingItems.loadState.refresh == LoadState.Loading) {
             item {
@@ -43,7 +43,13 @@ fun HomeScreen(
 
         items(count = animePagingItems.itemCount) { i ->
             val anime = animePagingItems[i]!!
-            AnimeCard(anime = anime, onFavoriteToggle = viewModel::onFavoriteToggle)
+            AnimeCard(
+                anime = anime,
+                screenType = ScreenType.HOME,
+                onFavoriteToggle = {
+                    viewModel.onFavoriteToggle(anime)
+                },
+            )
         }
 
         if (animePagingItems.loadState.append == LoadState.Loading) {

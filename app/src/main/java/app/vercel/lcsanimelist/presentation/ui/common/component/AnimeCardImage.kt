@@ -15,14 +15,14 @@ import app.vercel.lcsanimelist.util.isPreview
 @Composable
 fun AnimeCardImage(
     modifier: Modifier = Modifier,
-    anime: Anime = Anime()
+    imageUrl: String = Anime().imageUrl
 ) {
 
     val model = if (isPreview()) {
         R.drawable.anime_image_preview
     } else {
          ImageRequest.Builder(LocalContext.current)
-            .data(anime.imageUrl)
+            .data(imageUrl)
             .crossfade(true)
             .build()
     }

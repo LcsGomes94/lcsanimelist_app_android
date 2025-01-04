@@ -18,19 +18,13 @@ import app.vercel.lcsanimelist.presentation.ui.common.icon.FavoriteIcon
 @Composable
 fun AnimeCardFavoriteButton(
     modifier: Modifier = Modifier,
-    anime: Anime = Anime(),
-    onButtonClick: (anime: Anime, isFavorite: Boolean) -> Unit = { _, _ -> }
+    isFavorite: Boolean = false,
+    onButtonClick: () -> Unit = { }
 ) {
-
-    var stage by rememberSaveable() { mutableStateOf(anime.personalStage) }
-    val isFavorite = stage != null
 
     IconButton(
         modifier = modifier.size(34.dp),
-        onClick = {
-            onButtonClick(anime, isFavorite)
-            stage = if (isFavorite) null else PersonalStage.WATCH
-        }
+        onClick = onButtonClick
     ) {
         FavoriteIcon(isFavorite)
     }

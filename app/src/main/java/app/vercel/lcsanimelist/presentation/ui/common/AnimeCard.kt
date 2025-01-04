@@ -28,12 +28,16 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardBottomB
 import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardHeader
 import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardImage
 import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardTopBar
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 
 @Composable
 fun AnimeCard(
     modifier: Modifier = Modifier,
     anime: Anime = Anime(),
-    onFavoriteToggle: (anime: Anime, isFavorite: Boolean) -> Unit = { _, _ -> }
+    screenType: ScreenType = ScreenType.HOME,
+    onFavoriteToggle: () -> Unit = { },
+    onMoveButtonClick: () -> Unit = { },
+    onEditButtonClick: () -> Unit = { }
 ) {
 
     Column(
@@ -42,7 +46,11 @@ fun AnimeCard(
             .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        AnimeCardHeader(anime = anime)
+        AnimeCardHeader(
+            title = anime.title,
+            release = anime.release,
+            episodes = anime.episodes
+        )
         Spacer(modifier = Modifier.height(8.dp))
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -52,7 +60,7 @@ fun AnimeCard(
             Column(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                AnimeCardTopBar(anime = anime)
+                AnimeCardTopBar(genres = anime.genres)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -64,7 +72,7 @@ fun AnimeCard(
                             .weight(1f)
                             .aspectRatio(167f / 237f)
                     ) {
-                        AnimeCardImage(anime = anime)
+                        AnimeCardImage(imageUrl = anime.imageUrl)
                     }
                     Column(
                         modifier = Modifier
@@ -80,12 +88,20 @@ fun AnimeCard(
                                 .padding(vertical = 6.dp, horizontal = 12.dp)
                         ) {
                             Text(
-                                text = anime.synopsis ?: "",
+                                text =  anime.personalNote ?: anime.synopsis ?: "",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         }
-                        AnimeCardBottomBar(anime = anime, onFavoriteToggle = onFavoriteToggle)
+                        AnimeCardBottomBar(
+                            screenType = screenType,
+                            personalTier = anime.personalTier,
+                            score = anime.score,
+                            personalStage = anime.personalStage,
+                            onFavoriteToggle = onFavoriteToggle,
+                            onMoveButtonClick = onMoveButtonClick,
+                            onEditButtonClick = onEditButtonClick
+                        )
                     }
                 }
             }

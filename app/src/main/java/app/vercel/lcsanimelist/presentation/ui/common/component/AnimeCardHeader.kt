@@ -20,11 +20,14 @@ import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.util.extension.toAnimeEpisodesString
 import app.vercel.lcsanimelist.util.extension.toAnimeReleaseString
+import java.time.LocalDate
 
 @Composable
 fun AnimeCardHeader(
     modifier: Modifier = Modifier,
-    anime: Anime = Anime()
+    title: String = Anime().title,
+    release: LocalDate? = Anime().release,
+    episodes: Int? = Anime().episodes
 ) {
 
     Column(
@@ -32,7 +35,7 @@ fun AnimeCardHeader(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = anime.title,
+            text = title,
             style = MaterialTheme.typography.titleLarge,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
@@ -45,7 +48,7 @@ fun AnimeCardHeader(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = anime.release.toAnimeReleaseString(),
+                text = release.toAnimeReleaseString(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -55,7 +58,7 @@ fun AnimeCardHeader(
                 style = MaterialTheme.typography.bodyMedium,
             )
             Text(
-                text = anime.episodes.toAnimeEpisodesString(),
+                text = episodes.toAnimeEpisodesString(),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )

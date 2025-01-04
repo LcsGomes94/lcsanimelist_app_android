@@ -23,7 +23,7 @@ class AnimesPagingSource(
 ) : PagingSource<Int, Anime>() {
 
     override fun getRefreshKey(state: PagingState<Int, Anime>): Int? {
-        return state.anchorPosition
+        return null
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Anime> = coroutineScope {
