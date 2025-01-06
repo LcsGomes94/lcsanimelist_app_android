@@ -34,10 +34,10 @@ import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 fun AnimeCard(
     modifier: Modifier = Modifier,
     anime: Anime = Anime(),
+    editModalIsFavorite: Boolean = true,
     screenType: ScreenType = ScreenType.HOME,
     onFavoriteToggle: () -> Unit = { },
-    onMoveButtonClick: () -> Unit = { },
-    onEditButtonClick: () -> Unit = { }
+    openModal: () -> Unit = { },
 ) {
 
     Column(
@@ -49,7 +49,8 @@ fun AnimeCard(
         AnimeCardHeader(
             title = anime.title,
             release = anime.release,
-            episodes = anime.episodes
+            episodes = anime.episodes,
+            isTitleVisible = screenType != ScreenType.MODAL
         )
         Spacer(modifier = Modifier.height(8.dp))
         Card(
@@ -98,9 +99,9 @@ fun AnimeCard(
                             personalTier = anime.personalTier,
                             score = anime.score,
                             personalStage = anime.personalStage,
+                            editModalIsFavorite = editModalIsFavorite,
                             onFavoriteToggle = onFavoriteToggle,
-                            onMoveButtonClick = onMoveButtonClick,
-                            onEditButtonClick = onEditButtonClick
+                            openModal = openModal,
                         )
                     }
                 }

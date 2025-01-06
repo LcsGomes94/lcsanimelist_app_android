@@ -17,15 +17,18 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
+import app.vercel.lcsanimelist.presentation.ui.common.modal.EditModalViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
+    editModalViewModel: EditModalViewModel,
 ) {
 
-    val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
+    val animePagingItems = homeViewModel.updatedAnimePagingData.collectAsLazyPagingItems()
 
    LazyColumn(
         modifier = modifier,
@@ -45,10 +48,21 @@ fun HomeScreen(
             val anime = animePagingItems[i]!!
             AnimeCard(
                 anime = anime,
-                screenType = ScreenType.HOME,
+                screenType = ScreenType.WATCH,
                 onFavoriteToggle = {
-                    viewModel.onFavoriteToggle(anime)
+                    homeViewModel.onFavoriteToggle(anime)
                 },
+                openModal = {
+                    editModalViewModel.openModal(
+                        anime = anime,
+                        onConfirmCallback = { anime, action ->
+                            when(action) {
+                                ModalActionType.UPDATE -> homeViewModel.updateFavorite(anime)
+                                ModalActionType.DELETE -> homeViewModel.removeFavorite(anime)
+                            }
+                        }
+                    )
+                }
             )
         }
 

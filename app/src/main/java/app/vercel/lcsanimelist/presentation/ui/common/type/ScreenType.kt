@@ -5,5 +5,6 @@ enum class ScreenType {
     SEASONAL,
     WATCH,
     FINISHED,
-    DROPPED
+    DROPPED,
+    MODAL,
 }

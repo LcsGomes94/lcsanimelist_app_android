@@ -38,21 +38,46 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
         _query.value = newQuery
     }
 
-    fun onFavoriteToggle(anime: Anime) {
-        viewModelScope.launch {
-            val isFavorite = anime.personalStage != null
-            val updatedAnime = anime.copy(personalStage = if (isFavorite) null else PersonalStage.WATCH)
-
-            animeUpdates.update { current ->
-                current + (anime.id to updatedAnime)
-            }
-
-            if (isFavorite) {
-                useCases.removeFavorite(anime)
-            } else {
-                useCases.addFavorite(updatedAnime)
-            }
+    private fun updatePagingDataState(anime: Anime) {
+        animeUpdates.update { current ->
+            anime.personalStage?.let {
+                current + (anime.id to anime)
+            } ?: (current - anime.id)
         }
+    }
+
+    private fun addFavorite(anime: Anime) {
+        viewModelScope.launch {
+            updatePagingDataState(anime)
+            useCases.addFavorite(anime)
+        }
+    }
+
+    fun removeFavorite(anime: Anime) {
+        viewModelScope.launch {
+            val updatedAnime = anime.copy(personalStage = null)
+            updatePagingDataState(updatedAnime)
+            useCases.removeFavorite(anime)
+        }
+    }
+
+    fun updateFavorite(anime: Anime) {
+        viewModelScope.launch {
+            updatePagingDataState(anime)
+            useCases.updateFavorite(anime)
+        }
+    }
+
+    fun onFavoriteToggle(anime: Anime) {
+        val isFavorite = anime.personalStage != null
+        val updatedAnime = anime.copy(personalStage = if (isFavorite) null else PersonalStage.WATCH)
+
+        if (isFavorite) {
+            removeFavorite(updatedAnime)
+            return
+        }
+
+        addFavorite(updatedAnime)
     }
 
 }

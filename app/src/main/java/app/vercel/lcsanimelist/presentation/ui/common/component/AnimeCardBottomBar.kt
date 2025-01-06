@@ -27,9 +27,9 @@ fun AnimeCardBottomBar(
     personalTier: PersonalTier? = Anime().personalTier,
     score: Double? = Anime().score,
     personalStage: PersonalStage? = Anime().personalStage,
+    editModalIsFavorite: Boolean = true,
     onFavoriteToggle: () -> Unit = { },
-    onMoveButtonClick: () -> Unit = { },
-    onEditButtonClick: () -> Unit = { }
+    openModal: () -> Unit = { },
 ) {
 
     Box(
@@ -44,17 +44,35 @@ fun AnimeCardBottomBar(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (screenType == ScreenType.FINISHED || screenType == ScreenType.DROPPED) {
-                AnimeCardTier(tier = personalTier ?: PersonalTier.E) // TEMPORÁRIO
-            }
-            if (screenType == ScreenType.WATCH) {
-                AnimeCardMoveButton(onButtonClick = onMoveButtonClick)
-            }
-            AnimeCardScore(score = score)
-            if (screenType != ScreenType.FINISHED && screenType != ScreenType.DROPPED) {
-                AnimeCardFavoriteButton(isFavorite = personalStage != null, onButtonClick = onFavoriteToggle)
-            } else {
-                AnimeCardEditButton(onButtonClick = onEditButtonClick)
+            when(screenType) {
+                ScreenType.HOME, ScreenType.SEASONAL -> {
+                    AnimeCardScore(score = score)
+                    AnimeCardFavoriteButton(
+                        isFavorite = personalStage != null,
+                        onButtonClick = onFavoriteToggle
+                    )
+                }
+                ScreenType.WATCH -> {
+                    AnimeCardMoveButton(onButtonClick = openModal)
+                    AnimeCardScore(score = score)
+                    AnimeCardFavoriteButton(
+                        isFavorite = personalStage != null,
+                        onButtonClick = onFavoriteToggle
+                    )
+                }
+                ScreenType.FINISHED, ScreenType.DROPPED -> {
+                    personalTier?.let { AnimeCardTier(tier = personalTier) }
+                    AnimeCardScore(score = score)
+                    AnimeCardEditButton(onButtonClick = openModal)
+                }
+                ScreenType.MODAL -> {
+                    personalTier?.let { AnimeCardTier(tier = personalTier) }
+                    AnimeCardScore(score = score)
+                    AnimeCardFavoriteButton(
+                        isFavorite = editModalIsFavorite,
+                        onButtonClick = onFavoriteToggle
+                    )
+                }
             }
         }
     }
