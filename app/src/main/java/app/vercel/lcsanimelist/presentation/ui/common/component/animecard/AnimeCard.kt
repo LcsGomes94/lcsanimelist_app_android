@@ -92,8 +92,10 @@ fun AnimeCard(
                                 .padding(vertical = 6.dp, horizontal = 12.dp)
                         ) {
                             Text(
-                                text = if (screenType == ScreenType.MODAL && previewNewNote.isNotEmpty() && previewIsFavorite) previewNewNote
-                                else anime.personalNote ?: anime.synopsis ?: "",
+                                text = if (screenType == ScreenType.MODAL) {
+                                    if (previewNewNote.isNotEmpty() && previewIsFavorite) previewNewNote
+                                    else anime.synopsis ?: ""
+                                } else anime.personalNote ?: anime.synopsis ?: "",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )

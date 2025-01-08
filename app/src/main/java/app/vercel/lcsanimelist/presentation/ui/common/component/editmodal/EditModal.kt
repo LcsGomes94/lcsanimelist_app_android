@@ -1,10 +1,12 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -91,7 +93,9 @@ fun EditModal(
             previewNewTier = newTier,
             previewNewNote = newNote,
             screenType = ScreenType.MODAL,
-            onFavoriteToggle = viewModel::onFavoriteToggle
+            onFavoriteToggle = {
+                if (anime.personalStage != null) viewModel.onFavoriteToggle()
+            }
         )
         Spacer(modifier = Modifier.height(32.dp))
         Column(
@@ -102,14 +106,9 @@ fun EditModal(
                     color = MaterialTheme.colorScheme.surface,
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
                 )
-                .padding(24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-
-            }
-            Box(
                 modifier = Modifier.weight(1f)
             ) {
                 EditModalForm(
@@ -121,23 +120,27 @@ fun EditModal(
                     onTierChange = viewModel::onTierChange,
                     onNoteChange = viewModel::onNoteChange
                 )
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .align(Alignment.Center),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor =
-                        if (isFavorite) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.error
-                    ),
-                    onClick = viewModel::onConfirmButtonClick
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Text(
-                        text = "Confirm",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.background
-                    )
+                    Button(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor =
+                            if (isFavorite) MaterialTheme.colorScheme.primary
+                            else MaterialTheme.colorScheme.error
+                        ),
+                        onClick = viewModel::onConfirmButtonClick
+                    ) {
+                        Text(
+                            text = "Confirm",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.background
+                        )
+                    }
                 }
             }
         }

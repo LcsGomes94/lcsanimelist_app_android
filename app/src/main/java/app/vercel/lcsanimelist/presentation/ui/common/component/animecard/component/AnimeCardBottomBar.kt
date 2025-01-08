@@ -29,8 +29,8 @@ fun AnimeCardBottomBar(
     personalStage: PersonalStage? = Anime().personalStage,
     previewIsFavorite: Boolean = true,
     previewNewTier: PersonalTier? = null,
-    onFavoriteToggle: () -> Unit = { },
-    openModal: () -> Unit = { },
+    onFavoriteToggle: () -> Unit = {},
+    openModal: () -> Unit = {},
 ) {
 
     Box(

@@ -39,6 +39,11 @@ fun EditModalForm(
             newTier = newTier,
             onTierChange = onTierChange
         )
+        PersonalNoteTextField(
+            isFavorite = isFavorite,
+            newNote = newNote,
+            onNoteChange = onNoteChange
+        )
     }
 
 }

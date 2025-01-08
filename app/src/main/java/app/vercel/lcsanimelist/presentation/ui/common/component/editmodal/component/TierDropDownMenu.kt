@@ -66,7 +66,6 @@ fun TierDropDownMenu(
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface
             ),
-
             textStyle = MaterialTheme.typography.bodyLarge,
         )
         DropdownMenu(
