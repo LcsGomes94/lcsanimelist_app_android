@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.component
+package app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import app.vercel.lcsanimelist.presentation.type.ScreenType
 
 @Composable
 fun AnimeCardBottomBar(
@@ -27,7 +27,8 @@ fun AnimeCardBottomBar(
     personalTier: PersonalTier? = Anime().personalTier,
     score: Double? = Anime().score,
     personalStage: PersonalStage? = Anime().personalStage,
-    editModalIsFavorite: Boolean = true,
+    previewIsFavorite: Boolean = true,
+    previewNewTier: PersonalTier? = null,
     onFavoriteToggle: () -> Unit = { },
     openModal: () -> Unit = { },
 ) {
@@ -66,10 +67,12 @@ fun AnimeCardBottomBar(
                     AnimeCardEditButton(onButtonClick = openModal)
                 }
                 ScreenType.MODAL -> {
-                    personalTier?.let { AnimeCardTier(tier = personalTier) }
+                    if (previewIsFavorite && previewNewTier != null) {
+                        AnimeCardTier(tier = previewNewTier)
+                    }
                     AnimeCardScore(score = score)
                     AnimeCardFavoriteButton(
-                        isFavorite = editModalIsFavorite,
+                        isFavorite = previewIsFavorite,
                         onButtonClick = onFavoriteToggle
                     )
                 }

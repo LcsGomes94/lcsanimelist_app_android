@@ -15,7 +15,3 @@ data class Anime(
     val score: Double? = 10.0,
     val personalTier: PersonalTier? = null
 )
-
-enum class PersonalStage { WATCH, FINISHED, DROPPED }
-
-enum class PersonalTier { SS, S, A, B, C, D, E }

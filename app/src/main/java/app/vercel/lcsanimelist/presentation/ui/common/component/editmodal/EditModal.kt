@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.modal
+package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,12 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -29,8 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
-import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
-import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
+import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component.EditModalForm
 
 @Composable
 fun EditModal(
@@ -42,7 +43,7 @@ fun EditModal(
     val isFavorite by viewModel.isFavorite.collectAsState()
     val newStage by viewModel.newStage.collectAsState()
     val newTier by viewModel.newTier.collectAsState()
-    val newPersonalNote by viewModel.newPersonalNote.collectAsState()
+    val newNote by viewModel.newNote.collectAsState()
 
     Column(
         modifier = modifier,
@@ -82,16 +83,13 @@ fun EditModal(
                 )
             }
         }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
-        )
+        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.surface.copy(0.8f))
         Spacer(modifier = Modifier.height(32.dp))
         AnimeCard(
             anime = anime,
-            editModalIsFavorite = isFavorite,
+            previewIsFavorite = isFavorite,
+            previewNewTier = newTier,
+            previewNewNote = newNote,
             screenType = ScreenType.MODAL,
             onFavoriteToggle = viewModel::onFavoriteToggle
         )
@@ -114,6 +112,15 @@ fun EditModal(
             Box(
                 modifier = Modifier.weight(1f)
             ) {
+                EditModalForm(
+                    isFavorite = isFavorite,
+                    newStage = newStage,
+                    newTier = newTier,
+                    newNote = newNote,
+                    onStageChange = viewModel::onStageChange,
+                    onTierChange = viewModel::onTierChange,
+                    onNoteChange = viewModel::onNoteChange
+                )
                 Button(
                     modifier = Modifier
                         .fillMaxWidth()

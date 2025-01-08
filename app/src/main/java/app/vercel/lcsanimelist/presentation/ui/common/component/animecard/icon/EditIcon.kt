@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.icon
+package app.vercel.lcsanimelist.presentation.ui.common.component.animecard.icon
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

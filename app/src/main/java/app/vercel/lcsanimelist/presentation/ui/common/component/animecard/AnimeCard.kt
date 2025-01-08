@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common
+package app.vercel.lcsanimelist.presentation.ui.common.component.animecard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,18 +23,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.domain.model.PersonalTier
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardBottomBar
-import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardHeader
-import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardImage
-import app.vercel.lcsanimelist.presentation.ui.common.component.AnimeCardTopBar
-import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardBottomBar
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardHeader
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardImage
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardTopBar
 
 @Composable
 fun AnimeCard(
     modifier: Modifier = Modifier,
     anime: Anime = Anime(),
-    editModalIsFavorite: Boolean = true,
+    previewIsFavorite: Boolean = true,
+    previewNewTier: PersonalTier? = null,
+    previewNewNote: String = "",
     screenType: ScreenType = ScreenType.HOME,
     onFavoriteToggle: () -> Unit = { },
     openModal: () -> Unit = { },
@@ -89,7 +92,8 @@ fun AnimeCard(
                                 .padding(vertical = 6.dp, horizontal = 12.dp)
                         ) {
                             Text(
-                                text =  anime.personalNote ?: anime.synopsis ?: "",
+                                text = if (screenType == ScreenType.MODAL && previewNewNote.isNotEmpty() && previewIsFavorite) previewNewNote
+                                else anime.personalNote ?: anime.synopsis ?: "",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -99,7 +103,8 @@ fun AnimeCard(
                             personalTier = anime.personalTier,
                             score = anime.score,
                             personalStage = anime.personalStage,
-                            editModalIsFavorite = editModalIsFavorite,
+                            previewIsFavorite = previewIsFavorite,
+                            previewNewTier = previewNewTier,
                             onFavoriteToggle = onFavoriteToggle,
                             openModal = openModal,
                         )

@@ -16,10 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import app.vercel.lcsanimelist.presentation.ui.common.AnimeCard
-import app.vercel.lcsanimelist.presentation.ui.common.modal.EditModalViewModel
-import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
-import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
+import app.vercel.lcsanimelist.presentation.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.type.ScreenType
 
 @Composable
 fun HomeScreen(

@@ -1,10 +1,10 @@
-package app.vercel.lcsanimelist.presentation.ui.common.modal
+package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal
 
 import androidx.lifecycle.ViewModel
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
-import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -22,8 +22,8 @@ class EditModalViewModel() : ViewModel() {
     val newStage = _newStage.asStateFlow()
     private val _newTier = MutableStateFlow<PersonalTier?>(null)
     val newTier = _newTier.asStateFlow()
-    private val _newPersonalNote = MutableStateFlow<String>("")
-    val newPersonalNote = _newPersonalNote.asStateFlow()
+    private val _newNote = MutableStateFlow<String>("")
+    val newNote = _newNote.asStateFlow()
 
     private var onConfirmCallback: OnConfirmCallback = { _, _ -> }
 
@@ -34,7 +34,7 @@ class EditModalViewModel() : ViewModel() {
         _isFavorite.value = anime.personalStage != null
         _newStage.value = anime.personalStage
         _newTier.value = anime.personalTier
-        _newPersonalNote.value = anime.personalNote.orEmpty()
+        _newNote.value = anime.personalNote.orEmpty()
         this.onConfirmCallback = onConfirmCallback
 
         _currentAnimeBeingEdited.value = anime
@@ -50,7 +50,7 @@ class EditModalViewModel() : ViewModel() {
                 val updatedAnime = anime.copy(
                     personalStage = _newStage.value ?: anime.personalStage,
                     personalTier = _newTier.value ?: anime.personalTier,
-                    personalNote = _newPersonalNote.value.ifEmpty { null },
+                    personalNote = _newNote.value.ifEmpty { null },
                 )
                 onConfirmCallback(updatedAnime, ModalActionType.UPDATE)
             } else {
@@ -63,6 +63,18 @@ class EditModalViewModel() : ViewModel() {
 
     fun onFavoriteToggle() {
         _isFavorite.value = !_isFavorite.value
+    }
+
+    fun onStageChange(newStage: PersonalStage?) {
+        _newStage.value = newStage
+    }
+
+    fun onTierChange(newTier: PersonalTier?) {
+        _newTier.value = newTier
+    }
+
+    fun onNoteChange(newNote: String) {
+        _newNote.value = newNote
     }
 
 }

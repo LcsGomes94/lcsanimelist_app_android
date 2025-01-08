@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.component
+package app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

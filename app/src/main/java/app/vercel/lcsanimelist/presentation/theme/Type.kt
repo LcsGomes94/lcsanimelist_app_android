@@ -48,13 +48,13 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        letterSpacing = 0.4.sp
+        letterSpacing = 0.3.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = sourceSansPro,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.3.sp
     )
 )

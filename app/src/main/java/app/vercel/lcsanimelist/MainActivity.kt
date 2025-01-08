@@ -12,8 +12,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.ui.common.modal.EditModal
-import app.vercel.lcsanimelist.presentation.ui.common.modal.EditModalViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
 import app.vercel.lcsanimelist.presentation.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel

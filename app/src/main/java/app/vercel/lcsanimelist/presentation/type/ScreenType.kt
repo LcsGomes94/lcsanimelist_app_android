@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.type
+package app.vercel.lcsanimelist.presentation.type
 
 enum class ScreenType {
     HOME,
