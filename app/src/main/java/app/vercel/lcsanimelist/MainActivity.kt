@@ -76,7 +76,6 @@ fun NavGraph(
                 }
             )
         }
-
         composable("editModal") { backStackEntry ->
             currentAnimeBeingEdited?.let { anime ->
                 EditModal(
