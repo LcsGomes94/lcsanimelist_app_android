@@ -16,21 +16,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier,
-    homeViewModel: HomeViewModel,
-    editModalViewModel: EditModalViewModel,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel,
+    onEditAnime: (Anime, OnConfirmCallback) -> Unit = { _, _ -> },
 ) {
 
-    val animePagingItems = homeViewModel.updatedAnimePagingData.collectAsLazyPagingItems()
+    val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
 
-   LazyColumn(
+    LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(48.dp),
     ) {
@@ -47,21 +49,21 @@ fun HomeScreen(
         items(count = animePagingItems.itemCount) { i ->
             val anime = animePagingItems[i]!!
             AnimeCard(
+                modifier = Modifier.padding(horizontal = 16.dp),
                 anime = anime,
                 screenType = ScreenType.WATCH,
                 onFavoriteToggle = {
-                    homeViewModel.onFavoriteToggle(anime)
+                    viewModel.onFavoriteToggle(anime)
                 },
                 openModal = {
-                    editModalViewModel.openModal(
-                        anime = anime,
-                        onConfirmCallback = { anime, action ->
-                            when(action) {
-                                ModalActionType.UPDATE -> homeViewModel.updateFavorite(anime)
-                                ModalActionType.DELETE -> homeViewModel.removeFavorite(anime)
-                            }
+                    onEditAnime(
+                        anime
+                    ) { anime, action ->
+                        when (action) {
+                            ModalActionType.UPDATE -> viewModel.updateFavorite(anime)
+                            ModalActionType.DELETE -> viewModel.removeFavorite(anime)
                         }
-                    )
+                    }
                 }
             )
         }

@@ -17,7 +17,7 @@ fun AnimeCardFavoriteButton(
 ) {
 
     IconButton(
-        modifier = modifier.size(34.dp),
+        modifier = modifier,
         onClick = onButtonClick
     ) {
         FavoriteIcon(isFavorite)
