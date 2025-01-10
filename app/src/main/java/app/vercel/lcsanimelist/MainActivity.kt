@@ -6,19 +6,24 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardBottomBar
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
@@ -40,24 +45,27 @@ class MainActivity : ComponentActivity() {
 
                 val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
 
-                Scaffold(
-
-                ) { innerPadding ->
-                    NavGraph(
-                        innerPadding = innerPadding,
-                        navController = navController,
-                        homeViewModel = homeViewModel,
-                        editModalViewModel = editModalViewModel,
-                    )
-                }
-
-                currentAnimeBeingEdited?.let {
-                    Scaffold { innerPadding ->
-                        EditModal(
-                            modifier = Modifier.padding(innerPadding),
-                            anime = currentAnimeBeingEdited ?: Anime(),
-                            viewModel = editModalViewModel
+                Scaffold { innerPadding ->
+                    Scaffold(
+                        bottomBar = { AnimeCardBottomBar(modifier = Modifier.height(100.dp)) }
+                    ) { innerPadding ->
+                        NavGraph(
+                            innerPadding = innerPadding,
+                            navController = navController,
+                            homeViewModel = homeViewModel,
+                            editModalViewModel = editModalViewModel,
                         )
+                    }
+                    currentAnimeBeingEdited?.let {
+                        Surface(
+                            modifier = Modifier.padding(innerPadding),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            EditModal(
+                                anime = currentAnimeBeingEdited ?: Anime(),
+                                viewModel = editModalViewModel
+                            )
+                        }
                     }
                 }
 
