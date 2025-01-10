@@ -29,12 +29,12 @@ fun EditModalForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        StageDropDownMenu(
+        StageDropdownMenu(
             isFavorite = isFavorite,
             newStage = newStage,
             onStageChange = onStageChange
         )
-        TierDropDownMenu(
+        TierDropdownMenu(
             isFavorite = isFavorite,
             newTier = newTier,
             onTierChange = onTierChange

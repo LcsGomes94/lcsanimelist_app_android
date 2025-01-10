@@ -24,15 +24,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import app.vercel.lcsanimelist.domain.model.PersonalTier
+import app.vercel.lcsanimelist.domain.model.PersonalStage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TierDropDownMenu(
+fun StageDropdownMenu(
     modifier: Modifier = Modifier,
     isFavorite: Boolean = true,
-    newTier: PersonalTier? = null,
-    onTierChange: (newTier: PersonalTier?) -> Unit = {},
+    newStage: PersonalStage? = null,
+    onStageChange: (newStage: PersonalStage?) -> Unit = {},
 ) {
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -48,7 +48,7 @@ fun TierDropDownMenu(
                 .menuAnchor()
                 .fillMaxWidth()
                 .height(52.dp),
-            value = newTier?.displayName ?: "Select Tier",
+            value = newStage?.displayName ?: "Select Stage",
             onValueChange = {},
             readOnly = true,
             enabled = isFavorite,
@@ -72,32 +72,31 @@ fun TierDropDownMenu(
                 .exposedDropdownSize()
                 .background(color = MaterialTheme.colorScheme.surface)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color = MaterialTheme.colorScheme.background)
-                .height(192.dp),
+                .background(color = MaterialTheme.colorScheme.background),
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
         ) {
-            PersonalTier.entries.forEachIndexed { index, tier ->
+            PersonalStage.entries.forEachIndexed { index, stage ->
                 DropdownMenuItem(
                     modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
                     text = {
                         Text(
-                            text = tier.displayName,
+                            text = stage.displayName,
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     onClick = {
                         isExpanded = false
-                        onTierChange(tier)
+                        onStageChange(stage)
                     },
                     enabled = isFavorite,
                     colors = MenuDefaults.itemColors().copy(textColor = MaterialTheme.colorScheme.onSurface),
                 )
-                if (index < PersonalTier.entries.lastIndex) {
+                if (index < PersonalStage.entries.lastIndex) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 8.dp) // Add gap at the beginning and end
+                            .padding(horizontal = 8.dp)
                     ) {
                         HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.surface.copy(0.8f))
                     }
