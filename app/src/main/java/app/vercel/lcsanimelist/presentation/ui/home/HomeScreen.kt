@@ -56,9 +56,7 @@ fun HomeScreen(
                     viewModel.onFavoriteToggle(anime)
                 },
                 openModal = {
-                    onEditAnime(
-                        anime
-                    ) { anime, action ->
+                    onEditAnime(anime) { anime, action ->
                         when (action) {
                             ModalActionType.UPDATE -> viewModel.updateFavorite(anime)
                             ModalActionType.DELETE -> viewModel.removeFavorite(anime)

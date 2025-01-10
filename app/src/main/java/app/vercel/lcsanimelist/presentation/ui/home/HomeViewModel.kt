@@ -40,9 +40,7 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
 
     private fun updatePagingDataState(anime: Anime) {
         animeUpdates.update { current ->
-            anime.personalStage?.let {
-                current + (anime.id to anime)
-            } ?: (current - anime.id)
+            current + (anime.id to anime)
         }
     }
 
@@ -55,7 +53,11 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
 
     fun removeFavorite(anime: Anime) {
         viewModelScope.launch {
-            val updatedAnime = anime.copy(personalStage = null)
+            val updatedAnime = anime.copy(
+                personalStage = null,
+                personalTier = null,
+                personalNote = null
+            )
             updatePagingDataState(updatedAnime)
             useCases.removeFavorite(anime)
         }
