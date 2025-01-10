@@ -42,7 +42,6 @@ fun EditModal(
     modifier: Modifier = Modifier,
     anime: Anime = Anime(),
     viewModel: EditModalViewModel,
-    navigateBack: () -> Unit = {},
 ) {
 
     val sHeight = LocalConfiguration.current.screenHeightDp
@@ -68,10 +67,7 @@ fun EditModal(
             IconButton(
                 modifier = Modifier
                     .size(56.dp),
-                onClick = {
-                    viewModel.closeModal()
-                    navigateBack()
-                }
+                onClick = viewModel::closeModal
             ) {
                 Icon(
                     modifier = Modifier.size(32.dp),
@@ -153,10 +149,7 @@ fun EditModal(
                                 if (isFavorite) MaterialTheme.colorScheme.primary
                                 else MaterialTheme.colorScheme.error
                             ),
-                            onClick = {
-                                viewModel.onConfirmButtonClick()
-                                navigateBack()
-                            }
+                            onClick = viewModel::onConfirmButtonClick
                         ) {
                             Text(
                                 text = "Confirm",

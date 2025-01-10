@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,7 @@ import app.vercel.lcsanimelist.presentation.ui.home.HomeViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -34,19 +36,31 @@ class MainActivity : ComponentActivity() {
                 val homeViewModel: HomeViewModel = getViewModel()
                 val editModalViewModel: EditModalViewModel = getViewModel()
 
-                val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
-
                 val navController = rememberNavController()
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
+
+                Scaffold(
+
+                ) { innerPadding ->
                     NavGraph(
                         innerPadding = innerPadding,
                         navController = navController,
                         homeViewModel = homeViewModel,
                         editModalViewModel = editModalViewModel,
-                        currentAnimeBeingEdited = currentAnimeBeingEdited
                     )
                 }
+
+                currentAnimeBeingEdited?.let {
+                    Scaffold { innerPadding ->
+                        EditModal(
+                            modifier = Modifier.padding(innerPadding),
+                            anime = currentAnimeBeingEdited ?: Anime(),
+                            viewModel = editModalViewModel
+                        )
+                    }
+                }
+
             }
         }
     }
@@ -58,7 +72,6 @@ fun NavGraph(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
     editModalViewModel: EditModalViewModel,
-    currentAnimeBeingEdited: Anime?
 ) {
     NavHost(
         modifier = Modifier.padding(innerPadding),
@@ -69,23 +82,8 @@ fun NavGraph(
             HomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 viewModel = homeViewModel,
-                onEditAnime = { anime, callback ->
-                    editModalViewModel.openModal(anime, callback)
-                    navController.navigate("editModal")
-                }
+                onEditAnime = editModalViewModel::openModal
             )
-        }
-        composable("editModal") { backStackEntry ->
-            currentAnimeBeingEdited?.let { anime ->
-                EditModal(
-                    modifier = Modifier.fillMaxSize(),
-                    anime = anime,
-                    viewModel = editModalViewModel,
-                    navigateBack = {
-                        navController.popBackStack()
-                    }
-                )
-            }
         }
     }
 }
