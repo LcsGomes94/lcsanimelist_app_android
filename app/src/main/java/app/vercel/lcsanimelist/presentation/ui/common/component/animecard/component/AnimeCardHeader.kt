@@ -22,26 +22,26 @@ import java.time.LocalDate
 
 @Composable
 fun AnimeCardHeader(
+    title: String,
+    release: LocalDate?,
+    episodes: Int?,
+    isTitleVisible: Boolean,
     modifier: Modifier = Modifier,
-    title: String = Anime().title,
-    release: LocalDate? = Anime().release,
-    episodes: Int? = Anime().episodes,
-    isTitleVisible: Boolean = true,
 ) {
 
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (isTitleVisible) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
+                style = MaterialTheme.typography.titleLarge
             )
         }
         Row(
@@ -50,18 +50,18 @@ fun AnimeCardHeader(
         ) {
             Text(
                 text = release.toAnimeReleaseString(),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                modifier = Modifier.alpha(0.1f),
                 text = "   |   ",
-                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.alpha(0.1f),
+                style = MaterialTheme.typography.bodyMedium
             )
             Text(
                 text = episodes.toAnimeEpisodesString(),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.bodyMedium
             )
         }
     }
@@ -72,6 +72,12 @@ fun AnimeCardHeader(
 @Composable
 fun AnimeCardHeaderPreview() {
     LcsAnimeListTheme {
-        AnimeCardHeader()
+        AnimeCardHeader(
+            title = Anime().title,
+            release = Anime().release,
+            episodes = Anime().episodes,
+            isTitleVisible = true,
+            modifier = Modifier
+        )
     }
 }

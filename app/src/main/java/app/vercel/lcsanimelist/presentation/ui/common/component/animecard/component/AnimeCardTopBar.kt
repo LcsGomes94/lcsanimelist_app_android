@@ -20,11 +20,11 @@ import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
 fun AnimeCardTopBar(
-    modifier: Modifier = Modifier,
-    genres: List<String> = Anime().genres
+    genres: List<String>,
+    modifier: Modifier = Modifier
 ) {
 
-    val limitedGenres = genres.take(4)
+    val cappedGenres = genres.take(4)
 
     Box(
         modifier = modifier
@@ -36,16 +36,22 @@ fun AnimeCardTopBar(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            limitedGenres.forEach { genre ->
+            cappedGenres.forEach { genre ->
                 Box(
                     modifier = Modifier
-                        .background(color = MaterialTheme.colorScheme.surfaceContainer, shape = RoundedCornerShape(50))
-                        .padding(horizontal = 8.dp, vertical = 2.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.surfaceContainer,
+                            shape = RoundedCornerShape(50)
+                        )
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 2.dp
+                        )
                 ) {
                     Text(
                         text = genre,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
+                        style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
@@ -58,6 +64,6 @@ fun AnimeCardTopBar(
 @Composable
 fun AnimeCardTopBarPreview() {
     LcsAnimeListTheme {
-        AnimeCardTopBar()
+        AnimeCardTopBar(genres = Anime().genres)
     }
 }

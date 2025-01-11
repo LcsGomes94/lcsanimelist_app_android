@@ -2,6 +2,7 @@ package app.vercel.lcsanimelist.presentation.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -17,30 +18,30 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.domain.model.Anime
-import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
-import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel,
-    onEditAnime: (Anime, OnConfirmCallback) -> Unit = { _, _ -> },
+    onEditModalOpen: (Anime, OnConfirmCallback) -> Unit = { _, _ -> },
 ) {
 
     val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(48.dp),
     ) {
         if (animePagingItems.loadState.refresh == LoadState.Loading) {
             item {
                 Text(
                     text = "LOADING ANIMES!",
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .wrapContentWidth(Alignment.CenterHorizontally)
                 )
             }
@@ -49,27 +50,28 @@ fun HomeScreen(
         items(count = animePagingItems.itemCount) { i ->
             val anime = animePagingItems[i]!!
             AnimeCard(
-                modifier = Modifier.padding(horizontal = 16.dp),
                 anime = anime,
                 screenType = ScreenType.WATCH,
                 onFavoriteToggle = {
                     viewModel.onFavoriteToggle(anime)
                 },
-                openModal = {
-                    onEditAnime(anime) { anime, action ->
+                onModalOpen = {
+                    onEditModalOpen(anime) { anime, action ->
                         when (action) {
                             ModalActionType.UPDATE -> viewModel.updateFavorite(anime)
                             ModalActionType.DELETE -> viewModel.removeFavorite(anime)
                         }
                     }
-                }
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
 
         if (animePagingItems.loadState.append == LoadState.Loading) {
             item {
                 CircularProgressIndicator(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .wrapContentWidth(Alignment.CenterHorizontally)
                 )
             }
@@ -78,7 +80,8 @@ fun HomeScreen(
         if (animePagingItems.loadState.append is LoadState.Error) {
             item {
                 ErrorItem(
-                    message = (animePagingItems.loadState.append as LoadState.Error).error.message ?: "An error occurred",
+                    message = (animePagingItems.loadState.append as LoadState.Error).error.message
+                        ?: "An error occurred",
                     onRetry = { animePagingItems.retry() }
                 )
             }

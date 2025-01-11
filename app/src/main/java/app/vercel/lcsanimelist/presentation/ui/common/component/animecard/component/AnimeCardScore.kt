@@ -19,8 +19,8 @@ import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
 fun AnimeCardScore(
+    score: Double?,
     modifier: Modifier = Modifier,
-    score: Double? = 10.0
 ) {
 
     Row(
@@ -37,8 +37,8 @@ fun AnimeCardScore(
         Spacer(modifier = Modifier.width(6.dp))
         Text(
             text = score?.toString() ?: "N/A",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 
@@ -48,6 +48,6 @@ fun AnimeCardScore(
 @Composable
 fun AnimeCardScorePreview() {
     LcsAnimeListTheme {
-        AnimeCardScore()
+        AnimeCardScore(score = 10.0)
     }
 }

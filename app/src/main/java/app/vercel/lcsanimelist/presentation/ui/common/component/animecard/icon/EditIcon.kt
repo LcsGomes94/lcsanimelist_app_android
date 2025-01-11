@@ -111,9 +111,9 @@ fun EditIcon(
     }
 
     Icon(
-        modifier = modifier,
         imageVector = editIcon,
         contentDescription = null,
+        modifier = modifier,
         tint = Color.Unspecified,
     )
 

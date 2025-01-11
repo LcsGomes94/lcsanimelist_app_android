@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,36 +23,42 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.PersonalStage
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import kotlin.enums.EnumEntries
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StageDropdownMenu(
-    modifier: Modifier = Modifier,
-    isFavorite: Boolean = true,
-    newStage: PersonalStage? = null,
-    onStageChange: (newStage: PersonalStage?) -> Unit = {},
+fun <T : Enum<T>> LcsAnimeListDropdownMenu(
+    selectedValue: T?,
+    onMenuItemSelected: (newValue: T?) -> Unit,
+    getDisplayName: (value: T?) -> String,
+    menuItems: EnumEntries<T>,
+    isEnabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
 
     var isExpanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
-        modifier = modifier,
         expanded = isExpanded,
-        onExpandedChange = { isExpanded = it && isFavorite },
+        onExpandedChange = { isExpanded = it && isEnabled },
+        modifier = modifier
     ) {
         TextField(
-            shape = RoundedCornerShape(8.dp),
+            value = getDisplayName(selectedValue),
+            onValueChange = {},
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
                 .height(52.dp),
-            value = newStage?.displayName ?: "Select Stage",
-            onValueChange = {},
+            enabled = isEnabled,
             readOnly = true,
-            enabled = isFavorite,
+            textStyle = MaterialTheme.typography.bodyLarge,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+            shape = RoundedCornerShape(8.dp),
             colors = ExposedDropdownMenuDefaults.textFieldColors().copy(
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 focusedContainerColor = MaterialTheme.colorScheme.background,
@@ -64,45 +70,62 @@ fun StageDropdownMenu(
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface
-            ),
-            textStyle = MaterialTheme.typography.bodyLarge,
+            )
         )
         DropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = { isExpanded = false },
             modifier = Modifier
                 .exposedDropdownSize()
                 .background(color = MaterialTheme.colorScheme.surface)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color = MaterialTheme.colorScheme.background),
-            expanded = isExpanded,
-            onDismissRequest = { isExpanded = false },
+                .background(color = MaterialTheme.colorScheme.background)
         ) {
-            PersonalStage.entries.forEachIndexed { index, stage ->
+            menuItems.forEachIndexed { index, item ->
                 DropdownMenuItem(
-                    modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
                     text = {
                         Text(
-                            text = stage.displayName,
+                            text = getDisplayName(item),
                             style = MaterialTheme.typography.bodyLarge
                         )
                     },
                     onClick = {
                         isExpanded = false
-                        onStageChange(stage)
+                        onMenuItemSelected(item)
                     },
-                    enabled = isFavorite,
-                    colors = MenuDefaults.itemColors().copy(textColor = MaterialTheme.colorScheme.onSurface),
+                    modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+                    enabled = isEnabled,
+                    colors = MenuDefaults.itemColors()
+                        .copy(textColor = MaterialTheme.colorScheme.onSurface),
                 )
-                if (index < PersonalStage.entries.lastIndex) {
+                if (index < menuItems.lastIndex) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp)
                     ) {
-                        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.surface.copy(0.8f))
+                        HorizontalDivider(
+                            thickness = 1.dp,
+                            color = MaterialTheme.colorScheme.surface.copy(0.8f)
+                        )
                     }
                 }
             }
         }
     }
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LcsAnimeListDropdownMenuPreview() {
+    LcsAnimeListTheme {
+        LcsAnimeListDropdownMenu(
+            selectedValue = null,
+            onMenuItemSelected = {},
+            getDisplayName = { it?.displayName ?: "Select Stage" },
+            menuItems = PersonalStage.entries,
+            isEnabled = true
+        )
+    }
 }

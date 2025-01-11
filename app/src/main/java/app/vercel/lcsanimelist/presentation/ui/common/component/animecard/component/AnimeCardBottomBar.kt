@@ -23,15 +23,15 @@ import app.vercel.lcsanimelist.presentation.type.ScreenType
 
 @Composable
 fun AnimeCardBottomBar(
+    screenType: ScreenType,
+    personalTier: PersonalTier?,
+    score: Double?,
+    personalStage: PersonalStage?,
+    onFavoriteToggle: () -> Unit,
+    onModalOpen: () -> Unit,
     modifier: Modifier = Modifier,
-    screenType: ScreenType = ScreenType.HOME,
-    personalTier: PersonalTier? = Anime().personalTier,
-    score: Double? = Anime().score,
-    personalStage: PersonalStage? = Anime().personalStage,
-    previewIsFavorite: Boolean = true,
-    previewNewTier: PersonalTier? = null,
-    onFavoriteToggle: () -> Unit = {},
-    openModal: () -> Unit = {},
+    previewIsFavorite: Boolean = false,
+    previewNewTier: PersonalTier? = null
 ) {
 
     Box(
@@ -46,38 +46,55 @@ fun AnimeCardBottomBar(
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            when(screenType) {
+            when (screenType) {
                 ScreenType.HOME, ScreenType.SEASONAL -> {
                     AnimeCardScore(score = score)
                     AnimeCardFavoriteButton(
-                        modifier = Modifier.size(34.dp),
+                        onButtonClick = onFavoriteToggle,
                         isFavorite = personalStage != null,
-                        onButtonClick = onFavoriteToggle
+                        modifier = Modifier.size(34.dp)
                     )
                 }
+
                 ScreenType.WATCH -> {
-                    AnimeCardMoveButton(onButtonClick = openModal)
+                    AnimeCardMoveButton(
+                        onButtonClick = onModalOpen,
+                        modifier = Modifier.size(34.dp),
+                    )
                     AnimeCardScore(score = score)
                     AnimeCardFavoriteButton(
-                        modifier = Modifier.size(34.dp),
+                        onButtonClick = onFavoriteToggle,
                         isFavorite = personalStage != null,
-                        onButtonClick = onFavoriteToggle
+                        modifier = Modifier.size(34.dp)
                     )
                 }
+
                 ScreenType.FINISHED, ScreenType.DROPPED -> {
-                    personalTier?.let { AnimeCardTier(tier = personalTier) }
+                    personalTier?.let {
+                        AnimeCardTier(
+                            tier = personalTier,
+                            modifier = Modifier.size(34.dp)
+                        )
+                    }
                     AnimeCardScore(score = score)
-                    AnimeCardEditButton(onButtonClick = openModal)
+                    AnimeCardEditButton(
+                        onButtonClick = onModalOpen,
+                        modifier = Modifier.size(34.dp)
+                    )
                 }
+
                 ScreenType.MODAL -> {
                     if (previewIsFavorite && previewNewTier != null) {
-                        AnimeCardTier(tier = previewNewTier)
+                        AnimeCardTier(
+                            tier = previewNewTier,
+                            modifier = Modifier.size(34.dp)
+                        )
                     }
                     AnimeCardScore(score = score)
                     AnimeCardFavoriteButton(
-                        modifier = Modifier.size(34.dp),
+                        onButtonClick = onFavoriteToggle,
                         isFavorite = previewIsFavorite,
-                        onButtonClick = onFavoriteToggle
+                        modifier = Modifier.size(34.dp)
                     )
                 }
             }
@@ -90,6 +107,13 @@ fun AnimeCardBottomBar(
 @Composable
 fun AnimeCardBottomBarPreview() {
     LcsAnimeListTheme {
-        AnimeCardBottomBar()
+        AnimeCardBottomBar(
+            screenType = ScreenType.HOME,
+            personalTier = Anime().personalTier,
+            score = Anime().score,
+            personalStage = Anime().personalStage,
+            onFavoriteToggle = {},
+            onModalOpen = {}
+        )
     }
 }

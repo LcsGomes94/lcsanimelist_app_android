@@ -2,8 +2,10 @@ package app.vercel.lcsanimelist.presentation.ui.common.component.animecard.compo
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
@@ -11,15 +13,20 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.icon.M
 
 @Composable
 fun AnimeCardMoveButton(
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
-    onButtonClick: () -> Unit = { }
+    iconModifier: Modifier = Modifier,
+    iconColor: Color = MaterialTheme.colorScheme.onBackground
 ) {
 
     IconButton(
-        modifier = modifier.size(34.dp),
-        onClick = onButtonClick
+        onClick = onButtonClick,
+        modifier = modifier,
     ) {
-        MoveIcon()
+        MoveIcon(
+            modifier = iconModifier,
+            color = iconColor
+        )
     }
 
 }
@@ -28,6 +35,9 @@ fun AnimeCardMoveButton(
 @Composable
 fun AnimeCardMoveButtonPreview() {
     LcsAnimeListTheme {
-        AnimeCardMoveButton()
+        AnimeCardMoveButton(
+            onButtonClick = {},
+            modifier = Modifier.size(34.dp)
+        )
     }
 }

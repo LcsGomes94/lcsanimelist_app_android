@@ -33,15 +33,22 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.compon
 
 @Composable
 fun AnimeCard(
+    anime: Anime,
+    screenType: ScreenType,
+    onFavoriteToggle: () -> Unit,
+    onModalOpen: () -> Unit,
     modifier: Modifier = Modifier,
-    anime: Anime = Anime(),
-    previewIsFavorite: Boolean = true,
+    previewIsFavorite: Boolean = false,
     previewNewTier: PersonalTier? = null,
     previewNewNote: String = "",
-    screenType: ScreenType = ScreenType.HOME,
-    onFavoriteToggle: () -> Unit = { },
-    openModal: () -> Unit = { },
 ) {
+
+    val animeSynopsisOrNote = if (screenType == ScreenType.MODAL) {
+        when {
+            (previewNewNote.isNotEmpty() && previewIsFavorite) -> previewNewNote
+            else -> anime.synopsis ?: ""
+        }
+    } else anime.personalNote ?: anime.synopsis ?: ""
 
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -57,6 +64,8 @@ fun AnimeCard(
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
+            colors = CardDefaults.cardColors()
+                .copy(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Column(
@@ -87,15 +96,15 @@ fun AnimeCard(
                                 .fillMaxWidth()
                                 .background(color = MaterialTheme.colorScheme.surfaceContainer)
                                 .verticalScroll(rememberScrollState())
-                                .padding(vertical = 6.dp, horizontal = 12.dp)
+                                .padding(
+                                    vertical = 6.dp,
+                                    horizontal = 12.dp
+                                )
                         ) {
                             Text(
-                                text = if (screenType == ScreenType.MODAL) {
-                                    if (previewNewNote.isNotEmpty() && previewIsFavorite) previewNewNote
-                                    else anime.synopsis ?: ""
-                                } else anime.personalNote ?: anime.synopsis ?: "",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurface
+                                text = animeSynopsisOrNote,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                style = MaterialTheme.typography.bodySmall
                             )
                         }
                         AnimeCardBottomBar(
@@ -106,7 +115,7 @@ fun AnimeCard(
                             previewIsFavorite = previewIsFavorite,
                             previewNewTier = previewNewTier,
                             onFavoriteToggle = onFavoriteToggle,
-                            openModal = openModal,
+                            onModalOpen = onModalOpen,
                         )
                     }
                 }
@@ -120,6 +129,11 @@ fun AnimeCard(
 @Composable
 fun AnimeCardPreview() {
     LcsAnimeListTheme {
-        AnimeCard()
+        AnimeCard(
+            anime = Anime(),
+            screenType = ScreenType.HOME,
+            onFavoriteToggle = {},
+            onModalOpen = {}
+        )
     }
 }

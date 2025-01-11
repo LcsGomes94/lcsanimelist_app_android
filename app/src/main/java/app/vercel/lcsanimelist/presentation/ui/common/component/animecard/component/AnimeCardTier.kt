@@ -18,29 +18,34 @@ import app.vercel.lcsanimelist.presentation.theme.getColor
 
 @Composable
 fun AnimeCardTier(
-    modifier: Modifier = Modifier,
-    tier: PersonalTier = PersonalTier.SS
+    tier: PersonalTier,
+    modifier: Modifier = Modifier
 ) {
 
     Box(
-        modifier.size(34.dp),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         Box(
             modifier = Modifier
-                .size(height = 16.dp, width = 24.dp)
-                .background(color = tier.getColor(), shape = RoundedCornerShape(25)),
+                .size(
+                    height = 16.dp,
+                    width = 24.dp
+                )
+                .background(
+                    color = tier.getColor(),
+                    shape = RoundedCornerShape(25)
+                ),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = tier.name,
-                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }
-
 
 }
 
@@ -48,6 +53,9 @@ fun AnimeCardTier(
 @Composable
 fun AnimeCardTierPreview() {
     LcsAnimeListTheme {
-        AnimeCardTier()
+        AnimeCardTier(
+            tier = PersonalTier.SS,
+            modifier = Modifier.size(34.dp)
+        )
     }
 }

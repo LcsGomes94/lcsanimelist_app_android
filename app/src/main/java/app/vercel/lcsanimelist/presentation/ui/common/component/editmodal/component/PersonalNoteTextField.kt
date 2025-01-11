@@ -14,21 +14,33 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
 fun PersonalNoteTextField(
-    modifier: Modifier = Modifier,
-    isFavorite: Boolean = true,
-    newNote: String = "",
-    onNoteChange: (String) -> Unit = {}
+    noteValue: String,
+    onNoteChange: (String) -> Unit,
+    isEnabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
+
+    val backgroundColor =
+        if (isEnabled) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(
+            alpha = 0.7f
+        )
+    val textColor =
+        if (isEnabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+            alpha = 0.33f
+        )
+
     Column(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
             .background(
-                color = if (isFavorite) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(alpha = 0.7f),
+                color = backgroundColor,
                 shape = RoundedCornerShape(8.dp)
             )
     ) {
@@ -40,19 +52,29 @@ fun PersonalNoteTextField(
         ) {
             Text(
                 text = "Personal Note",
-                color =  if (isFavorite) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.33f),
+                color = textColor,
                 style = MaterialTheme.typography.bodyLarge,
             )
         }
-        HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f))
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+        )
         TextField(
-            shape = RoundedCornerShape(8.dp),
+            value = noteValue,
+            onValueChange = onNoteChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
-            value = newNote,
-            onValueChange = onNoteChange,
-            enabled = isFavorite,
+            enabled = isEnabled,
+            textStyle = MaterialTheme.typography.bodyMedium,
+            placeholder = {
+                Text(
+                    text = "Enter text",
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            },
+            shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors().copy(
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 focusedContainerColor = MaterialTheme.colorScheme.background,
@@ -67,14 +89,19 @@ fun PersonalNoteTextField(
                 focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                 disabledPlaceholderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
-            ),
-            textStyle = MaterialTheme.typography.bodyMedium,
-            placeholder = {
-                Text(
-                    text = "Enter text",
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
+            )
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PersonalNoteTextFieldPreview() {
+    LcsAnimeListTheme {
+        PersonalNoteTextField(
+            noteValue = "",
+            onNoteChange = {},
+            isEnabled = true
         )
     }
 }

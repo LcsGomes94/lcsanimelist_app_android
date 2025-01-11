@@ -175,9 +175,9 @@ fun MoveIcon(
     }
 
     Icon(
-        modifier = modifier,
         imageVector = moveIcon,
         contentDescription = null,
+        modifier = modifier,
         tint = Color.Unspecified,
     )
 

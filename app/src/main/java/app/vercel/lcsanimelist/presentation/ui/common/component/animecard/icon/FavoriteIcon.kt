@@ -248,10 +248,10 @@ fun FavoriteIcon(
     }
 
     Icon(
-        modifier = modifier,
         imageVector = favoriteIcon,
         contentDescription = null,
-        tint = Color.Unspecified,
+        modifier = modifier,
+        tint = Color.Unspecified
     )
 
 }
