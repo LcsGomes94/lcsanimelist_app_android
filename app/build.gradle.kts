@@ -78,7 +78,8 @@ dependencies {
     ksp(libs.room.ksp)
 
     // Koin
-    implementation(libs.koin.android)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.navigation)
 
     // Navigation for Compose
     implementation(libs.navigation.compose)

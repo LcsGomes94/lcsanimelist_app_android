@@ -11,6 +11,7 @@ class LcsAnimeListApp : Application() {
         super.onCreate()
 
         startKoin {
+            androidLogger()
             androidContext(this@LcsAnimeListApp)
             modules(appModules)
         }

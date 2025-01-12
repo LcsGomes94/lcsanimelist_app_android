@@ -26,8 +26,8 @@ import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
-import app.vercel.lcsanimelist.presentation.ui.home.HomeViewModel
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.androidx.compose.KoinAndroidContext
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -36,39 +36,35 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LcsAnimeListTheme {
+                KoinAndroidContext {
+                    val editModalViewModel: EditModalViewModel = koinViewModel()
+                    val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
+                    val innerPadding = ScaffoldDefaults.contentWindowInsets.asPaddingValues()
 
-                val homeViewModel: HomeViewModel = getViewModel()
-                val editModalViewModel: EditModalViewModel = getViewModel()
-                val navController = rememberNavController()
-                val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
-                val innerPadding = ScaffoldDefaults.contentWindowInsets.asPaddingValues()
-
-                Scaffold(
-                    topBar = {},
-                    bottomBar = {}
-                ) { innerPadding ->
-                    NavGraph(
-                        modifier = Modifier.padding(innerPadding),
-                        navController = navController,
-                        homeViewModel = homeViewModel,
-                        onEditModalOpen = editModalViewModel::openModal,
-                    )
-                }
-
-                currentAnimeBeingEdited?.let {
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        EditModal(
-                            anime = currentAnimeBeingEdited ?: Anime(),
-                            viewModel = editModalViewModel
+                    Scaffold(
+                        topBar = {},
+                        bottomBar = {}
+                    ) { innerPadding ->
+                        NavGraph(
+                            modifier = Modifier.padding(innerPadding),
+                            onEditModalOpen = editModalViewModel::openModal,
                         )
                     }
-                }
 
+                    currentAnimeBeingEdited?.let {
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
+                            color = MaterialTheme.colorScheme.background
+                        ) {
+                            EditModal(
+                                anime = currentAnimeBeingEdited ?: Anime(),
+                                viewModel = editModalViewModel
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -76,10 +72,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavGraph(
+    onEditModalOpen: (Anime, (Anime, ModalActionType) -> Unit) -> Unit,
     modifier: Modifier = Modifier,
-    navController: NavHostController,
-    homeViewModel: HomeViewModel,
-    onEditModalOpen: (Anime, (Anime, ModalActionType) -> Unit) -> Unit = { _, _ -> },
+    navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
         modifier = modifier,
@@ -88,7 +83,6 @@ fun NavGraph(
     ) {
         composable("home") {
             HomeScreen(
-                viewModel = homeViewModel,
                 onEditModalOpen = onEditModalOpen
             )
         }

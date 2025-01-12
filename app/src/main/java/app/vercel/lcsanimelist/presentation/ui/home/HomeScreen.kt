@@ -22,12 +22,13 @@ import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
+    onEditModalOpen: (Anime, OnConfirmCallback) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel,
-    onEditModalOpen: (Anime, OnConfirmCallback) -> Unit = { _, _ -> },
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
 
     val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
