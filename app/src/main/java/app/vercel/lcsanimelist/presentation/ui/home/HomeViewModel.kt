@@ -8,6 +8,7 @@ import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.usecase.AnimeUseCases
+import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,10 +17,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
+class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenViewModel {
 
     private val _query = MutableStateFlow(RemoteQueryParameters())
-    val query = _query.asStateFlow()
+    override val query = _query.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val animePagingData = query
@@ -34,7 +35,7 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel() {
         }
     }.cachedIn(viewModelScope)
 
-    fun updateQuery(newQuery: RemoteQueryParameters) {
+    override fun updateQuery(newQuery: RemoteQueryParameters) {
         _query.value = newQuery
     }
 

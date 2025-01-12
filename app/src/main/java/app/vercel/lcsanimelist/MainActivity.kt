@@ -23,6 +23,8 @@ import androidx.navigation.compose.rememberNavController
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
@@ -38,6 +40,8 @@ class MainActivity : ComponentActivity() {
             LcsAnimeListTheme {
                 KoinAndroidContext {
                     val editModalViewModel: EditModalViewModel = koinViewModel()
+                    val searchFilterViewModel: SearchFilterViewModel = koinViewModel()
+
                     val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
                     val innerPadding = ScaffoldDefaults.contentWindowInsets.asPaddingValues()
 
@@ -46,8 +50,9 @@ class MainActivity : ComponentActivity() {
                         bottomBar = {}
                     ) { innerPadding ->
                         NavGraph(
-                            modifier = Modifier.padding(innerPadding),
                             onEditModalOpen = editModalViewModel::openModal,
+                            setActiveScreenViewModel = searchFilterViewModel::setActiveScreenViewModel,
+                            modifier = Modifier.padding(innerPadding),
                         )
                     }
 
@@ -73,6 +78,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavGraph(
     onEditModalOpen: (Anime, (Anime, ModalActionType) -> Unit) -> Unit,
+    setActiveScreenViewModel: (ScreenViewModel) -> Unit,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -83,7 +89,8 @@ fun NavGraph(
     ) {
         composable("home") {
             HomeScreen(
-                onEditModalOpen = onEditModalOpen
+                onEditModalOpen = onEditModalOpen,
+                setActiveScreenViewModel = setActiveScreenViewModel
             )
         }
     }

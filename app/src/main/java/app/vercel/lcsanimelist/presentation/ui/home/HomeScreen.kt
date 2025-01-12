@@ -12,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback
 import org.koin.androidx.compose.koinViewModel
@@ -27,9 +29,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     onEditModalOpen: (Anime, OnConfirmCallback) -> Unit,
+    setActiveScreenViewModel: (ScreenViewModel) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: HomeViewModel = koinViewModel()
 ) {
+
+    LaunchedEffect(Unit) {
+        setActiveScreenViewModel(viewModel)
+    }
 
     val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
 
