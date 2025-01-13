@@ -5,13 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -19,8 +17,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -32,7 +28,7 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
-import app.vercel.lcsanimelist.presentation.ui.common.component.topbar.LcsAnimeListTopBar
+import app.vercel.lcsanimelist.presentation.ui.common.component.LcsAnimeListTopBar
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.androidx.compose.koinViewModel

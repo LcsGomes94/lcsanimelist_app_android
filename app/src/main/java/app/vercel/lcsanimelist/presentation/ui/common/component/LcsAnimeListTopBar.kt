@@ -1,5 +1,9 @@
-package app.vercel.lcsanimelist.presentation.ui.common.component.topbar
+package app.vercel.lcsanimelist.presentation.ui.common.component
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -14,6 +18,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -39,24 +44,29 @@ fun LcsAnimeListTopBar(
         modifier = modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .shadow(
-                elevation = 2.dp,
+                elevation = 3.dp,
                 shape = RoundedCornerShape(24.dp),
                 ambientColor = MaterialTheme.colorScheme.onBackground,
                 spotColor = MaterialTheme.colorScheme.onBackground
             ),
         navigationIcon = {
-            IconButton(
-                onClick = onLogoClick,
+            Box(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
                     .size(104.dp)
+                    .clickable(
+                        interactionSource = null,
+                        indication = null,
+                        onClick = onLogoClick
+                    )
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(
                         R.drawable.app_logo
                     ),
                     contentDescription = "logo",
-                    modifier = Modifier.size(104.dp),
+                    modifier = Modifier
+                        .size(104.dp),
                     tint = Color.Unspecified
                 )
             }
@@ -75,7 +85,8 @@ fun LcsAnimeListTopBar(
             }
             Spacer(modifier.width(8.dp))
             IconButton(
-                onClick = onSearchClick
+                onClick = onSearchClick,
+                modifier = Modifier.padding(end = 4.dp)
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(
