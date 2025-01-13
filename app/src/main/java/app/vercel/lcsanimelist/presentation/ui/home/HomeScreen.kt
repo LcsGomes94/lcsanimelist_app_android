@@ -1,6 +1,7 @@
 package app.vercel.lcsanimelist.presentation.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,7 +32,8 @@ fun HomeScreen(
     onEditModalOpen: (Anime, OnConfirmCallback) -> Unit,
     setActiveScreenViewModel: (ScreenViewModel) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    paddingValues: PaddingValues = PaddingValues()
 ) {
 
     LaunchedEffect(Unit) {
@@ -42,6 +44,10 @@ fun HomeScreen(
 
     LazyColumn(
         modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            top = paddingValues.calculateTopPadding() + 32.dp,
+            bottom = paddingValues.calculateBottomPadding() + 32.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(48.dp),
     ) {
         if (animePagingItems.loadState.refresh == LoadState.Loading) {

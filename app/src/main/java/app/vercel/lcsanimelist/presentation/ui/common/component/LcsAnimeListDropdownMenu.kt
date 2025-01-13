@@ -59,7 +59,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
             textStyle = MaterialTheme.typography.bodyLarge,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             shape = RoundedCornerShape(8.dp),
-            colors = ExposedDropdownMenuDefaults.textFieldColors().copy(
+            colors = ExposedDropdownMenuDefaults.textFieldColors(
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 focusedContainerColor = MaterialTheme.colorScheme.background,
                 disabledContainerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.7f),
@@ -95,8 +95,9 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                     },
                     modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
                     enabled = isEnabled,
-                    colors = MenuDefaults.itemColors()
-                        .copy(textColor = MaterialTheme.colorScheme.onSurface),
+                    colors = MenuDefaults.itemColors(
+                        textColor = MaterialTheme.colorScheme.onSurface
+                    ),
                 )
                 if (index < menuItems.lastIndex) {
                     Box(

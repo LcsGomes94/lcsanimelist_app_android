@@ -75,7 +75,7 @@ fun PersonalNoteTextField(
                 )
             },
             shape = RoundedCornerShape(8.dp),
-            colors = TextFieldDefaults.colors().copy(
+            colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = MaterialTheme.colorScheme.background,
                 focusedContainerColor = MaterialTheme.colorScheme.background,
                 disabledContainerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.0f),
