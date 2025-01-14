@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
-import app.vercel.lcsanimelist.presentation.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

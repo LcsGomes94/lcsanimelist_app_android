@@ -44,7 +44,7 @@ fun LcsAnimeListTopBar(
         modifier = modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .shadow(
-                elevation = 3.dp,
+                elevation = 2.dp,
                 shape = RoundedCornerShape(24.dp),
                 ambientColor = MaterialTheme.colorScheme.onBackground,
                 spotColor = MaterialTheme.colorScheme.onBackground

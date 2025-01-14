@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.domain.model.Anime
-import app.vercel.lcsanimelist.presentation.type.ModalActionType
-import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback

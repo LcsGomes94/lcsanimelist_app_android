@@ -23,12 +23,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.ui.common.component.LcsAnimeListTopBar
 import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBar
+import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBarViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
-import app.vercel.lcsanimelist.presentation.ui.common.component.LcsAnimeListTopBar
+import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.androidx.compose.koinViewModel
@@ -43,11 +46,13 @@ class MainActivity : ComponentActivity() {
                 KoinAndroidContext {
                     val editModalViewModel: EditModalViewModel = koinViewModel()
                     val searchFilterViewModel: SearchFilterViewModel = koinViewModel()
+                    val navBarViewModel: LcsAnimeListBottomNavBarViewModel = koinViewModel()
 
                     val navController = rememberNavController()
                     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
                     val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
+                    val currentScreen by navBarViewModel.currentScreen.collectAsState()
 
                     Scaffold { innerPadding ->
                         Scaffold(
@@ -57,9 +62,22 @@ class MainActivity : ComponentActivity() {
                             topBar = {
                                 LcsAnimeListTopBar(
                                     scrollBehavior = scrollBehavior,
-                                    onLogoClick = { navController.navigate("home") },
+                                    onLogoClick = {
+                                        navBarViewModel.onScreenNavigate(
+                                            route = "home",
+                                            screenType = ScreenType.HOME,
+                                            navController = navController
+                                        )
+                                    },
                                     onFilterClick = {},
                                     onSearchClick = {},
+                                )
+                            },
+                            bottomBar = {
+                                LcsAnimeListBottomNavBar(
+                                    currentScreen = currentScreen,
+                                    navController = navController,
+                                    onScreenNavigate = navBarViewModel::onScreenNavigate
                                 )
                             }
                         ) { innerPadding ->

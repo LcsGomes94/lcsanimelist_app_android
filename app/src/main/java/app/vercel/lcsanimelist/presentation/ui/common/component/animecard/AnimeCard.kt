@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.PersonalTier
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardBottomBar
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardHeader
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.component.AnimeCardImage

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import app.vercel.lcsanimelist.presentation.type.ScreenType
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component.EditModalForm
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component.EditModalTopBar

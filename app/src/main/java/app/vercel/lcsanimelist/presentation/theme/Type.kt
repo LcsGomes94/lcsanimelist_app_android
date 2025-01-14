@@ -56,5 +56,19 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.3.sp
-    )
+    ),
+    labelSmall = TextStyle(
+        fontFamily = sourceSansPro,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 10.sp,
+        lineHeight = 12.sp,
+        letterSpacing = 0.2.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = sourceSansPro,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 11.sp,
+        lineHeight = 13.sp,
+        letterSpacing = 0.2.sp
+    ),
 )
