@@ -5,18 +5,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +28,7 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.Lcs
 import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBarViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.FilterModal
 import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
@@ -51,7 +50,6 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
-                    val currentAnimeBeingEdited by editModalViewModel.currentAnimeBeingEdited.collectAsState()
                     val currentScreen by navBarViewModel.currentScreen.collectAsState()
 
                     Scaffold { innerPadding ->
@@ -69,8 +67,8 @@ class MainActivity : ComponentActivity() {
                                             navController = navController
                                         )
                                     },
-                                    onFilterClick = {},
-                                    onSearchClick = {},
+                                    onFilterClick = searchFilterViewModel::onFilterModalOpen,
+                                    onSearchClick = searchFilterViewModel::onSearchModalOpen,
                                 )
                             },
                             bottomBar = {
@@ -87,19 +85,8 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 paddingValues = innerPadding
                             )
-                        }
-                        currentAnimeBeingEdited?.let {
-                            Surface(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(innerPadding),
-                                color = MaterialTheme.colorScheme.background
-                            ) {
-                                EditModal(
-                                    anime = currentAnimeBeingEdited ?: Anime(),
-                                    viewModel = editModalViewModel
-                                )
-                            }
+                            EditModal(viewModel = editModalViewModel)
+                            FilterModal(searchFilterViewModel = searchFilterViewModel)
                         }
                     }
                 }

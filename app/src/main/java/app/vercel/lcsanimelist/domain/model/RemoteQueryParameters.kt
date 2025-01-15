@@ -8,6 +8,9 @@ data class RemoteQueryParameters(
     val sort: SortOrder = if (orderBy == RemoteOrderBy.SCORE) SortOrder.DESC else SortOrder.ASC
 )
 
-enum class RemoteOrderBy { SCORE, TITLE }
+enum class RemoteOrderBy(val displayName: String) {
+    SCORE("Order by: Score"),
+    TITLE("Order by: Title")
+}
 
 enum class SortOrder { ASC, DESC }

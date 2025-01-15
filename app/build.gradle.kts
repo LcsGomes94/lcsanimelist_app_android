@@ -98,4 +98,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
 
+    // Flow-Layout
+    implementation(libs.flow.layout)
+
 }

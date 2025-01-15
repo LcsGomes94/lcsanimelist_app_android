@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.PersonalStage
@@ -37,7 +38,9 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
     getDisplayName: (value: T?) -> String,
     menuItems: EnumEntries<T>,
     isEnabled: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    primaryColor: Color = MaterialTheme.colorScheme.background,
+    secondaryColor: Color = MaterialTheme.colorScheme.surface
 ) {
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -60,12 +63,12 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
             shape = RoundedCornerShape(8.dp),
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                focusedContainerColor = MaterialTheme.colorScheme.background,
-                disabledContainerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.7f),
-                focusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                disabledIndicatorColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = primaryColor,
+                focusedContainerColor = primaryColor,
+                disabledContainerColor = primaryColor.copy(alpha = 0.7f),
+                focusedIndicatorColor = secondaryColor,
+                unfocusedIndicatorColor = secondaryColor,
+                disabledIndicatorColor = secondaryColor,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
@@ -77,9 +80,9 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
             onDismissRequest = { isExpanded = false },
             modifier = Modifier
                 .exposedDropdownSize()
-                .background(color = MaterialTheme.colorScheme.surface)
+                .background(color = secondaryColor)
                 .clip(RoundedCornerShape(8.dp))
-                .background(color = MaterialTheme.colorScheme.background)
+                .background(color = primaryColor)
         ) {
             menuItems.forEachIndexed { index, item ->
                 DropdownMenuItem(
@@ -93,7 +96,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                         isExpanded = false
                         onMenuItemSelected(item)
                     },
-                    modifier = Modifier.background(color = MaterialTheme.colorScheme.background),
+                    modifier = Modifier.background(color = primaryColor),
                     enabled = isEnabled,
                     colors = MenuDefaults.itemColors(
                         textColor = MaterialTheme.colorScheme.onSurface
@@ -107,7 +110,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                     ) {
                         HorizontalDivider(
                             thickness = 1.dp,
-                            color = MaterialTheme.colorScheme.surface.copy(0.8f)
+                            color = secondaryColor.copy(0.8f)
                         )
                     }
                 }
