@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.asStateFlow
 
 class SearchFilterViewModel() : ViewModel() {
     private val _activeScreenViewModel = MutableStateFlow<ScreenViewModel?>(null)
-    val activeScreenViewModel = _activeScreenViewModel.asStateFlow()
 
     private val _isFilterModalVisible = MutableStateFlow(false)
     val isFilterModalVisible = _isFilterModalVisible.asStateFlow()
