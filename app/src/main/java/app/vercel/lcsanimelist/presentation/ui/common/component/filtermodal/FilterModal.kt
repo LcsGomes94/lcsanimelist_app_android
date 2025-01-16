@@ -127,14 +127,14 @@ fun FilterModal(
                                 label = {
                                     Text(
                                         text = genre.displayName,
-                                        style = MaterialTheme.typography.bodyMedium
+                                        style = MaterialTheme.typography.bodyMedium,
                                     )
                                 },
                                 shape = RoundedCornerShape(50),
                                 colors = FilterChipDefaults.filterChipColors(
                                     containerColor = MaterialTheme.colorScheme.surfaceContainer,
                                     selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                                    labelColor = MaterialTheme.colorScheme.primary,
+                                    labelColor = MaterialTheme.colorScheme.onBackground,
                                     selectedLabelColor = MaterialTheme.colorScheme.background,
                                 ),
                                 border = FilterChipDefaults.filterChipBorder(
