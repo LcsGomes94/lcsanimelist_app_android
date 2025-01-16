@@ -6,19 +6,19 @@ import app.vercel.lcsanimelist.domain.model.PersonalTier
 
 // Dark
 val Cyan400 = Color(0xFF22D3EE)
-val Gray800 = Color(0xFF1F2937)
-val Gray700 = Color(0xFF374151)
-val Gray50 = Color(0xFFF9FAFB)
+val RqlDark800 = Color(0xFF28282F)
+val RqlDark700 = Color(0xFF3C3C46)
 
 // Light
 val Cyan700 = Color(0xFF0E7490)
 val Gray200 = Color(0xFFE5E7EB)
 val Gray100 = Color(0xFFF3F4F6)
+val White = Color(0xFFFFFFFF)
 
 // General
 val Teal500 = Color(0xFF14B8A6)
-val Gray900 = Color(0xFF111827)
-val White = Color(0xFFFFFFFF)
+val RqlDark900 = Color(0xFF1D1B20)
+val Slate50 = Color(0xFFF8FAFC)
 
 // Tier
 val Teal400 = Color(0xFF2DD4BF)

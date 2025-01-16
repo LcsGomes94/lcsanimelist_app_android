@@ -43,7 +43,7 @@ fun EditModalTopBar(
                 imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                 contentDescription = "return",
                 modifier = Modifier.size(32.dp),
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
         Box(

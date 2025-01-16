@@ -69,10 +69,10 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                 focusedIndicatorColor = secondaryColor,
                 unfocusedIndicatorColor = secondaryColor,
                 disabledIndicatorColor = secondaryColor,
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onBackground
             )
         )
         DropdownMenu(
@@ -99,7 +99,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                     modifier = Modifier.background(color = primaryColor),
                     enabled = isEnabled,
                     colors = MenuDefaults.itemColors(
-                        textColor = MaterialTheme.colorScheme.onSurface
+                        textColor = MaterialTheme.colorScheme.onBackground
                     ),
                 )
                 if (index < menuItems.lastIndex) {

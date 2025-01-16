@@ -103,7 +103,7 @@ fun AnimeCard(
                         ) {
                             Text(
                                 text = animeSynopsisOrNote,
-                                color = MaterialTheme.colorScheme.onSurface,
+                                color = MaterialTheme.colorScheme.onBackground,
                                 style = MaterialTheme.typography.bodySmall
                             )
                         }

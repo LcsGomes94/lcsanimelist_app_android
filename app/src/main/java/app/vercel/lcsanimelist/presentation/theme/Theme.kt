@@ -5,16 +5,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import app.vercel.lcsanimelist.presentation.theme.Red500
 
 private val DarkColorScheme = darkColorScheme(
     primary = Cyan400,
     secondary = Teal500,
-    surface = Gray800,
-    surfaceContainer = Gray700,
-    onSurface = Gray50,
-    background = Gray900,
-    onBackground = White,
+    surface = RqlDark800,
+    surfaceContainer = RqlDark700,
+    background = RqlDark900,
+    onBackground = Slate50,
     error = Red500,
 )
 
@@ -23,9 +21,8 @@ private val LightColorScheme = lightColorScheme(
     secondary = Teal500,
     surface = Gray200,
     surfaceContainer = Gray100,
-    onSurface = Gray900,
     background = White,
-    onBackground = Gray900,
+    onBackground = RqlDark900,
     error = Red500,
 )
 
