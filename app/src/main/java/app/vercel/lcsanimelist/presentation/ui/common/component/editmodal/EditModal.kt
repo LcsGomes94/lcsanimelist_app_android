@@ -63,7 +63,8 @@ fun EditModal(
         ModalBottomSheet(
             onDismissRequest = viewModel::closeModal,
             modifier = modifier,
-            sheetState = sheetState
+            sheetState = sheetState,
+            containerColor = MaterialTheme.colorScheme.background
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
