@@ -8,6 +8,7 @@ import app.vercel.lcsanimelist.domain.model.PersonalTier
 val Cyan400 = Color(0xFF22D3EE)
 val RqlDark800 = Color(0xFF28282F)
 val RqlDark700 = Color(0xFF3C3C46)
+val RqlDark850 = Color(0xFF1F1D22)
 
 // Light
 val Cyan700 = Color(0xFF0E7490)

@@ -99,8 +99,8 @@ fun LcsAnimeListTopBar(
         },
         windowInsets = WindowInsets(0.dp),
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            scrolledContainerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.primaryContainer,
 
             ),
         scrollBehavior = scrollBehavior

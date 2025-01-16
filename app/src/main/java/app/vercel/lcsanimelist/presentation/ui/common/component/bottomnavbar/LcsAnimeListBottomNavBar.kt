@@ -49,7 +49,7 @@ fun LcsAnimeListBottomNavBar(
                 ambientColor = MaterialTheme.colorScheme.onBackground,
                 spotColor = MaterialTheme.colorScheme.onBackground
             ),
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
         windowInsets = WindowInsets(0.dp),
     ) {
         LcsAnimeListBottomNavItem.entries.forEachIndexed { index, item ->
@@ -87,7 +87,7 @@ fun LcsAnimeListBottomNavBar(
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.secondary,
                     selectedTextColor = MaterialTheme.colorScheme.secondary,
-                    indicatorColor = MaterialTheme.colorScheme.background,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                     unselectedIconColor = MaterialTheme.colorScheme.onBackground,
                     unselectedTextColor = MaterialTheme.colorScheme.onBackground,
                 )
