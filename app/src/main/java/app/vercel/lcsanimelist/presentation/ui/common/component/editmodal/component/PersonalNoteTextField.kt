@@ -27,7 +27,7 @@ fun PersonalNoteTextField(
 ) {
 
     val backgroundColor =
-        if (isEnabled) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.background.copy(
+        if (isEnabled) MaterialTheme.colorScheme.surfaceContainer else MaterialTheme.colorScheme.surfaceContainer.copy(
             alpha = 0.7f
         )
     val textColor =
@@ -76,9 +76,9 @@ fun PersonalNoteTextField(
             },
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = MaterialTheme.colorScheme.background,
-                focusedContainerColor = MaterialTheme.colorScheme.background,
-                disabledContainerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.0f),
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.0f),
                 focusedIndicatorColor = MaterialTheme.colorScheme.surface,
                 unfocusedIndicatorColor = MaterialTheme.colorScheme.surface,
                 disabledIndicatorColor = MaterialTheme.colorScheme.surface,

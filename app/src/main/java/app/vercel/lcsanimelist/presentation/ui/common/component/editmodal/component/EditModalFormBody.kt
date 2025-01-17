@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +37,7 @@ fun EditModalFormBody(
             getDisplayName = { it?.displayName ?: "Select Stage" },
             menuItems = PersonalStage.entries,
             isEnabled = isFavorite,
+            primaryColor = MaterialTheme.colorScheme.surfaceContainer,
         )
         LcsAnimeListDropdownMenu<PersonalTier>(
             selectedValue = newTier,
@@ -43,6 +45,7 @@ fun EditModalFormBody(
             getDisplayName = { it?.displayName ?: "Select Tier" },
             menuItems = PersonalTier.entries,
             isEnabled = isFavorite,
+            primaryColor = MaterialTheme.colorScheme.surfaceContainer,
         )
         PersonalNoteTextField(
             noteValue = newNote,

@@ -4,22 +4,17 @@ import androidx.compose.ui.graphics.Color
 import app.vercel.lcsanimelist.domain.model.PersonalTier
 
 
-// Dark
-val Cyan400 = Color(0xFF22D3EE)
-val RqlDark800 = Color(0xFF28282F)
-val RqlDark700 = Color(0xFF3C3C46)
-val RqlDark850 = Color(0xFF1F1D22)
-
-// Light
-val Cyan700 = Color(0xFF0E7490)
-val Gray200 = Color(0xFFE5E7EB)
-val Gray100 = Color(0xFFF3F4F6)
-val White = Color(0xFFFFFFFF)
-
 // General
-val Teal500 = Color(0xFF14B8A6)
-val RqlDark900 = Color(0xFF1D1B20)
+val White = Color(0xFFFFFFFF)
 val Slate50 = Color(0xFFF8FAFC)
+val Gray100 = Color(0xFFF3F4F6)
+val Gray200 = Color(0xFFE5E7EB)
+val RqlDark700 = Color(0xFF3C3C46)
+val RqlDark800 = Color(0xFF28282F)
+val RqlDark900 = Color(0xFF1D1B20)
+val Cyan400 = Color(0xFF22D3EE)
+val Cyan700 = Color(0xFF0E7490)
+val Teal500 = Color(0xFF14B8A6)
 
 // Tier
 val Teal400 = Color(0xFF2DD4BF)

@@ -14,7 +14,6 @@ private val DarkColorScheme = darkColorScheme(
     background = RqlDark900,
     onBackground = Slate50,
     error = Red500,
-    primaryContainer = RqlDark850
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -25,7 +24,6 @@ private val LightColorScheme = lightColorScheme(
     background = White,
     onBackground = RqlDark900,
     error = Red500,
-    primaryContainer = Slate50
 )
 
 @Composable
