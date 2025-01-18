@@ -55,7 +55,7 @@ fun AnimeCardHeader(
             )
             Text(
                 text = "   |   ",
-                modifier = Modifier.alpha(0.1f),
+                color = MaterialTheme.colorScheme.outline,
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(

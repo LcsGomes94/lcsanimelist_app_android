@@ -70,7 +70,7 @@ fun EditModalContent(
         )
         HorizontalDivider(
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.surface.copy(0.8f)
+            color = MaterialTheme.colorScheme.outline
         )
         Spacer(modifier = Modifier.height(spacerPadding))
         if (isBigPhone) {
@@ -96,13 +96,7 @@ fun EditModalContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .heightIn(max = bottomSheetMaxSize)
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(
-                            topStart = 24.dp,
-                            topEnd = 24.dp
-                        )
-                    )
+
                     .padding(
                         top = formPadding,
                         start = formPadding,

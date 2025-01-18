@@ -1,6 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,7 +22,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,9 +37,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
     getDisplayName: (value: T?) -> String,
     menuItems: EnumEntries<T>,
     isEnabled: Boolean,
-    modifier: Modifier = Modifier,
-    primaryColor: Color = MaterialTheme.colorScheme.background,
-    secondaryColor: Color = MaterialTheme.colorScheme.surface
+    modifier: Modifier = Modifier
 ) {
 
     var isExpanded by remember { mutableStateOf(false) }
@@ -56,19 +53,21 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
             modifier = Modifier
                 .menuAnchor()
                 .fillMaxWidth()
-                .height(52.dp),
+                .height(52.dp)
+                .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp)),
             enabled = isEnabled,
             readOnly = true,
             textStyle = MaterialTheme.typography.bodyLarge,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded) },
+            singleLine = true,
             shape = RoundedCornerShape(8.dp),
             colors = ExposedDropdownMenuDefaults.textFieldColors(
-                unfocusedContainerColor = primaryColor,
-                focusedContainerColor = primaryColor,
-                disabledContainerColor = primaryColor.copy(alpha = 0.7f),
-                focusedIndicatorColor = secondaryColor,
-                unfocusedIndicatorColor = secondaryColor,
-                disabledIndicatorColor = secondaryColor,
+                unfocusedContainerColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
                 focusedTextColor = MaterialTheme.colorScheme.onBackground,
                 unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
@@ -78,11 +77,9 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
-            modifier = Modifier
-                .exposedDropdownSize()
-                .background(color = secondaryColor)
-                .clip(RoundedCornerShape(8.dp))
-                .background(color = primaryColor)
+            modifier = Modifier.exposedDropdownSize(),
+            shape = RoundedCornerShape(8.dp),
+            containerColor = MaterialTheme.colorScheme.secondaryContainer
         ) {
             menuItems.forEachIndexed { index, item ->
                 DropdownMenuItem(
@@ -96,7 +93,6 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                         isExpanded = false
                         onMenuItemSelected(item)
                     },
-                    modifier = Modifier.background(color = primaryColor),
                     enabled = isEnabled,
                     colors = MenuDefaults.itemColors(
                         textColor = MaterialTheme.colorScheme.onBackground
@@ -110,7 +106,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                     ) {
                         HorizontalDivider(
                             thickness = 1.dp,
-                            color = secondaryColor.copy(0.8f)
+                            color = MaterialTheme.colorScheme.outline
                         )
                     }
                 }

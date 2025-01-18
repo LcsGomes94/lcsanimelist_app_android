@@ -1,6 +1,7 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
@@ -26,11 +29,7 @@ fun PersonalNoteTextField(
     modifier: Modifier = Modifier
 ) {
 
-    val backgroundColor =
-        if (isEnabled) MaterialTheme.colorScheme.surfaceContainer else MaterialTheme.colorScheme.surfaceContainer.copy(
-            alpha = 0.7f
-        )
-    val textColor =
+    val labelTextColor =
         if (isEnabled) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onBackground.copy(
             alpha = 0.33f
         )
@@ -39,10 +38,7 @@ fun PersonalNoteTextField(
         modifier = modifier
             .fillMaxWidth()
             .height(160.dp)
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(8.dp)
-            )
+            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
     ) {
         Box(
             modifier = Modifier
@@ -52,13 +48,13 @@ fun PersonalNoteTextField(
         ) {
             Text(
                 text = "Personal Note",
-                color = textColor,
+                color = labelTextColor,
                 style = MaterialTheme.typography.bodyLarge,
             )
         }
         HorizontalDivider(
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f)
+            color = MaterialTheme.colorScheme.outline
         )
         TextField(
             value = noteValue,
@@ -74,18 +70,15 @@ fun PersonalNoteTextField(
                     style = MaterialTheme.typography.bodyMedium,
                 )
             },
-            shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer.copy(alpha = 0.0f),
-                focusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                unfocusedIndicatorColor = MaterialTheme.colorScheme.surface,
-                disabledIndicatorColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
                 focusedTextColor = MaterialTheme.colorScheme.onBackground,
                 unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-                focusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
-                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onBackground,
                 focusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 unfocusedPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
                 disabledPlaceholderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)

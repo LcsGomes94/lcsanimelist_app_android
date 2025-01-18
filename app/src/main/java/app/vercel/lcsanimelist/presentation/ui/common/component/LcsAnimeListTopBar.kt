@@ -1,5 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,11 +44,12 @@ fun LcsAnimeListTopBar(
         title = {},
         modifier = modifier
             .padding(vertical = 8.dp, horizontal = 16.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(24.dp))
             .shadow(
                 elevation = 2.dp,
                 shape = RoundedCornerShape(24.dp),
-                ambientColor = MaterialTheme.colorScheme.onBackground,
-                spotColor = MaterialTheme.colorScheme.onBackground
+                ambientColor = MaterialTheme.colorScheme.surfaceDim,
+                spotColor = MaterialTheme.colorScheme.surfaceDim
             ),
         navigationIcon = {
             Box(
@@ -99,9 +101,8 @@ fun LcsAnimeListTopBar(
         },
         windowInsets = WindowInsets(0.dp),
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-            scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-
+            containerColor = MaterialTheme.colorScheme.background,
+            scrolledContainerColor = MaterialTheme.colorScheme.background,
             ),
         scrollBehavior = scrollBehavior
     )

@@ -14,6 +14,9 @@ private val DarkColorScheme = darkColorScheme(
     background = RqlDark900,
     onBackground = Slate50,
     error = Red500,
+    outline = RqlDark700,
+    secondaryContainer = RqlDark800,
+    surfaceDim = White.copy(alpha = 0.3f)
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -24,6 +27,9 @@ private val LightColorScheme = lightColorScheme(
     background = White,
     onBackground = RqlDark900,
     error = Red500,
+    outline = Gray200,
+    secondaryContainer = Gray100,
+    surfaceDim = RqlDark900.copy(alpha = 0.7f)
 )
 
 @Composable

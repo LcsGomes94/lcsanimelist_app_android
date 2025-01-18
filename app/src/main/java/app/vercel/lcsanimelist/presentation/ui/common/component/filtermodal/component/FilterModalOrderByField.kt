@@ -38,9 +38,7 @@ fun FilterModalOrderByField(
             },
             getDisplayName = { it?.displayName ?: "Select Order" },
             menuItems = RemoteOrderBy.entries,
-            isEnabled = true,
-            primaryColor = MaterialTheme.colorScheme.surfaceContainer,
-            secondaryColor = MaterialTheme.colorScheme.background
+            isEnabled = true
         )
     }
 

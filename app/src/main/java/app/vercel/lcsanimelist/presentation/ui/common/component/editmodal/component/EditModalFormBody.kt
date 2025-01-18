@@ -36,16 +36,14 @@ fun EditModalFormBody(
             onMenuItemSelected = onStageChange,
             getDisplayName = { it?.displayName ?: "Select Stage" },
             menuItems = PersonalStage.entries,
-            isEnabled = isFavorite,
-            primaryColor = MaterialTheme.colorScheme.surfaceContainer,
+            isEnabled = isFavorite
         )
         LcsAnimeListDropdownMenu<PersonalTier>(
             selectedValue = newTier,
             onMenuItemSelected = onTierChange,
             getDisplayName = { it?.displayName ?: "Select Tier" },
             menuItems = PersonalTier.entries,
-            isEnabled = isFavorite,
-            primaryColor = MaterialTheme.colorScheme.surfaceContainer,
+            isEnabled = isFavorite
         )
         PersonalNoteTextField(
             noteValue = newNote,

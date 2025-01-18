@@ -1,5 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -43,13 +45,14 @@ fun LcsAnimeListBottomNavBar(
         modifier = modifier
             .height(92.dp)
             .padding(vertical = 8.dp, horizontal = 16.dp)
+            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(24.dp))
             .shadow(
                 elevation = 2.dp,
                 shape = RoundedCornerShape(24.dp),
-                ambientColor = MaterialTheme.colorScheme.onBackground,
-                spotColor = MaterialTheme.colorScheme.onBackground
+                ambientColor = MaterialTheme.colorScheme.surfaceDim,
+                spotColor = MaterialTheme.colorScheme.surfaceDim
             ),
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        containerColor = MaterialTheme.colorScheme.background,
         windowInsets = WindowInsets(0.dp),
     ) {
         LcsAnimeListBottomNavItem.entries.forEachIndexed { index, item ->
@@ -83,11 +86,10 @@ fun LcsAnimeListBottomNavBar(
                         start = if (index == 0) 20.dp else 0.dp,
                         end = if (index == 4) 20.dp else 0.dp
                     ),
-
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.secondary,
                     selectedTextColor = MaterialTheme.colorScheme.secondary,
-                    indicatorColor = MaterialTheme.colorScheme.surfaceContainer,
+                    indicatorColor = Color.Transparent,
                     unselectedIconColor = MaterialTheme.colorScheme.onBackground,
                     unselectedTextColor = MaterialTheme.colorScheme.onBackground,
                 )
