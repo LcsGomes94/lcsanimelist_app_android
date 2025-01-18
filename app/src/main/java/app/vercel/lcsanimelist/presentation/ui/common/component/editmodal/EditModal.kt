@@ -18,9 +18,7 @@ fun EditModal(
 ) {
 
     val currentAnimeBeingEdited by viewModel.currentAnimeBeingEdited.collectAsState()
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     currentAnimeBeingEdited?.let { anime ->
         ModalBottomSheet(

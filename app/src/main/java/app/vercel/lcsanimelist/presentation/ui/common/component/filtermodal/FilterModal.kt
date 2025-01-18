@@ -1,6 +1,5 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -12,7 +11,7 @@ import androidx.compose.ui.Modifier
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.component.FilterModalContent
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterModal(
     searchFilterViewModel: SearchFilterViewModel,
@@ -20,9 +19,7 @@ fun FilterModal(
 ) {
 
     val isFilterModalVisible by searchFilterViewModel.isFilterModalVisible.collectAsState()
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     if (isFilterModalVisible) {
         ModalBottomSheet(

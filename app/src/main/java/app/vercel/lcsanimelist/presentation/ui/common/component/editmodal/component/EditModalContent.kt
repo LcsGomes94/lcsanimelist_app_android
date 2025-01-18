@@ -56,7 +56,7 @@ fun EditModalContent(
     val newNote by viewModel.newNote.collectAsState()
 
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
     ) {
         EditModalTopBar(
             title = anime.title,

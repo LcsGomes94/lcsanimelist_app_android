@@ -28,6 +28,7 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.Lcs
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.FilterModal
+import app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.SearchModal
 import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
@@ -86,6 +87,7 @@ class MainActivity : ComponentActivity() {
                             )
                             EditModal(viewModel = editModalViewModel)
                             FilterModal(searchFilterViewModel = searchFilterViewModel)
+                            SearchModal(searchFilterViewModel = searchFilterViewModel)
                         }
                     }
                 }

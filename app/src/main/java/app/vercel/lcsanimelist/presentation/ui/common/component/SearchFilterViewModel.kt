@@ -20,7 +20,7 @@ class SearchFilterViewModel() : ViewModel() {
     private val _newGenreFilter = MutableStateFlow<List<AnimeGenre>?>(null)
     val genreFilter = _newGenreFilter.asStateFlow()
     private val _newSearchQuery = MutableStateFlow<String?>(null)
-    val searchQuery = _newSearchQuery.asStateFlow()
+    val newSearchQuery = _newSearchQuery.asStateFlow()
 
     private fun syncQuery() {
         _activeScreenViewModel.value?.let { viewModel ->
@@ -49,7 +49,7 @@ class SearchFilterViewModel() : ViewModel() {
     }
 
     fun onSearchModalClose() {
-        _isFilterModalVisible.value = false
+        _isSearchModalVisible.value = false
     }
 
     fun onOrderByChange(newOrderBy: RemoteOrderBy) {
