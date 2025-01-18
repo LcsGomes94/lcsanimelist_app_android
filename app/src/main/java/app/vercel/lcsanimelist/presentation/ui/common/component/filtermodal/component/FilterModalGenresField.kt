@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -65,16 +66,15 @@ fun FilterModalGenresField(
                     },
                     shape = RoundedCornerShape(50),
                     colors = FilterChipDefaults.filterChipColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
+                        containerColor = Color.Transparent,
                         selectedContainerColor = MaterialTheme.colorScheme.secondary,
-                        labelColor = MaterialTheme.colorScheme.onBackground,
+                        labelColor = MaterialTheme.colorScheme.primary,
                         selectedLabelColor = MaterialTheme.colorScheme.background,
                     ),
                     border = FilterChipDefaults.filterChipBorder(
                         enabled = true,
-                        selected = true,
-                        borderColor = MaterialTheme.colorScheme.secondary,
-                        selectedBorderColor = MaterialTheme.colorScheme.surfaceContainer
+                        selected = isSelected,
+                        borderColor = MaterialTheme.colorScheme.outline
                     )
                 )
             }

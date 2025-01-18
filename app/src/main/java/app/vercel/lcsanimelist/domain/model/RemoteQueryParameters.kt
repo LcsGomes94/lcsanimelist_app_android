@@ -9,8 +9,8 @@ data class RemoteQueryParameters(
 )
 
 enum class RemoteOrderBy(val displayName: String) {
-    SCORE("Order by: Score"),
-    TITLE("Order by: Title")
+    SCORE("Score"),
+    TITLE("Title")
 }
 
 enum class SortOrder { ASC, DESC }
