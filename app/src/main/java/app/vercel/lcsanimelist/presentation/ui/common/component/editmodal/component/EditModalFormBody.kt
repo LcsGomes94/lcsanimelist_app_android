@@ -3,11 +3,12 @@ package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.compo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
@@ -24,12 +25,14 @@ fun EditModalFormBody(
     onStageChange: (newStage: PersonalStage?) -> Unit,
     onTierChange: (newTier: PersonalTier?) -> Unit,
     onNoteChange: (newNote: String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    spacing: Dp = 20.dp,
+    personalNoteTextFieldModifier: Modifier = Modifier.height(160.dp)
 ) {
 
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(spacing)
     ) {
         LcsAnimeListDropdownMenu<PersonalStage>(
             selectedValue = newStage,
@@ -48,7 +51,8 @@ fun EditModalFormBody(
         PersonalNoteTextField(
             noteValue = newNote,
             onNoteChange = onNoteChange,
-            isEnabled = isFavorite
+            isEnabled = isFavorite,
+            modifier = personalNoteTextFieldModifier
         )
     }
 

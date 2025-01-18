@@ -52,11 +52,11 @@ class MainActivity : ComponentActivity() {
 
                     val currentScreen by navBarViewModel.currentScreen.collectAsState()
 
-                    Scaffold { innerPadding ->
+                    Scaffold { paddingValues ->
                         Scaffold(
                             modifier = Modifier
                                 .nestedScroll(scrollBehavior.nestedScrollConnection)
-                                .padding(innerPadding),
+                                .padding(paddingValues),
                             topBar = {
                                 LcsAnimeListTopBar(
                                     scrollBehavior = scrollBehavior,
@@ -85,7 +85,10 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 paddingValues = innerPadding
                             )
-                            EditModal(viewModel = editModalViewModel)
+                            EditModal(
+                                viewModel = editModalViewModel,
+                                paddingValues = paddingValues
+                            )
                             FilterModal(searchFilterViewModel = searchFilterViewModel)
                             SearchModal(searchFilterViewModel = searchFilterViewModel)
                         }

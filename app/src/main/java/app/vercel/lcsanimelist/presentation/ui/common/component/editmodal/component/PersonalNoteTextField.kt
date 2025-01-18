@@ -1,6 +1,5 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,7 +24,7 @@ fun PersonalNoteTextField(
     noteValue: String,
     onNoteChange: (String) -> Unit,
     isEnabled: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.height(160.dp),
 ) {
 
     val labelTextColor =
@@ -37,7 +35,6 @@ fun PersonalNoteTextField(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(160.dp)
             .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(8.dp))
     ) {
         Box(

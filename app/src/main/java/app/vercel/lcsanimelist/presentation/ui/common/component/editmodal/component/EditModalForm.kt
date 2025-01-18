@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.PersonalTier
@@ -32,7 +33,9 @@ fun EditModalForm(
     onConfirmButtonClick: () -> Unit,
     onFavoriteToggle: () -> Unit,
     isFavoriteButtonVisible: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    spacing: Dp = 20.dp,
+    personalNoteTextFieldModifier: Modifier = Modifier.height(160.dp)
 ) {
 
     val buttonContainerColor =
@@ -48,7 +51,9 @@ fun EditModalForm(
             newNote = newNote,
             onStageChange = onStageChange,
             onTierChange = onTierChange,
-            onNoteChange = onNoteChange
+            onNoteChange = onNoteChange,
+            spacing = spacing,
+            personalNoteTextFieldModifier = personalNoteTextFieldModifier
         )
         Column(
             modifier = Modifier.weight(1f),

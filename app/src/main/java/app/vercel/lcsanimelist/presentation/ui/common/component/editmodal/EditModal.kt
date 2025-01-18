@@ -1,5 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component.editmodal
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -15,6 +16,7 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.compon
 fun EditModal(
     viewModel: EditModalViewModel,
     modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues()
 ) {
 
     val currentAnimeBeingEdited by viewModel.currentAnimeBeingEdited.collectAsState()
@@ -30,7 +32,8 @@ fun EditModal(
             EditModalContent(
                 viewModel = viewModel,
                 anime = anime,
-                sheetState = sheetState
+                sheetState = sheetState,
+                paddingValues = paddingValues
             )
         }
     }
