@@ -93,7 +93,7 @@ class AnimeRepositoryImpl(
 
                     emit(animeSearchHints)
                 } else {
-                    val historyDeferred = async { animeSearchHistoryDao.findInHistory(query.search.trim(), query.limit) }
+                    val historyDeferred = async { animeSearchHistoryDao.findInHistory(query.search, query.limit) }
                     val hintsDeferred = async { animeService.getAnimeSearchHints(query.toQueryMap()) }
                     val searchHistoryResponse = historyDeferred.await()
                     val searchHintResponse = hintsDeferred.await()

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetAnimeListUseCase(private val repository: AnimeRepository) {
     operator fun invoke(query: RemoteQueryParameters = RemoteQueryParameters()): Flow<PagingData<Anime>> {
-        return repository.getAnimeList(query)
+        val treatedQuery = query.copy(search = query.search?.trim())
+        return repository.getAnimeList(treatedQuery)
     }
 }

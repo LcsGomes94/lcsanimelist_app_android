@@ -99,16 +99,11 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
                     ),
                 )
                 if (index < menuItems.lastIndex) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp)
-                    ) {
-                        HorizontalDivider(
-                            thickness = 1.dp,
-                            color = MaterialTheme.colorScheme.outline
-                        )
-                    }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.outline
+                    )
                 }
             }
         }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetFavoriteSearchHintsUseCase(private val repository: AnimeRepository) {
     operator fun invoke(query: LocalQueryParameters): Flow<List<AnimeSearchHint>> {
-        return repository.getFavoriteSearchHints(query)
+        val treatedQuery = query.copy(search = query.search?.trim())
+        return repository.getFavoriteSearchHints(treatedQuery)
     }
 }

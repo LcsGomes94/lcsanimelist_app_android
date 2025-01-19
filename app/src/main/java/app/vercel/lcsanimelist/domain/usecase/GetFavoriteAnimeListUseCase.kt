@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetFavoriteAnimeListUseCase(private val repository: AnimeRepository) {
     operator fun invoke(query: LocalQueryParameters): Flow<PagingData<Anime>> {
-        return repository.getFavoriteAnimeList(query)
+        val treatedQuery = query.copy(search = query.search?.trim())
+        return repository.getFavoriteAnimeList(treatedQuery)
     }
 }

@@ -3,7 +3,6 @@ package app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.com
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -30,12 +30,27 @@ fun SearchModalContent(
     val newSearchQuery by searchFilterViewModel.newSearchQuery.collectAsState()
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-
+        SearchModalTopBar(
+            newSearchQuery = newSearchQuery,
+            onSearchQueryChange = searchFilterViewModel::onSearchQueryChange,
+            onConfirmButtonClick = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    if (!sheetState.isVisible) {
+                        searchFilterViewModel.onConfirmButtonClick()
+                    }
+                }
+            },
+            onSearchModalClose = {
+                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                    if (!sheetState.isVisible) {
+                        searchFilterViewModel.onSearchModalClose()
+                    }
+                }
+            }
+        )
     }
 
 }

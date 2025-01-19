@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetSeasonalAnimeListUseCase(private val repository: AnimeRepository) {
     operator fun invoke(season: AnimeSeason, query: RemoteQueryParameters = RemoteQueryParameters()): Flow<PagingData<Anime>> {
-        return repository.getSeasonalAnimeList(season, query)
+        val treatedQuery = query.copy(search = query.search?.trim())
+        return repository.getSeasonalAnimeList(season, treatedQuery)
     }
 }

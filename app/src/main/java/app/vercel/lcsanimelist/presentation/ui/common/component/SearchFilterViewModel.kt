@@ -19,14 +19,14 @@ class SearchFilterViewModel() : ViewModel() {
     val newOrderBy = _newOrderBy.asStateFlow()
     private val _newGenreFilter = MutableStateFlow<List<AnimeGenre>?>(null)
     val genreFilter = _newGenreFilter.asStateFlow()
-    private val _newSearchQuery = MutableStateFlow<String?>(null)
+    private val _newSearchQuery = MutableStateFlow<String>("")
     val newSearchQuery = _newSearchQuery.asStateFlow()
 
     private fun syncQuery() {
         _activeScreenViewModel.value?.let { viewModel ->
             _newOrderBy.value = viewModel.query.value.orderBy
             _newGenreFilter.value = viewModel.query.value.genres
-            _newSearchQuery.value = viewModel.query.value.search
+            _newSearchQuery.value = viewModel.query.value.search.orEmpty()
         }
     }
 
@@ -60,7 +60,7 @@ class SearchFilterViewModel() : ViewModel() {
         _newGenreFilter.value = newGenreFilter
     }
 
-    fun onSearchQueryChange(newSearchQuery: String?) {
+    fun onSearchQueryChange(newSearchQuery: String) {
         _newSearchQuery.value = newSearchQuery
     }
 
@@ -70,10 +70,11 @@ class SearchFilterViewModel() : ViewModel() {
                 RemoteQueryParameters(
                     orderBy = _newOrderBy.value,
                     genres = _newGenreFilter.value,
-                    search = _newSearchQuery.value
+                    search = _newSearchQuery.value.ifBlank { null }
                 )
             )
             onFilterModalClose()
+            onSearchModalClose()
         }
     }
 }

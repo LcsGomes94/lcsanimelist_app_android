@@ -4,8 +4,10 @@ import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 
 class AddToSearchHistoryUseCase(private val repository: AnimeRepository) {
     suspend operator fun invoke(searchQuery: String) {
-        if (searchQuery.trim().length < 3) return
+        val treatedSearchQuery = searchQuery.trim()
 
-        repository.addToSearchHistory(searchQuery.trim())
+        if (treatedSearchQuery.length < 3) return
+
+        repository.addToSearchHistory(treatedSearchQuery)
     }
 }

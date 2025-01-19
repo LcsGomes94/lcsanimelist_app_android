@@ -37,28 +37,27 @@ fun EditModalTopBar(
     ) {
         IconButton(
             onClick = onBack,
-            modifier = Modifier.size(56.dp)
+            modifier = Modifier.size(48.dp)
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
                 contentDescription = "return",
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(36.dp),
                 tint = MaterialTheme.colorScheme.onBackground,
             )
         }
         Box(
-            modifier = Modifier.padding(end = 24.dp),
+            modifier = Modifier.padding(end = 16.dp),
         ) {
             Text(
                 text = title,
-                modifier = Modifier.padding(bottom = 2.dp),
+                modifier = Modifier.padding(bottom = 1.dp),
                 color = MaterialTheme.colorScheme.primary,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleSmall
             )
         }
-        BackHandler(onBack = onBack)
     }
 
 }
