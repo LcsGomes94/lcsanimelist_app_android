@@ -112,4 +112,10 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenVi
         addFavorite(updatedAnime)
     }
 
+    override fun addToSearchHistory(searchQuery: String) {
+        viewModelScope.launch {
+            useCases.addToSearchHistory(searchQuery)
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
 import app.vercel.lcsanimelist.domain.model.OrderBy
+import app.vercel.lcsanimelist.domain.usecase.AddToSearchHistoryUseCase
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,8 +13,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class SearchFilterViewModel() : ViewModel() {
+
     private val _activeScreenViewModel = MutableStateFlow<ScreenViewModel?>(null)
     private val _activeScreen = MutableStateFlow<ScreenType?>(null)
     val activeScreen = _activeScreen.asStateFlow()
@@ -83,6 +86,7 @@ class SearchFilterViewModel() : ViewModel() {
 
     fun onConfirmButtonClick() {
         _activeScreenViewModel.value?.let { viewModel ->
+            viewModel.addToSearchHistory(_newSearchQuery.value)
             viewModel.updateQuery(
                 newSearchQuery = _newSearchQuery.value.ifBlank { null },
                 newGenreFilter = _newGenreFilter.value,
@@ -92,4 +96,5 @@ class SearchFilterViewModel() : ViewModel() {
             onSearchModalClose()
         }
     }
+
 }

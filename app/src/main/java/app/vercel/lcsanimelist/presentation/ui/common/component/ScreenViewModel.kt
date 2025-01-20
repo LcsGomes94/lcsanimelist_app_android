@@ -11,4 +11,5 @@ interface ScreenViewModel {
     val query: StateFlow<RemoteQueryParameters>
     fun updateQuery(newSearchQuery: String?, newGenreFilter: List<AnimeGenre>?, newOrderBy: OrderBy)
     fun updateSearchHintQuery(newSearchHintQuery: String?)
+    fun addToSearchHistory(searchQuery: String)
 }
