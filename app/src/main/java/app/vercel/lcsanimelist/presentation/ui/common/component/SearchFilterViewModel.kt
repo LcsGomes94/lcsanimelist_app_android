@@ -1,16 +1,28 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
 import app.vercel.lcsanimelist.domain.model.OrderBy
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 
 class SearchFilterViewModel() : ViewModel() {
     private val _activeScreenViewModel = MutableStateFlow<ScreenViewModel?>(null)
     private val _activeScreen = MutableStateFlow<ScreenType?>(null)
     val activeScreen = _activeScreen.asStateFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val animeSearchHints = _activeScreenViewModel
+        .filterNotNull()
+        .flatMapLatest { it.animeSearchHints }
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     private val _isFilterModalVisible = MutableStateFlow(false)
     val isFilterModalVisible = _isFilterModalVisible.asStateFlow()
@@ -26,9 +38,10 @@ class SearchFilterViewModel() : ViewModel() {
 
     private fun syncQuery() {
         _activeScreenViewModel.value?.let { viewModel ->
-            _newOrderBy.value = viewModel.query.value.orderBy
-            _newGenreFilter.value = viewModel.query.value.genres
             _newSearchQuery.value = viewModel.query.value.search.orEmpty()
+            _newGenreFilter.value = viewModel.query.value.genres
+            _newOrderBy.value = viewModel.query.value.orderBy
+            viewModel.updateSearchHintQuery(_newSearchQuery.value)
         }
     }
 
@@ -65,6 +78,7 @@ class SearchFilterViewModel() : ViewModel() {
 
     fun onSearchQueryChange(newSearchQuery: String) {
         _newSearchQuery.value = newSearchQuery
+        _activeScreenViewModel.value?.updateSearchHintQuery(newSearchQuery)
     }
 
     fun onConfirmButtonClick() {
