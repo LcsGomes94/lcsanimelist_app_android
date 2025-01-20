@@ -2,25 +2,27 @@ package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.lifecycle.ViewModel
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
-import app.vercel.lcsanimelist.domain.model.RemoteOrderBy
-import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
+import app.vercel.lcsanimelist.domain.model.OrderBy
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class SearchFilterViewModel() : ViewModel() {
     private val _activeScreenViewModel = MutableStateFlow<ScreenViewModel?>(null)
+    private val _activeScreen = MutableStateFlow<ScreenType?>(null)
+    val activeScreen = _activeScreen.asStateFlow()
 
     private val _isFilterModalVisible = MutableStateFlow(false)
     val isFilterModalVisible = _isFilterModalVisible.asStateFlow()
     private val _isSearchModalVisible = MutableStateFlow(false)
     val isSearchModalVisible = _isSearchModalVisible.asStateFlow()
 
-    private val _newOrderBy = MutableStateFlow<RemoteOrderBy>(RemoteOrderBy.SCORE)
-    val newOrderBy = _newOrderBy.asStateFlow()
-    private val _newGenreFilter = MutableStateFlow<List<AnimeGenre>?>(null)
-    val genreFilter = _newGenreFilter.asStateFlow()
     private val _newSearchQuery = MutableStateFlow<String>("")
     val newSearchQuery = _newSearchQuery.asStateFlow()
+    private val _newGenreFilter = MutableStateFlow<List<AnimeGenre>?>(null)
+    val genreFilter = _newGenreFilter.asStateFlow()
+    private val _newOrderBy = MutableStateFlow<OrderBy>(OrderBy.SCORE)
+    val newOrderBy = _newOrderBy.asStateFlow()
 
     private fun syncQuery() {
         _activeScreenViewModel.value?.let { viewModel ->
@@ -30,8 +32,9 @@ class SearchFilterViewModel() : ViewModel() {
         }
     }
 
-    fun setActiveScreenViewModel(viewModel: ScreenViewModel) {
+    fun setActiveScreen(screen: ScreenType, viewModel: ScreenViewModel) {
         _activeScreenViewModel.value = viewModel
+        _activeScreen.value = screen
     }
 
     fun onFilterModalOpen() {
@@ -52,7 +55,7 @@ class SearchFilterViewModel() : ViewModel() {
         _isSearchModalVisible.value = false
     }
 
-    fun onOrderByChange(newOrderBy: RemoteOrderBy) {
+    fun onOrderByChange(newOrderBy: OrderBy) {
         _newOrderBy.value = newOrderBy
     }
 
@@ -67,11 +70,9 @@ class SearchFilterViewModel() : ViewModel() {
     fun onConfirmButtonClick() {
         _activeScreenViewModel.value?.let { viewModel ->
             viewModel.updateQuery(
-                RemoteQueryParameters(
-                    orderBy = _newOrderBy.value,
-                    genres = _newGenreFilter.value,
-                    search = _newSearchQuery.value.ifBlank { null }
-                )
+                newSearchQuery = _newSearchQuery.value.ifBlank { null },
+                newGenreFilter = _newGenreFilter.value,
+                newOrderBy = _newOrderBy.value,
             )
             onFilterModalClose()
             onSearchModalClose()

@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                         ) { innerPadding ->
                             NavGraph(
                                 onEditModalOpen = editModalViewModel::openModal,
-                                setActiveScreenViewModel = searchFilterViewModel::setActiveScreenViewModel,
+                                setActiveScreenViewModel = searchFilterViewModel::setActiveScreen,
                                 navController = navController,
                                 paddingValues = innerPadding
                             )
@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavGraph(
     onEditModalOpen: (Anime, (Anime, ModalActionType) -> Unit) -> Unit,
-    setActiveScreenViewModel: (ScreenViewModel) -> Unit,
+    setActiveScreenViewModel: (ScreenType, ScreenViewModel) -> Unit,
     navController: NavHostController,
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,

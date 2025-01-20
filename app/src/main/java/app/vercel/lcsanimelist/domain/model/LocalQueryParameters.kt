@@ -5,7 +5,5 @@ data class LocalQueryParameters(
     val limit: Int = 12,
     val search: String? = null,
     val genres: List<AnimeGenre> = emptyList(),
-    val orderBy: LocalOrderBy = if (personalStage == PersonalStage.WATCH) LocalOrderBy.SCORE else LocalOrderBy.TIER,
+    val orderBy: OrderBy = if (personalStage == PersonalStage.WATCH) OrderBy.SCORE else OrderBy.TIER,
 )
-
-enum class LocalOrderBy { SCORE, TITLE, TIER }

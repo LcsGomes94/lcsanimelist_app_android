@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -35,6 +36,7 @@ fun FilterModalContent(
     scope: CoroutineScope = rememberCoroutineScope()
 ) {
 
+    val activeScreen by searchFilterViewModel.activeScreen.collectAsState()
     val newOrderBy by searchFilterViewModel.newOrderBy.collectAsState()
     val newGenreFilter by searchFilterViewModel.genreFilter.collectAsState()
 
@@ -55,7 +57,8 @@ fun FilterModalContent(
         )
         FilterModalOrderByField(
             newOrderBy = newOrderBy,
-            onOrderByChange = searchFilterViewModel::onOrderByChange
+            onOrderByChange = searchFilterViewModel::onOrderByChange,
+            screen = activeScreen ?: ScreenType.HOME,
         )
         FilterModalGenresField(
             newGenreFilter = newGenreFilter,

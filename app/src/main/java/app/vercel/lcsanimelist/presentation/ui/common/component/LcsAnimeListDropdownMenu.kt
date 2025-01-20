@@ -1,7 +1,6 @@
 package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
-import kotlin.enums.EnumEntries
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +33,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
     selectedValue: T?,
     onMenuItemSelected: (newValue: T?) -> Unit,
     getDisplayName: (value: T?) -> String,
-    menuItems: EnumEntries<T>,
+    menuItems: List<T>,
     isEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {

@@ -30,14 +30,14 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun HomeScreen(
     onEditModalOpen: (Anime, OnConfirmCallback) -> Unit,
-    setActiveScreenViewModel: (ScreenViewModel) -> Unit,
+    setActiveScreenViewModel: (ScreenType, ScreenViewModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
     paddingValues: PaddingValues = PaddingValues()
 ) {
 
     LaunchedEffect(Unit) {
-        setActiveScreenViewModel(viewModel)
+        setActiveScreenViewModel(ScreenType.HOME, viewModel)
     }
 
     val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()

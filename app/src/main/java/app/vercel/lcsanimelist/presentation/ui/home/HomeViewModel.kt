@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.map
 import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.domain.model.AnimeGenre
+import app.vercel.lcsanimelist.domain.model.OrderBy
 import app.vercel.lcsanimelist.domain.model.PersonalStage
 import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.usecase.AnimeUseCases
@@ -35,8 +37,12 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenVi
         }
     }.cachedIn(viewModelScope)
 
-    override fun updateQuery(newQuery: RemoteQueryParameters) {
-        _query.value = newQuery
+    override fun updateQuery(newSearchQuery: String?, newGenreFilter: List<AnimeGenre>?, newOrderBy: OrderBy) {
+        _query.value = RemoteQueryParameters(
+            search = newSearchQuery,
+            genres = newGenreFilter,
+            orderBy = newOrderBy
+        )
     }
 
     private fun updatePagingDataState(anime: Anime) {
