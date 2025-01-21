@@ -48,8 +48,6 @@ class AnimesPagingSource(
             LoadResult.Error(RepositoryException.DatabaseException("Failed to get favorite anime.\n" + e.message, e))
         } catch (e: HttpException) {
             LoadResult.Error(RepositoryException.NetworkException("Failed to get anime list.\n" + e.message, e))
-        } catch (e: Exception) {
-            LoadResult.Error(RepositoryException.UnknownException("Unexpected error occurred.", e))
         }
     }
 

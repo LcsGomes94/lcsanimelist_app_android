@@ -3,9 +3,10 @@ package app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.com
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetState
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -53,8 +54,26 @@ fun SearchModalContent(
                 }
             }
         )
-        animeSearchHints.forEach { hint ->
-            Text(hint.query)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            animeSearchHints.forEachIndexed { index, hint ->
+                SearchModalAnimeSearchHint(
+                    hint = hint,
+                    onClick = {
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                searchFilterViewModel.onSearchQueryChange(hint.query)
+                                searchFilterViewModel.onConfirmButtonClick()
+                            }
+                        }
+                    },
+                    isNotLastItem = index < animeSearchHints.lastIndex
+                )
+            }
         }
     }
 

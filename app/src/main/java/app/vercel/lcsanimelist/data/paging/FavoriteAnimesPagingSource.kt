@@ -42,8 +42,6 @@ class FavoriteAnimesPagingSource(
             )
         } catch (e: SQLiteException) {
             LoadResult.Error(RepositoryException.DatabaseException("Failed to get favorite anime list.\n" + e.message, e))
-        } catch (e: Exception) {
-            LoadResult.Error(RepositoryException.UnknownException("Unexpected error occurred.", e))
         }
     }
 
