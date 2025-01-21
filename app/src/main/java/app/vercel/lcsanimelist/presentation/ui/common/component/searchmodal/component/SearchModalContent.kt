@@ -2,7 +2,9 @@ package app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.com
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,19 +56,19 @@ fun SearchModalContent(
                 }
             }
         )
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .fillMaxSize(),
+            contentPadding = PaddingValues(bottom = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            animeSearchHints.forEachIndexed { index, hint ->
+            items(count = animeSearchHints.size) { index ->
                 SearchModalAnimeSearchHint(
-                    hint = hint,
+                    hint = animeSearchHints[index],
                     onClick = {
                         scope.launch { sheetState.hide() }.invokeOnCompletion {
                             if (!sheetState.isVisible) {
-                                searchFilterViewModel.onSearchQueryChange(hint.query)
+                                searchFilterViewModel.onSearchQueryChange(animeSearchHints[index].query)
                                 searchFilterViewModel.onConfirmButtonClick()
                             }
                         }
