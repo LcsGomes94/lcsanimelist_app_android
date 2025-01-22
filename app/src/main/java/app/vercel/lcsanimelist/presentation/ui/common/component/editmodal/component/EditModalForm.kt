@@ -42,7 +42,8 @@ fun EditModalForm(
         if (isFavorite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
 
     Column(
-        modifier = modifier
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(spacing)
     ) {
         EditModalFormBody(
             isFavorite = isFavorite,
@@ -55,36 +56,31 @@ fun EditModalForm(
             spacing = spacing,
             personalNoteTextFieldModifier = personalNoteTextFieldModifier
         )
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Button(
+                onClick = onConfirmButtonClick,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = buttonContainerColor),
             ) {
-                Button(
-                    onClick = onConfirmButtonClick,
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = buttonContainerColor),
-                ) {
-                    Text(
-                        text = "Confirm",
-                        color = MaterialTheme.colorScheme.background,
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                }
-                if (isFavoriteButtonVisible) {
-                    AnimeCardFavoriteButton(
-                        onButtonClick = onFavoriteToggle,
-                        isFavorite = isFavorite,
-                        modifier = Modifier.size(56.dp),
-                        iconModifier = Modifier.size(56.dp)
-                    )
-                }
+                Text(
+                    text = "Confirm",
+                    color = MaterialTheme.colorScheme.background,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            if (isFavoriteButtonVisible) {
+                AnimeCardFavoriteButton(
+                    onButtonClick = onFavoriteToggle,
+                    isFavorite = isFavorite,
+                    modifier = Modifier.size(56.dp),
+                    iconModifier = Modifier.size(56.dp)
+                )
             }
         }
     }
