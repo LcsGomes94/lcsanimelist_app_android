@@ -10,26 +10,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.ui.common.component.LcsAnimeListTopBar
 import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBar
-import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBarViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModal
-import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.FilterModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.SearchModal
-import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
 import org.koin.androidx.compose.KoinAndroidContext
@@ -43,14 +39,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             LcsAnimeListTheme {
                 KoinAndroidContext {
-                    val editModalViewModel: EditModalViewModel = koinViewModel()
-                    val searchFilterViewModel: SearchFilterViewModel = koinViewModel()
-                    val navBarViewModel: LcsAnimeListBottomNavBarViewModel = koinViewModel()
-
                     val navController = rememberNavController()
                     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-                    val currentScreen by navBarViewModel.currentScreen.collectAsState()
 
                     Scaffold { paddingValues ->
                         Scaffold(
@@ -60,37 +50,22 @@ class MainActivity : ComponentActivity() {
                             topBar = {
                                 LcsAnimeListTopBar(
                                     scrollBehavior = scrollBehavior,
-                                    onLogoClick = {
-                                        navBarViewModel.onScreenNavigate(
-                                            route = "home",
-                                            screenType = ScreenType.HOME,
-                                            navController = navController
-                                        )
-                                    },
-                                    onFilterClick = searchFilterViewModel::onFilterModalOpen,
-                                    onSearchClick = searchFilterViewModel::onSearchModalOpen,
+                                    navController = navController,
                                 )
                             },
                             bottomBar = {
-                                LcsAnimeListBottomNavBar(
-                                    currentScreen = currentScreen,
-                                    navController = navController,
-                                    onScreenNavigate = navBarViewModel::onScreenNavigate
-                                )
+                                LcsAnimeListBottomNavBar(navController = navController)
                             }
                         ) { innerPadding ->
                             NavGraph(
-                                onEditModalOpen = editModalViewModel::openModal,
-                                setActiveScreenViewModel = searchFilterViewModel::setActiveScreen,
                                 navController = navController,
                                 paddingValues = innerPadding
                             )
                             EditModal(
-                                viewModel = editModalViewModel,
                                 paddingValues = paddingValues
                             )
-                            FilterModal(searchFilterViewModel = searchFilterViewModel)
-                            SearchModal(searchFilterViewModel = searchFilterViewModel)
+                            FilterModal()
+                            SearchModal()
                         }
                     }
                 }
@@ -101,8 +76,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavGraph(
-    onEditModalOpen: (Anime, (Anime, ModalActionType) -> Unit) -> Unit,
-    setActiveScreenViewModel: (ScreenType, ScreenViewModel) -> Unit,
     navController: NavHostController,
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
@@ -112,12 +85,9 @@ fun NavGraph(
         navController = navController,
         startDestination = "home",
     ) {
+
         composable("home") {
-            HomeScreen(
-                onEditModalOpen = onEditModalOpen,
-                setActiveScreenViewModel = setActiveScreenViewModel,
-                paddingValues = paddingValues
-            )
+            HomeScreen(paddingValues = paddingValues)
         }
     }
 }

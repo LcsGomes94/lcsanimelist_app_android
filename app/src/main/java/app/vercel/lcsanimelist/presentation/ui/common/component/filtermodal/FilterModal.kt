@@ -10,12 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.component.FilterModalContent
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterModal(
-    searchFilterViewModel: SearchFilterViewModel,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    searchFilterViewModel: SearchFilterViewModel = koinViewModel()
 ) {
 
     val isFilterModalVisible by searchFilterViewModel.isFilterModalVisible.collectAsState()

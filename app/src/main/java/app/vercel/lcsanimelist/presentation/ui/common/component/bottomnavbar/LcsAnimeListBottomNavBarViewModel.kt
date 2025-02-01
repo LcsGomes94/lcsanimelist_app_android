@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class LcsAnimeListBottomNavBarViewModel : ViewModel() {
+
     private val _currentScreen = MutableStateFlow(ScreenType.HOME)
     val currentScreen = _currentScreen.asStateFlow()
 
@@ -14,4 +15,5 @@ class LcsAnimeListBottomNavBarViewModel : ViewModel() {
         _currentScreen.value = screenType
         navController.navigate(route)
     }
+
 }

@@ -2,8 +2,6 @@ package app.vercel.lcsanimelist.presentation.ui.common.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -19,25 +17,29 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import app.vercel.lcsanimelist.R
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
+import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.LcsAnimeListBottomNavBarViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LcsAnimeListTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onLogoClick: () -> Unit,
-    onFilterClick: () -> Unit,
-    onSearchClick: () -> Unit,
-    modifier: Modifier = Modifier
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    navBarViewModel: LcsAnimeListBottomNavBarViewModel = koinViewModel(),
+    searchFilterViewModel: SearchFilterViewModel = koinViewModel()
 ) {
 
     TopAppBar(
@@ -59,7 +61,13 @@ fun LcsAnimeListTopBar(
                     .clickable(
                         interactionSource = null,
                         indication = null,
-                        onClick = onLogoClick
+                        onClick = {
+                            navBarViewModel.onScreenNavigate(
+                                route = "home",
+                                screenType = ScreenType.HOME,
+                                navController = navController
+                            )
+                        }
                     )
             ) {
                 Icon(
@@ -75,7 +83,7 @@ fun LcsAnimeListTopBar(
         },
         actions = {
             IconButton(
-                onClick = onFilterClick
+                onClick = searchFilterViewModel::onFilterModalOpen
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(
@@ -87,7 +95,7 @@ fun LcsAnimeListTopBar(
             }
             Spacer(modifier.width(8.dp))
             IconButton(
-                onClick = onSearchClick,
+                onClick = searchFilterViewModel::onSearchModalOpen,
                 modifier = Modifier.padding(end = 4.dp)
             ) {
                 Icon(
@@ -103,7 +111,7 @@ fun LcsAnimeListTopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background,
             scrolledContainerColor = MaterialTheme.colorScheme.background,
-            ),
+        ),
         scrollBehavior = scrollBehavior
     )
 
@@ -116,9 +124,9 @@ fun LcsAnimeListTopBarPreview() {
     LcsAnimeListTheme {
         LcsAnimeListTopBar(
             scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
-            onLogoClick = {},
-            onFilterClick = {},
-            onSearchClick = {},
+            navController = NavHostController(LocalContext.current),
+            navBarViewModel = LcsAnimeListBottomNavBarViewModel(),
+            searchFilterViewModel = SearchFilterViewModel()
         )
     }
 }

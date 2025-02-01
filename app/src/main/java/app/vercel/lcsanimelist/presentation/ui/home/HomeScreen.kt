@@ -16,28 +16,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import app.vercel.lcsanimelist.domain.model.Anime
+import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
+import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
-import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
-import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
-import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.OnConfirmCallback
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    onEditModalOpen: (Anime, OnConfirmCallback) -> Unit,
-    setActiveScreenViewModel: (ScreenType, ScreenViewModel) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel(),
+    storeOwner: ViewModelStoreOwner = LocalContext.current as ViewModelStoreOwner,
+    editModalViewModel: EditModalViewModel = koinViewModel(viewModelStoreOwner = storeOwner),
+    searchFilterViewModel: SearchFilterViewModel = koinViewModel(viewModelStoreOwner = storeOwner),
     paddingValues: PaddingValues = PaddingValues()
 ) {
 
     LaunchedEffect(Unit) {
-        setActiveScreenViewModel(ScreenType.HOME, viewModel)
+        searchFilterViewModel.setActiveScreen(ScreenType.HOME, viewModel)
     }
 
     val animePagingItems = viewModel.updatedAnimePagingData.collectAsLazyPagingItems()
@@ -70,7 +72,7 @@ fun HomeScreen(
                     viewModel.onFavoriteToggle(anime)
                 },
                 onModalOpen = {
-                    onEditModalOpen(anime) { anime, action ->
+                    editModalViewModel.openModal(anime) { anime, action ->
                         when (action) {
                             ModalActionType.UPDATE -> viewModel.updateFavorite(anime)
                             ModalActionType.DELETE -> viewModel.removeFavorite(anime)

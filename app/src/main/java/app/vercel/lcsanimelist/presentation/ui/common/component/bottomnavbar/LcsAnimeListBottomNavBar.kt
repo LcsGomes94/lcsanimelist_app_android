@@ -14,6 +14,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,18 +30,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.ui.common.component.bottomnavbar.type.LcsAnimeListBottomNavItem
-import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun LcsAnimeListBottomNavBar(
-    currentScreen: ScreenType,
     navController: NavHostController,
-    onScreenNavigate: (String, ScreenType, NavHostController) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navBarViewModel: LcsAnimeListBottomNavBarViewModel = koinViewModel()
 ) {
 
     val sWidth = LocalConfiguration.current.screenWidthDp
     val isPhoneLargeEnough = remember(sWidth) { sWidth >= 375 }
+
+    val currentScreen by navBarViewModel.currentScreen.collectAsState()
 
     NavigationBar(
         modifier = modifier
@@ -59,7 +62,7 @@ fun LcsAnimeListBottomNavBar(
             NavigationBarItem(
                 selected = currentScreen == item.screenType,
                 onClick = {
-                    onScreenNavigate(item.route, item.screenType, navController)
+                    navBarViewModel.onScreenNavigate(item.route, item.screenType, navController)
                 },
                 icon = {
                     Column(
@@ -104,9 +107,8 @@ fun LcsAnimeListBottomNavBar(
 fun LcsAnimeListBottomNavBarPreview() {
     LcsAnimeListTheme {
         LcsAnimeListBottomNavBar(
-            currentScreen = ScreenType.HOME,
             navController = NavHostController(LocalContext.current),
-            onScreenNavigate = { _, _, _ -> }
+            navBarViewModel = LcsAnimeListBottomNavBarViewModel()
         )
     }
 }

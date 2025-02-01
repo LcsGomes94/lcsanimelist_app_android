@@ -10,12 +10,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.component.EditModalContent
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditModal(
-    viewModel: EditModalViewModel,
     modifier: Modifier = Modifier,
+    viewModel: EditModalViewModel = koinViewModel(),
     paddingValues: PaddingValues = PaddingValues()
 ) {
 
