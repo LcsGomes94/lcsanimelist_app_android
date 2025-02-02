@@ -79,7 +79,6 @@ fun NavGraph(
         navController = navController,
         startDestination = "home",
     ) {
-
         composable("home") {
             HomeScreen(paddingValues = paddingValues)
         }
