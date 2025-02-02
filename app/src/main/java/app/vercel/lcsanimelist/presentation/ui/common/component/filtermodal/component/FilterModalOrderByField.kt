@@ -53,7 +53,7 @@ fun FilterModalOrderByField(
 
 @Preview(showBackground = true)
 @Composable
-fun FilterModalOrderByPreview() {
+private fun FilterModalOrderByPreview() {
     LcsAnimeListTheme {
         FilterModalOrderByField(
             newOrderBy = null,

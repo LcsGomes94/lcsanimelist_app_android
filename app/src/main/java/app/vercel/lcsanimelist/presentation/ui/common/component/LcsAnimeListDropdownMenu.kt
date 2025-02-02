@@ -111,7 +111,7 @@ fun <T : Enum<T>> LcsAnimeListDropdownMenu(
 
 @Preview(showBackground = true)
 @Composable
-fun LcsAnimeListDropdownMenuPreview() {
+private fun LcsAnimeListDropdownMenuPreview() {
     LcsAnimeListTheme {
         LcsAnimeListDropdownMenu(
             selectedValue = null,

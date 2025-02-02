@@ -86,7 +86,7 @@ fun PersonalNoteTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun PersonalNoteTextFieldPreview() {
+private fun PersonalNoteTextFieldPreview() {
     LcsAnimeListTheme {
         PersonalNoteTextField(
             noteValue = "",

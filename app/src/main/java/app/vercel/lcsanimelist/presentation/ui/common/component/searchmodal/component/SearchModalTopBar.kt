@@ -134,7 +134,7 @@ fun SearchModalTopBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun SearchModalTopBarPreview() {
+private fun SearchModalTopBarPreview() {
     LcsAnimeListTheme {
         SearchModalTopBar(
             newSearchQuery = "",

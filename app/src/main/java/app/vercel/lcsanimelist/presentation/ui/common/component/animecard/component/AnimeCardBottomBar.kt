@@ -105,7 +105,7 @@ fun AnimeCardBottomBar(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardBottomBarPreview() {
+private fun AnimeCardBottomBarPreview() {
     LcsAnimeListTheme {
         AnimeCardBottomBar(
             screenType = ScreenType.HOME,

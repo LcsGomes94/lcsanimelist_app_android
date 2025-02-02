@@ -33,7 +33,7 @@ fun AnimeCardMoveButton(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardMoveButtonPreview() {
+private fun AnimeCardMoveButtonPreview() {
     LcsAnimeListTheme {
         AnimeCardMoveButton(
             onButtonClick = {},

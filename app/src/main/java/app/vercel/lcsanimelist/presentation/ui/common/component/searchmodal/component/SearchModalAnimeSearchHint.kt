@@ -95,7 +95,7 @@ fun SearchModalAnimeSearchHint(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchModalAnimeSearchHintPreview() {
+private fun SearchModalAnimeSearchHintPreview() {
     LcsAnimeListTheme {
         SearchModalAnimeSearchHint(
             hint = AnimeSearchHint(

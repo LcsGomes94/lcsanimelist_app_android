@@ -51,7 +51,7 @@ fun AnimeCardTier(
 
 @Preview(showBackground = false)
 @Composable
-fun AnimeCardTierPreview() {
+private fun AnimeCardTierPreview() {
     LcsAnimeListTheme {
         AnimeCardTier(
             tier = PersonalTier.SS,

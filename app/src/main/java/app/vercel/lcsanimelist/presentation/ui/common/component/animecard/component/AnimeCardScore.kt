@@ -46,7 +46,7 @@ fun AnimeCardScore(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardScorePreview() {
+private fun AnimeCardScorePreview() {
     LcsAnimeListTheme {
         AnimeCardScore(score = 10.0)
     }

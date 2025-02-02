@@ -70,7 +70,7 @@ fun AnimeCardHeader(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardHeaderPreview() {
+private fun AnimeCardHeaderPreview() {
     LcsAnimeListTheme {
         AnimeCardHeader(
             title = Anime().title,

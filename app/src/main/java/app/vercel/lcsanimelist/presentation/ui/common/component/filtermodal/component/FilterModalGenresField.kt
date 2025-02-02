@@ -85,7 +85,7 @@ fun FilterModalGenresField(
 
 @Preview(showBackground = true)
 @Composable
-fun FilterModalGenresPreview() {
+private fun FilterModalGenresPreview() {
     LcsAnimeListTheme {
         FilterModalGenresField(
             newGenreFilter = null,

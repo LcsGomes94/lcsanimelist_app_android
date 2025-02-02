@@ -84,7 +84,7 @@ fun SearchModalContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun SearchModalContentPreview() {
+private fun SearchModalContentPreview() {
     LcsAnimeListTheme {
         SearchModalContent(
             searchFilterViewModel = SearchFilterViewModel(),

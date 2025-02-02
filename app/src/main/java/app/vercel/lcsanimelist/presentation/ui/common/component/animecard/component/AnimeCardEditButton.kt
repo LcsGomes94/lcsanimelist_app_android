@@ -33,7 +33,7 @@ fun AnimeCardEditButton(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardEditButtonPreview() {
+private fun AnimeCardEditButtonPreview() {
     LcsAnimeListTheme {
         AnimeCardEditButton(
             onButtonClick = {},

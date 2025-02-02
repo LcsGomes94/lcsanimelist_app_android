@@ -140,7 +140,7 @@ fun EditModalContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true, heightDp = 775)
 @Composable
-fun EditModalContentPreview() {
+private fun EditModalContentPreview() {
     LcsAnimeListTheme {
         EditModalContent(
             viewModel = EditModalViewModel(),

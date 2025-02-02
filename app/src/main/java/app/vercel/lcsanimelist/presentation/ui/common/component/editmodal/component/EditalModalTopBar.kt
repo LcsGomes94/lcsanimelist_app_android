@@ -64,7 +64,7 @@ fun EditModalTopBar(
 
 @Preview(showBackground = true)
 @Composable
-fun EditModalTopBarPreview() {
+private fun EditModalTopBarPreview() {
     LcsAnimeListTheme {
         EditModalTopBar(
             title = Anime().title,

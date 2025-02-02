@@ -120,7 +120,7 @@ fun LcsAnimeListTopBar(
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun LcsAnimeListTopBarPreview() {
+private fun LcsAnimeListTopBarPreview() {
     LcsAnimeListTheme {
         LcsAnimeListTopBar(
             scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),

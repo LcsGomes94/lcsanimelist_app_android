@@ -104,7 +104,7 @@ fun LcsAnimeListBottomNavBar(
 
 @Preview(showBackground = true)
 @Composable
-fun LcsAnimeListBottomNavBarPreview() {
+private fun LcsAnimeListBottomNavBarPreview() {
     LcsAnimeListTheme {
         LcsAnimeListBottomNavBar(
             navController = NavHostController(LocalContext.current),

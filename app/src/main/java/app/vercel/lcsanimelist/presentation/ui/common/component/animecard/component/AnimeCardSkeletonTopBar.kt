@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,17 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 
 @Composable
-fun AnimeCardTopBar(
-    genres: List<String>,
+fun AnimeCardSkeletonTopBar(
     modifier: Modifier = Modifier
 ) {
-
-    val cappedGenres = genres.take(4)
-
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -36,7 +32,7 @@ fun AnimeCardTopBar(
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            cappedGenres.forEach { genre ->
+            repeat(3) {
                 Box(
                     modifier = Modifier
                         .background(
@@ -49,21 +45,20 @@ fun AnimeCardTopBar(
                         )
                 ) {
                     Text(
-                        text = genre,
-                        color = MaterialTheme.colorScheme.primary,
+                        text = "",
+                        modifier = Modifier.width(56.dp),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun AnimeCardTopBarPreview() {
+private fun AnimeCardSkeletonTopBarPreview() {
     LcsAnimeListTheme {
-        AnimeCardTopBar(genres = Anime().genres)
+        AnimeCardSkeletonTopBar()
     }
 }

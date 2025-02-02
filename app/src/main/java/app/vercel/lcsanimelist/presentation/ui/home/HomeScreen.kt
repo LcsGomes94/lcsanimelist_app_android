@@ -6,10 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,9 +21,11 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCard
+import app.vercel.lcsanimelist.presentation.ui.common.component.animecard.AnimeCardSkeleton
 import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditModalViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.type.ModalActionType
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
+import app.vercel.lcsanimelist.util.extension.pulseFade
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -53,12 +53,11 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(48.dp),
     ) {
         if (animePagingItems.loadState.refresh == LoadState.Loading) {
-            item {
-                Text(
-                    text = "LOADING ANIMES!",
+            items(count = 12) {
+                AnimeCardSkeleton(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally)
+                        .padding(horizontal = 16.dp)
+                        .pulseFade()
                 )
             }
         }
@@ -84,11 +83,11 @@ fun HomeScreen(
         }
 
         if (animePagingItems.loadState.append == LoadState.Loading) {
-            item {
-                CircularProgressIndicator(
+            items(count = 12) {
+                AnimeCardSkeleton(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.CenterHorizontally)
+                        .padding(horizontal = 16.dp)
+                        .pulseFade()
                 )
             }
         }

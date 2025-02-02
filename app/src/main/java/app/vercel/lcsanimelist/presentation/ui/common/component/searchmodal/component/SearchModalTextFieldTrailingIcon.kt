@@ -84,7 +84,7 @@ fun SearchModalTextFieldTrailingIcon(
 
 @Preview(showBackground = true)
 @Composable
-fun SearchModalTextFieldTrailingIconPreview() {
+private fun SearchModalTextFieldTrailingIconPreview() {
     LcsAnimeListTheme {
         SearchModalTextFieldTrailingIcon(
             textFieldValue = TextFieldValue("Hunter x Hunter"),

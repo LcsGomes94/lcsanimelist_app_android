@@ -88,7 +88,7 @@ fun EditModalForm(
 
 @Preview(showBackground = true)
 @Composable
-fun EditModalFormPreview() {
+private fun EditModalFormPreview() {
     LcsAnimeListTheme {
         EditModalForm(
             isFavorite = true,

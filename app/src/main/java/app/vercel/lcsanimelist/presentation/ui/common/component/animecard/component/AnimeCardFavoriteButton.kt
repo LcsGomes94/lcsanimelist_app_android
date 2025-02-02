@@ -37,7 +37,7 @@ fun AnimeCardFavoriteButton(
 
 @Preview(showBackground = true)
 @Composable
-fun AnimeCardFavoriteButtonPreview() {
+private fun AnimeCardFavoriteButtonPreview() {
     LcsAnimeListTheme {
         AnimeCardFavoriteButton(
             onButtonClick = {},
