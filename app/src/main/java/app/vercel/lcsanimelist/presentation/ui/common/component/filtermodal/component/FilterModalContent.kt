@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import app.vercel.lcsanimelist.domain.usecase.AddToSearchHistoryUseCase
 import app.vercel.lcsanimelist.presentation.theme.LcsAnimeListTheme
 import app.vercel.lcsanimelist.presentation.ui.common.component.SearchFilterViewModel
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
