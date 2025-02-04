@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.OrderBy
-import app.vercel.lcsanimelist.domain.usecase.AddToSearchHistoryUseCase
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class SearchFilterViewModel() : ViewModel() {
 
