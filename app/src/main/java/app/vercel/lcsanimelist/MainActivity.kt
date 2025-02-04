@@ -23,6 +23,7 @@ import app.vercel.lcsanimelist.presentation.ui.common.component.editmodal.EditMo
 import app.vercel.lcsanimelist.presentation.ui.common.component.filtermodal.FilterModal
 import app.vercel.lcsanimelist.presentation.ui.common.component.searchmodal.SearchModal
 import app.vercel.lcsanimelist.presentation.ui.home.HomeScreen
+import app.vercel.lcsanimelist.presentation.ui.seasonal.SeasonalScreen
 import org.koin.androidx.compose.KoinAndroidContext
 
 class MainActivity : ComponentActivity() {
@@ -81,6 +82,9 @@ fun NavGraph(
     ) {
         composable("home") {
             HomeScreen(paddingValues = paddingValues)
+        }
+        composable("seasonal") {
+            SeasonalScreen(paddingValues = paddingValues)
         }
     }
 }

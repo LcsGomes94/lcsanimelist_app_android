@@ -1,4 +1,4 @@
-package app.vercel.lcsanimelist.presentation.ui.home
+package app.vercel.lcsanimelist.presentation.ui.seasonal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import app.vercel.lcsanimelist.domain.model.Anime
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
+import app.vercel.lcsanimelist.domain.model.AnimeSearchHint
 import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.OrderBy
 import app.vercel.lcsanimelist.domain.model.PersonalStage
@@ -13,29 +14,31 @@ import app.vercel.lcsanimelist.domain.model.RemoteQueryParameters
 import app.vercel.lcsanimelist.domain.usecase.AnimeUseCases
 import app.vercel.lcsanimelist.presentation.ui.common.component.ScreenViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenViewModel {
+class SeasonalViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenViewModel {
 
-    private val _query = MutableStateFlow(RemoteQueryParameters())
-    override val query = _query.asStateFlow()
+    private val _selectedSeason = MutableStateFlow(AnimeSeason.now())
+    override val selectedSeason = _selectedSeason.asStateFlow()
+
+    override val availableSeasons = flow {
+        emit(useCases.getAvailableSeasons())
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     private val _animeUpdates = MutableStateFlow<Map<Int, Anime>>(emptyMap())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val _animePagingData = _query
-        .flatMapLatest { useCases.getAnimeList(it) }
+    private val _animePagingData = _selectedSeason
+        .flatMapLatest { useCases.getSeasonalAnimeList(it) }
         .cachedIn(viewModelScope)
 
     val updatedAnimePagingData = _animePagingData.combine(_animeUpdates) { paging, updates ->
@@ -44,37 +47,8 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenVi
         }
     }.cachedIn(viewModelScope)
 
-    private val _searchHintQuery = MutableStateFlow<String?>(null)
-
-    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    override val animeSearchHints = _searchHintQuery
-        .debounce(300)
-        .combine(_query) { searchHintQuery, query ->
-            query.copy(search = searchHintQuery)
-        }.flatMapLatest { combinedQuery ->
-            useCases.getSearchHints(combinedQuery)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
-    override fun updateQuery(
-        newSearchQuery: String?,
-        newGenreFilter: List<AnimeGenre>?,
-        newOrderBy: OrderBy
-    ) {
-        _query.value = RemoteQueryParameters(
-            search = newSearchQuery,
-            genres = newGenreFilter,
-            orderBy = newOrderBy
-        )
-    }
-
-    override fun updateSearchHintQuery(newSearchHintQuery: String?) {
-        _searchHintQuery.value = newSearchHintQuery
-    }
-
-    override fun addToSearchHistory(searchQuery: String) {
-        viewModelScope.launch {
-            useCases.addToSearchHistory(searchQuery)
-        }
+    override fun updateSelectedSeason(newSeason: AnimeSeason) {
+        _selectedSeason.value = newSeason
     }
 
     private fun updatePagingDataState(anime: Anime) {
@@ -121,8 +95,10 @@ class HomeViewModel(private val useCases: AnimeUseCases) : ViewModel(), ScreenVi
         addFavorite(updatedAnime)
     }
 
-    override val availableSeasons: StateFlow<List<AnimeSeason>> = MutableStateFlow<List<AnimeSeason>>(emptyList())
-    override val selectedSeason: StateFlow<AnimeSeason> = MutableStateFlow(AnimeSeason.now())
-    override fun updateSelectedSeason(newSeason: AnimeSeason) {}
+    override val animeSearchHints: StateFlow<List<AnimeSearchHint>> = MutableStateFlow(emptyList())
+    override fun addToSearchHistory(searchQuery: String) {}
+    override fun updateSearchHintQuery(newSearchHintQuery: String?) {}
+    override val query: StateFlow<RemoteQueryParameters> = MutableStateFlow(RemoteQueryParameters())
+    override fun updateQuery(newSearchQuery: String?, newGenreFilter: List<AnimeGenre>?, newOrderBy: OrderBy) {}
 
 }

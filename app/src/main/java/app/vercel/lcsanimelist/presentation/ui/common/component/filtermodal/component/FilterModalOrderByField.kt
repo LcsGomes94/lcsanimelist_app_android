@@ -45,7 +45,7 @@ fun FilterModalOrderByField(
             },
             getDisplayName = { it?.displayName ?: "Select Order" },
             menuItems = menuItems,
-            isEnabled = true
+            isEnabled = screen != ScreenType.SEASONAL
         )
     }
 

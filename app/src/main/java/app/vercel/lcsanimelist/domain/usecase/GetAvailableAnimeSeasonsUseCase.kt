@@ -5,6 +5,6 @@ import app.vercel.lcsanimelist.domain.repository.AnimeRepository
 
 class GetAvailableAnimeSeasonsUseCase(private val repository: AnimeRepository) {
     suspend operator fun invoke(): List<AnimeSeason> {
-        return repository.getAvailableSeasons().take(11)
+        return repository.getAvailableSeasons().take(12)
     }
 }

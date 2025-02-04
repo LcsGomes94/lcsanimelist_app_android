@@ -39,6 +39,8 @@ fun FilterModalContent(
     val activeScreen by searchFilterViewModel.activeScreen.collectAsState()
     val newOrderBy by searchFilterViewModel.newOrderBy.collectAsState()
     val newGenreFilter by searchFilterViewModel.genreFilter.collectAsState()
+    val availableSeasons by searchFilterViewModel.availableSeasons.collectAsState()
+    val newSelectedSeason by searchFilterViewModel.newSelectedSeason.collectAsState()
 
     Column(
         modifier = modifier.padding(
@@ -60,11 +62,20 @@ fun FilterModalContent(
             onOrderByChange = searchFilterViewModel::onOrderByChange,
             screen = activeScreen ?: ScreenType.HOME,
         )
-        FilterModalGenresField(
-            newGenreFilter = newGenreFilter,
-            onGenreFilterChange = searchFilterViewModel::onGenreFilterChange,
-            modifier = Modifier.weight(1f, false)
-        )
+        if (activeScreen == ScreenType.SEASONAL) {
+            FilterModalSeasonsField(
+                availableSeasons = availableSeasons,
+                newSelectedSeason = newSelectedSeason,
+                onSelectedSeasonChange = searchFilterViewModel::onSelectedSeasonChange,
+                modifier = Modifier.weight(1f, false)
+            )
+        } else {
+            FilterModalGenresField(
+                newGenreFilter = newGenreFilter,
+                onGenreFilterChange = searchFilterViewModel::onGenreFilterChange,
+                modifier = Modifier.weight(1f, false)
+            )
+        }
         Button(
             onClick = {
                 scope.launch { sheetState.hide() }.invokeOnCompletion {

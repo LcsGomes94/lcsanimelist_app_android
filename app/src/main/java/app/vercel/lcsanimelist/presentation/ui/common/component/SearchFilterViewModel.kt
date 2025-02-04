@@ -3,6 +3,7 @@ package app.vercel.lcsanimelist.presentation.ui.common.component
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.vercel.lcsanimelist.domain.model.AnimeGenre
+import app.vercel.lcsanimelist.domain.model.AnimeSeason
 import app.vercel.lcsanimelist.domain.model.OrderBy
 import app.vercel.lcsanimelist.domain.usecase.AddToSearchHistoryUseCase
 import app.vercel.lcsanimelist.presentation.ui.common.type.ScreenType
@@ -39,12 +40,22 @@ class SearchFilterViewModel() : ViewModel() {
     private val _newOrderBy = MutableStateFlow<OrderBy>(OrderBy.SCORE)
     val newOrderBy = _newOrderBy.asStateFlow()
 
+    private val _newSelectedSeason = MutableStateFlow<AnimeSeason>(AnimeSeason.now())
+    val newSelectedSeason = _newSelectedSeason.asStateFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val availableSeasons = _activeScreenViewModel
+        .filterNotNull()
+        .flatMapLatest { it.availableSeasons }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     private fun syncQuery() {
         _activeScreenViewModel.value?.let { viewModel ->
             _newSearchQuery.value = viewModel.query.value.search.orEmpty()
             _newGenreFilter.value = viewModel.query.value.genres
             _newOrderBy.value = viewModel.query.value.orderBy
             viewModel.updateSearchHintQuery(_newSearchQuery.value)
+            _newSelectedSeason.value = viewModel.selectedSeason.value
         }
     }
 
@@ -84,9 +95,14 @@ class SearchFilterViewModel() : ViewModel() {
         _activeScreenViewModel.value?.updateSearchHintQuery(newSearchQuery)
     }
 
+    fun onSelectedSeasonChange(newSelectedSeason: AnimeSeason) {
+        _newSelectedSeason.value = newSelectedSeason
+    }
+
     fun onConfirmButtonClick() {
         _activeScreenViewModel.value?.let { viewModel ->
             viewModel.addToSearchHistory(_newSearchQuery.value)
+            viewModel.updateSelectedSeason(_newSelectedSeason.value)
             viewModel.updateQuery(
                 newSearchQuery = _newSearchQuery.value.ifBlank { null },
                 newGenreFilter = _newGenreFilter.value,
